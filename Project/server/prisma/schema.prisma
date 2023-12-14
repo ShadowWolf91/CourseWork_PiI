@@ -35,6 +35,7 @@ model Tests {
   optionD           String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
   timeAmount        DateTime          @db.Time(0)
+  testName          String            @unique
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
   statistics        Statistics[]
 }
@@ -45,6 +46,7 @@ model OpenQuestions {
   question          String            @db.VarChar(200)
   correctAnswer     String            @db.VarChar(50)
   timeAmount        DateTime          @db.Time(0)
+  openQuestionName  String           @unique
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
   statistics        Statistics[]
 }
@@ -55,6 +57,7 @@ model Cards {
   word              String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
   timeAmount        DateTime          @db.Time(0)
+  cardName          String            @unique
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
   statistics        Statistics[]
 }
