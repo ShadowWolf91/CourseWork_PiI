@@ -1,5 +1,4 @@
 export interface ICreateSubjectRequest {
-    id_subject: number
     subjectName: string
 }
 

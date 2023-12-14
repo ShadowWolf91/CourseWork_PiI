@@ -1,38 +1,38 @@
 import { RequestHandler } from 'express'
 import { IErrorResponse } from '../api/errorResponse'
 import {
-	ICreateSubjectRequest,
-	ICreateSubjectResponse,
-} from '../api/subjects/reg/createSubject'
+	ICreateThemeRequest,
+	ICreateThemeResponse,
+} from '../api/themes/reg/createTheme'
 import {
-	IDeleteSubjectRequest,
-	IDeleteSubjectResponse,
-} from '../api/subjects/reg/deleteSubject'
+	IDeleteThemeRequest,
+	IDeleteThemeResponse,
+} from '../api/themes/reg/deleteTheme'
 import {
-	IGetSubjectBySubIdRequest,
-	IGetSubjectBySubIdResponse,
-} from '../api/subjects/reg/getSubjectBySubId'
+	IGetThemeByIdRequest,
+	IGetThemeByIdResponse,
+} from '../api/themes/reg/getThemeById'
 import {
-	IUpdateSubjectRequest,
-	IUpdateSubjectResponse,
-} from '../api/subjects/reg/updateSubject'
+	IUpdateThemeRequest,
+	IUpdateThemeResponse,
+} from '../api/themes/reg/updateTheme'
 import callUnprocessableEntity from '../extra/callUnprocessableEntity'
 import getValidationResult from '../extra/getValidationResult'
-import SubjectService from '../services/subjectService'
+import ThemeService from '../services/themeService'
 
-export default class SubjectController {
+export default class ThemeController {
 	//get
-	static getSubjectBySubId: RequestHandler<
+	static getThemeById: RequestHandler<
 		undefined,
-		IGetSubjectBySubIdResponse | IErrorResponse,
+		IGetThemeByIdResponse | IErrorResponse,
 		undefined,
-		IGetSubjectBySubIdRequest
+		IGetThemeByIdRequest
 	> = async (req, res, next) => {
 		const errorData = getValidationResult(req)
 		if (errorData) return callUnprocessableEntity(next, errorData)
 
 		try {
-			const result = await SubjectService.getSubjectBySubId(req.query)
+			const result = await ThemeService.getThemeById(req.query)
 
 			res.json(result)
 		} catch (e) {
@@ -41,16 +41,16 @@ export default class SubjectController {
 	}
 
 	//create
-	static createSubject: RequestHandler<
+	static createTheme: RequestHandler<
 		undefined,
-		ICreateSubjectResponse | IErrorResponse,
-		ICreateSubjectRequest
+		ICreateThemeResponse | IErrorResponse,
+		ICreateThemeRequest
 	> = async (req, res, next) => {
 		const errorData = getValidationResult(req)
 		if (errorData) return callUnprocessableEntity(next, errorData)
 
 		try {
-			const result = await SubjectService.createSubject(req.body)
+			const result = await ThemeService.createTheme(req.body)
 			res.status(201).json({
 				...result,
 			})
@@ -60,16 +60,16 @@ export default class SubjectController {
 	}
 
 	//update
-	static updateSubjectData: RequestHandler<
+	static updateTheme: RequestHandler<
 		undefined,
-		IUpdateSubjectResponse | IErrorResponse,
-		IUpdateSubjectRequest
+		IUpdateThemeResponse | IErrorResponse,
+		IUpdateThemeRequest
 	> = async (req, res, next) => {
 		const errorData = getValidationResult(req)
 		if (errorData) return callUnprocessableEntity(next, errorData)
 
 		try {
-			const result = await SubjectService.updateSubject(req.body)
+			const result = await ThemeService.updateTheme(req.body)
 			res.json({
 				...result,
 			})
@@ -79,16 +79,16 @@ export default class SubjectController {
 	}
 
 	//delete
-	static deleteSubject: RequestHandler<
+	static deleteTheme: RequestHandler<
 		undefined,
-		IDeleteSubjectResponse | IErrorResponse,
-		IDeleteSubjectRequest
+		IDeleteThemeResponse | IErrorResponse,
+		IDeleteThemeRequest
 	> = async (req, res, next) => {
 		const errorData = getValidationResult(req)
 		if (errorData) return callUnprocessableEntity(next, errorData)
 
 		try {
-			await SubjectService.deleteSubject(req.body)
+			await ThemeService.deleteTheme(req.body)
 
 			res.json({ count: 1 })
 		} catch (e) {

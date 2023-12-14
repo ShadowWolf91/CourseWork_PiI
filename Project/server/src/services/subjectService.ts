@@ -2,17 +2,17 @@ import { ICreateSubjectRequest } from '../api/subjects/reg/createSubject'
 import { IDeleteSubjectRequest } from '../api/subjects/reg/deleteSubject'
 import { IUpdateSubjectRequest } from '../api/subjects/reg/updateSubject'
 import {
-	IGetSubjectBySubjectIdRequest,
-	IGetSubjectBySubjectIdResponse,
-} from '../api/subjects/reg/getSubjectBySubjectId'
+	IGetSubjectBySubIdRequest,
+	IGetSubjectBySubIdResponse,
+} from '../api/subjects/reg/getSubjectBySubId'
 import UserRequestError from '../errors/userRequestError'
 import prismaClient from '../prismaClient'
 
 export default class SubjectService {
 	//get
-	static getSubjectById = async ({
+	static getSubjectBySubId = async ({
 		id_subject,
-	}: IGetSubjectBySubjectIdRequest): Promise<IGetSubjectBySubjectIdResponse> => {
+	}: IGetSubjectBySubIdRequest): Promise<IGetSubjectBySubIdResponse> => {
 		const subject = await prismaClient.subjects.findUnique({
 			where: { id_subject },
 		})
@@ -28,16 +28,15 @@ export default class SubjectService {
 
 	//create
 	static createSubject = async ({
-		id_subject,
 		subjectName,
 	}: ICreateSubjectRequest) => {
 		const subject = await prismaClient.subjects.findUnique({
-			where: { id_subject },
+			where: { subjectName },
 			select: { id_subject: true },
 		})
 
         if (!subject)
-        throw UserRequestError.NotFound(`SUBJECT WITH ID ${id_subject} CREATED`)
+        throw UserRequestError.NotFound(`SUBJECT WITH NAME ${subjectName} CREATED`)
 
 		return prismaClient.subjects.create({
 			data: {
