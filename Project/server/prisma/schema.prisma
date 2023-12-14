@@ -17,72 +17,46 @@ model Themes {
   id_theme          Int               @id @default(autoincrement())
   subject_id        Int
   themeName         String            @db.VarChar(50)
+  mode              Modes
+  questionAmount    Int
   subjects          Subjects          @relation(fields: [subject_id],references: [id_subject],onDelete: Cascade)
-  mode              Mode[]
-}
-
-model Mode {
-  id_mode           Int               @id @default(autoincrement())
-  theme_id          Int
-  mode              String            @db.VarChar(50)
-  questionAmount    Int?
-  timeAmount        DateTime          @db.Time(0)
-  themes            Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
   tests             Tests[]
   openQuestions     OpenQuestions[]
   cards             Cards[]
 }
 
 model Tests {
-  id_Ts             Int               @id @default(autoincrement())
-  mode_id           Int
-  test_id           Int
-  mode              Mode              @relation(fields: [mode_id],references: [id_mode],onDelete: Cascade)
-  test              Test              @relation(fields: [test_id],references: [id_test],onDelete: Cascade)
-  statistics        Statistics[]
-}
-
-model OpenQuestions {
-  id_OQs            Int               @id @default(autoincrement())
-  mode_id           Int
-  openQuestion_id   Int
-  mode              Mode              @relation(fields: [mode_id],references: [id_mode],onDelete: Cascade)
-  openQuestion      OpenQuestion      @relation(fields: [openQuestion_id],references: [id_openQuestion],onDelete: Cascade)
-  statistics        Statistics[]
-}
-
-model Cards {
-  id_Cs             Int               @id @default(autoincrement())
-  mode_id           Int
-  card_id           Int
-  mode              Mode              @relation(fields: [mode_id],references: [id_mode],onDelete: Cascade)
-  card              Card              @relation(fields: [card_id],references: [id_card],onDelete: Cascade)
-  statistics        Statistics[]
-}
-
-model Test {
   id_test           Int               @id @default(autoincrement())
+  theme_id          Int
   question          String            @db.VarChar(200)
   optionA           String            @db.VarChar(50)
   optionB           String            @db.VarChar(50)
   optionC           String            @db.VarChar(50)
   optionD           String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
-  tests             Tests[]
+  timeAmount        DateTime          @db.Time(0)
+  theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics        Statistics[]
 }
 
-model OpenQuestion {
-  id_openQuestion   Int               @id @default(autoincrement())
+model OpenQuestions {
+  id_openQustion    Int               @id @default(autoincrement())
+  theme_id          Int
   question          String            @db.VarChar(200)
   correctAnswer     String            @db.VarChar(50)
-  openQuestions     OpenQuestions[]     
+  timeAmount        DateTime          @db.Time(0)
+  theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics        Statistics[]
 }
 
-model Card {
+model Cards {
   id_card           Int               @id @default(autoincrement())
+  theme_id          Int
   word              String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
-  cards             Cards[]
+  timeAmount        DateTime          @db.Time(0)
+  theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics        Statistics[]
 }
 
 model User {
@@ -104,13 +78,19 @@ model Statistics {
   openQuestion_id   Int
   card_id           Int
   user              User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
-  tests             Tests             @relation(fields: [test_id],references: [id_Ts],onDelete: Cascade)
-  openQuestions     OpenQuestions     @relation(fields: [openQuestion_id],references: [id_OQs],onDelete: Cascade)
-  cards             Cards             @relation(fields: [card_id],references: [id_Cs],onDelete: Cascade)
+  tests             Tests             @relation(fields: [test_id],references: [id_test],onDelete: Cascade)
+  openQuestions     OpenQuestions     @relation(fields: [openQuestion_id],references: [id_openQustion],onDelete: Cascade)
+  cards             Cards             @relation(fields: [card_id],references: [id_card],onDelete: Cascade)
 }
 
 enum Roles {
   ADMIN
   TEACHER
   DEFAULT
+}
+
+enum Modes {
+  TEST
+  OPEN_QUESTION
+  CARD
 }

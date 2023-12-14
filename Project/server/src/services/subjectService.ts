@@ -1,6 +1,7 @@
 import { ICreateSubjectRequest } from '../api/subjects/reg/createSubject'
 import { IDeleteSubjectRequest } from '../api/subjects/reg/deleteSubject'
 import { IUpdateSubjectRequest } from '../api/subjects/reg/updateSubject'
+import { IGetAllSubjectsRequest } from '../api/subjects/reg/getAllSubjects'
 import {
 	IGetSubjectBySubIdRequest,
 	IGetSubjectBySubIdResponse,
@@ -25,6 +26,19 @@ export default class SubjectService {
 			...subject,
 		}
 	}
+
+	static getAllSubjects = async ({
+		cursor,
+		subjectName,
+		skip,
+		take,
+	}: IGetAllSubjectsRequest) =>
+		prismaClient.subjects.findMany({
+			skip,
+			take,
+			cursor: cursor ? { id_subject: cursor } : undefined,
+			where: { subjectName: { contains: subjectName, mode: 'insensitive' } },
+		})
 
 	//create
 	static createSubject = async ({

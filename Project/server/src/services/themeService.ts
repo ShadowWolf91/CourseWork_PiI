@@ -1,5 +1,6 @@
 import { ICreateThemeRequest } from '../api/themes/reg/createTheme'
 import { IDeleteThemeRequest } from '../api/themes/reg/deleteTheme'
+import { IGetAllThemesRequest } from '../api/themes/reg/getAllThemes'
 import {
 	IGetThemeByIdRequest,
 	IGetThemeByIdResponse,
@@ -26,11 +27,26 @@ export default class ThemeService {
 		}
 	}
 
+	static getAllThemes = async ({
+		cursor,
+		themeName,
+		skip,
+		take,
+	}: IGetAllThemesRequest) =>
+		prismaClient.themes.findMany({
+			skip,
+			take,
+			cursor: cursor ? { id_theme: cursor } : undefined,
+			where: { themeName: { contains: themeName, mode: 'insensitive' } },
+		})
+
 	//create
 	static createTheme = async ({
 		id_theme,
         subject_id,
 		themeName,
+		mode,
+		questionAmount,
 	}: ICreateThemeRequest) => {
 		const theme = await prismaClient.themes.findUnique({
 			where: { id_theme },
@@ -47,6 +63,8 @@ export default class ThemeService {
 				id_theme,
                 subject_id,
 				themeName,
+				mode,
+				questionAmount,
 			},
 		})
 	}
@@ -56,6 +74,8 @@ export default class ThemeService {
 		id_theme,
 		subject_id,
 		themeName,
+		mode,
+		questionAmount,
 	}: IUpdateThemeRequest) => {
 		const theme = await prismaClient.themes.findUnique({
 			where: { id_theme },
@@ -69,12 +89,14 @@ export default class ThemeService {
 			data: {
 				subject_id,
 				themeName,
+				mode,
+				questionAmount,
 			},
 		})
 	}
 
 	//delete
-	static deleteTheme = async ({ id_theme, subject_id }: IDeleteThemeRequest) => {
+	static deleteTheme = async ({ id_theme }: IDeleteThemeRequest) => {
 		const theme = await prismaClient.themes.findUnique({
 			where: { id_theme: id_theme },
 			select: { id_theme: true },
@@ -82,7 +104,7 @@ export default class ThemeService {
 
 		if (!theme)
 			throw UserRequestError.NotFound(
-				`STORE WITH ID ${id_theme} AND SUBJECT ID ${subject_id} NOT FOUND`
+				`THEME WITH ID ${id_theme} NOT FOUND`
 			)
 
 		return prismaClient.themes.delete({

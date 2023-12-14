@@ -16,6 +16,10 @@ import {
 	IUpdateThemeRequest,
 	IUpdateThemeResponse,
 } from '../api/themes/reg/updateTheme'
+import {
+	IGetAllThemesRequest,
+	IGetAllThemesResponse,
+} from '../api/themes/reg/getAllThemes'
 import callUnprocessableEntity from '../extra/callUnprocessableEntity'
 import getValidationResult from '../extra/getValidationResult'
 import ThemeService from '../services/themeService'
@@ -40,6 +44,26 @@ export default class ThemeController {
 		}
 	}
 
+	static getAllThemes: RequestHandler<
+	undefined,
+	IGetAllThemesResponse | IErrorResponse,
+	undefined,
+	IGetAllThemesRequest
+> = async (req, res, next) => {
+	const errorData = getValidationResult(req)
+	if (errorData) return callUnprocessableEntity(next, errorData)
+
+	try {
+		const result = await ThemeService.getAllThemes(req.query)
+		res.json({
+			themesData: result,
+			cursor: result[result.length - 1]?.id_theme || null,
+		})
+	} catch (e) {
+		return next(e)
+	}
+}
+
 	//create
 	static createTheme: RequestHandler<
 		undefined,
@@ -51,9 +75,7 @@ export default class ThemeController {
 
 		try {
 			const result = await ThemeService.createTheme(req.body)
-			res.status(201).json({
-				...result,
-			})
+			res.status(201).json(result)
 		} catch (e) {
 			return next(e)
 		}
@@ -70,9 +92,7 @@ export default class ThemeController {
 
 		try {
 			const result = await ThemeService.updateTheme(req.body)
-			res.json({
-				...result,
-			})
+			res.json(result)
 		} catch (e) {
 			return next(e)
 		}

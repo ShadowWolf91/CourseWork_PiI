@@ -9,6 +9,11 @@ subjectRouter.get(
 	SubjectController.getSubjectBySubId
 )
 
+subjectRouter.get(
+	SubjectEndpoints.GET_ALL_SUBJECTS,
+	SubjectController.getAllSubjects
+)
+
 subjectRouter.post(
 	SubjectEndpoints.CREATE,
 	SubjectController.createSubject

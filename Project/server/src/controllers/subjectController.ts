@@ -16,6 +16,10 @@ import {
 	IUpdateSubjectRequest,
 	IUpdateSubjectResponse,
 } from '../api/subjects/reg/updateSubject'
+import {
+	IGetAllSubjectsRequest,
+	IGetAllSubjectsResponse,
+} from '../api/subjects/reg/getAllSubjects'
 import callUnprocessableEntity from '../extra/callUnprocessableEntity'
 import getValidationResult from '../extra/getValidationResult'
 import SubjectService from '../services/subjectService'
@@ -39,6 +43,26 @@ export default class SubjectController {
 			return next(e)
 		}
 	}
+
+	static getAllSubjects: RequestHandler<
+	undefined,
+	IGetAllSubjectsResponse | IErrorResponse,
+	undefined,
+	IGetAllSubjectsRequest
+> = async (req, res, next) => {
+	const errorData = getValidationResult(req)
+	if (errorData) return callUnprocessableEntity(next, errorData)
+
+	try {
+		const result = await SubjectService.getAllSubjects(req.query)
+		res.json({
+			subjectsData: result,
+			cursor: result[result.length - 1]?.id_subject || null,
+		})
+	} catch (e) {
+		return next(e)
+	}
+}
 
 	//create
 	static createSubject: RequestHandler<
