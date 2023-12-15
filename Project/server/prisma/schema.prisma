@@ -7,6 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id_user           Int               @id @default(autoincrement())
+  username          String            @unique @db.VarChar(30)
+  password          String            @db.VarChar(128)
+  role              Roles             @default(DEFAULT)
+  token             String
+  statistics        Statistics[]
+}
+
+model Statistics {
+  id_statistics     Int               @id @default(autoincrement())
+  rightAnswered     Int               @default(0)
+  score             Int               @default(0)
+  mark              Int               @default(0)
+  user_id           Int
+  user              User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
+  tests             Tests[]
+  openQuestions     OpenQuestions[]
+  cards             Cards[]
+}
+
+
 model Subjects {
   id_subject        Int               @id @default(autoincrement())
   subjectName       String            @unique @db.VarChar(50)
@@ -34,10 +56,10 @@ model Tests {
   optionC           String            @db.VarChar(50)
   optionD           String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
-  timeAmount        DateTime          @db.Time(0)
   testName          String            @unique
+  statistic_id      Int               
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics        Statistics[]
+  statistics        Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
 
 model OpenQuestions {
@@ -45,10 +67,10 @@ model OpenQuestions {
   theme_id          Int
   question          String            @db.VarChar(200)
   correctAnswer     String            @db.VarChar(50)
-  timeAmount        DateTime          @db.Time(0)
-  openQuestionName  String           @unique
+  openQuestionName  String            @unique
+  statistic_id      Int               @default(0)
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics        Statistics[]
+  statistics        Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
 
 model Cards {
@@ -56,36 +78,11 @@ model Cards {
   theme_id          Int
   word              String            @db.VarChar(50)
   correctAnswer     String            @db.VarChar(50)
-  timeAmount        DateTime          @db.Time(0)
   cardName          String            @unique
+  statistic_id      Int               @default(0)
   theme             Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics        Statistics[]
+  statistics        Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
-
-model User {
-  id_user           Int               @id @default(autoincrement())
-  username          String            @unique @db.VarChar(30)
-  password          String            @db.VarChar(128)
-  role              Roles             @default(DEFAULT)
-  token             String
-  statistics        Statistics[]
-}
-
-model Statistics {
-  id_statistics     Int               @id @default(autoincrement())
-  rightAnswered     Int               @default(0)
-  score             Int               @default(0)
-  mark              Int               @default(0)
-  user_id           Int
-  test_id           Int
-  openQuestion_id   Int
-  card_id           Int
-  user              User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
-  tests             Tests             @relation(fields: [test_id],references: [id_test],onDelete: Cascade)
-  openQuestions     OpenQuestions     @relation(fields: [openQuestion_id],references: [id_openQustion],onDelete: Cascade)
-  cards             Cards             @relation(fields: [card_id],references: [id_card],onDelete: Cascade)
-}
-
 enum Roles {
   ADMIN
   TEACHER

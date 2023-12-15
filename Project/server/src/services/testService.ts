@@ -7,20 +7,12 @@ import prismaClient from "../prismaClient";
 
 export default class TestsService {
   //get
-  static getAllTests = async ({
-    cursor,
-    testName,
-    skip,
-    take,
-  }: IGetAllTestsRequest) =>
-    prismaClient.tests.findMany({
-      skip,
-      take,
-      cursor: cursor ? { id_test: cursor } : undefined,
-      where: {
-        testName: { contains: testName, mode: "insensitive" },
-      },
-    });
+  static getAllTests = async ({}: IGetAllTestsRequest) => {
+    const test = await prismaClient.tests.findMany({});
+    return {
+      ...test,
+    };
+  };
 
   //create
   static createTest = async ({
@@ -31,7 +23,6 @@ export default class TestsService {
     optionC,
     optionD,
     correctAnswer,
-    timeAmount,
     testName,
   }: ICreateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
@@ -51,7 +42,6 @@ export default class TestsService {
         optionC,
         optionD,
         correctAnswer,
-        timeAmount,
         testName,
       },
     });
@@ -67,7 +57,6 @@ export default class TestsService {
     optionC,
     optionD,
     correctAnswer,
-    timeAmount,
     testName,
   }: IUpdateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
@@ -88,7 +77,6 @@ export default class TestsService {
         optionC,
         optionD,
         correctAnswer,
-        timeAmount,
         testName,
       },
     });

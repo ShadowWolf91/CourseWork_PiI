@@ -27,7 +27,6 @@ export default class OpenQuestionsService {
     theme_id,
     question,
     correctAnswer,
-    timeAmount,
     openQuestionName,
   }: ICreateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
@@ -45,7 +44,6 @@ export default class OpenQuestionsService {
         theme_id,
         question,
         correctAnswer,
-        timeAmount,
         openQuestionName,
       },
     });
@@ -57,7 +55,6 @@ export default class OpenQuestionsService {
     theme_id,
     question,
     correctAnswer,
-    timeAmount,
     openQuestionName,
   }: IUpdateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
@@ -76,7 +73,6 @@ export default class OpenQuestionsService {
         theme_id,
         question,
         correctAnswer,
-        timeAmount,
         openQuestionName,
       },
     });

@@ -22,7 +22,7 @@ import TestsService from "../services/testService";
 
 export default class TestController {
   //get
-  static getAllOpenQuestions: RequestHandler<
+  static getAllTests: RequestHandler<
     undefined,
     IGetAllTestsResponse | IErrorResponse,
     undefined,
@@ -33,17 +33,14 @@ export default class TestController {
 
     try {
       const result = await TestsService.getAllTests(req.query);
-      res.json({
-        testsData: result,
-        cursor: result[result.length - 1]?.id_test || null,
-      });
+      res.json({ testsData: result });
     } catch (e) {
       return next(e);
     }
   };
 
   //create
-  static createOpenQuestion: RequestHandler<
+  static createTest: RequestHandler<
     undefined,
     ICreateTestResponse | IErrorResponse,
     ICreateTestRequest
@@ -60,7 +57,7 @@ export default class TestController {
   };
 
   //update
-  static updateOpenQuestionData: RequestHandler<
+  static updateTestData: RequestHandler<
     undefined,
     IUpdateTestResponse | IErrorResponse,
     IUpdateTestRequest
@@ -77,7 +74,7 @@ export default class TestController {
   };
 
   //delete
-  static deleteOpenQuestions: RequestHandler<
+  static deleteTest: RequestHandler<
     undefined,
     IDeleteTestResponse | IErrorResponse,
     IDeleteTestRequest

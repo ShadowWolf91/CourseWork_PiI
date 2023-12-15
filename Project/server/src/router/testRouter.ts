@@ -9,12 +9,12 @@ const TestRouter = Router();
 // 	CardController.getSubjectBySubId
 // )
 
-TestRouter.get(TestEndpoints.GET_ALL_TESTS, TestController.getAllOpenQuestions);
+TestRouter.get(TestEndpoints.GET_ALL_TESTS, TestController.getAllTests);
 
-TestRouter.post(TestEndpoints.CREATE, TestController.createOpenQuestion);
+TestRouter.post(TestEndpoints.CREATE, TestController.createTest);
 
-TestRouter.patch(TestEndpoints.UPDATE, TestController.updateOpenQuestionData);
+TestRouter.patch(TestEndpoints.UPDATE, TestController.updateTestData);
 
-TestRouter.delete(TestEndpoints.DELETE, TestController.deleteOpenQuestions);
+TestRouter.delete(TestEndpoints.DELETE, TestController.deleteTest);
 
 export default TestRouter;

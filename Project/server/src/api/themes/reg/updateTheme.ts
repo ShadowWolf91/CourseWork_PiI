@@ -1,21 +1,17 @@
+import { Modes } from "api/enums";
+
 export interface IUpdateThemeRequest {
-    theme_id : number
-    question : string
-    optionA : string
-    optionB : string
-    optionC : string
-    optionD : string
-    correctAnswer : string
-    timeAmount : TimeRanges
+  id_theme: number;
+  subject_id: number;
+  themeName: string;
+  mode: keyof typeof Modes;
+  questionAmount: number;
 }
 
 export interface IUpdateThemeResponse {
-    theme_id : number
-    question : string
-    optionA : string
-    optionB : string
-    optionC : string
-    optionD : string
-    correctAnswer : string
-    timeAmount : TimeRanges
+  id_theme: number;
+  subject_id: number;
+  themeName: string;
+  mode: keyof typeof Modes;
+  questionAmount: number;
 }

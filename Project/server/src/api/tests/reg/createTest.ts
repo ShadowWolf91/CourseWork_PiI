@@ -6,7 +6,6 @@ export interface ICreateTestRequest {
   optionC: string;
   optionD: string;
   correctAnswer: string;
-  timeAmount: Date;
   testName: string;
 }
 
@@ -19,6 +18,5 @@ export interface ICreateTestResponse {
   optionC: string;
   optionD: string;
   correctAnswer: string;
-  timeAmount: Date;
   testName: string;
 }
