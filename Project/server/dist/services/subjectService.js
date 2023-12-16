@@ -28,8 +28,8 @@ SubjectService.createSubject = async ({ subjectName }) => {
         where: { subjectName },
         select: { id_subject: true },
     });
-    if (!subject)
-        throw userRequestError_1.default.NotFound(`SUBJECT WITH NAME ${subjectName} CREATED`);
+    if (subject)
+        throw userRequestError_1.default.NotFound(`SUBJECT WITH NAME ${subjectName} NOT CREATED`);
     return prismaClient_1.default.subjects.create({
         data: {
             subjectName,

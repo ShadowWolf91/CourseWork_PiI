@@ -47,9 +47,9 @@ export default class SubjectService {
       select: { id_subject: true },
     });
 
-    if (!subject)
+    if (subject)
       throw UserRequestError.NotFound(
-        `SUBJECT WITH NAME ${subjectName} CREATED`
+        `SUBJECT WITH NAME ${subjectName} NOT CREATED`
       );
 
     return prismaClient.subjects.create({

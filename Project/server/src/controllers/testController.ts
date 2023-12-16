@@ -33,7 +33,10 @@ export default class TestController {
 
     try {
       const result = await TestsService.getAllTests(req.query);
-      res.json({ testsData: result });
+      res.json({
+        testsData: result,
+        cursor: result[result.length - 1]?.id_test || null,
+      });
     } catch (e) {
       return next(e);
     }
@@ -83,7 +86,7 @@ export default class TestController {
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      await TestsService.deleteTests(req.body);
+      await TestsService.deleteTest(req.body);
 
       res.json({ count: 1 });
     } catch (e) {

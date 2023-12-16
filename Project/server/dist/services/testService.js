@@ -7,19 +7,19 @@ const prismaClient_1 = tslib_1.__importDefault(require("../prismaClient"));
 class TestsService {
 }
 _a = TestsService;
-TestsService.getAllTests = async ({}) => {
-    const test = await prismaClient_1.default.tests.findMany({});
-    return {
-        ...test,
-    };
-};
-TestsService.createTest = async ({ theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, }) => {
+TestsService.getAllTests = async ({ cursor, testName, skip, take, }) => prismaClient_1.default.tests.findMany({
+    skip,
+    take,
+    cursor: cursor ? { id_test: cursor } : undefined,
+    where: { testName: { contains: testName, mode: "insensitive" } },
+});
+TestsService.createTest = async ({ theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, statistic_id, }) => {
     const test = await prismaClient_1.default.tests.findUnique({
         where: { testName },
         select: { id_test: true },
     });
-    if (!test)
-        throw userRequestError_1.default.NotFound(`TEST WITH NAME ${question} CREATED`);
+    if (test)
+        throw userRequestError_1.default.NotFound(`TEST WITH NAME ${question} NOT CREATED`);
     return prismaClient_1.default.tests.create({
         data: {
             theme_id,
@@ -30,10 +30,11 @@ TestsService.createTest = async ({ theme_id, question, optionA, optionB, optionC
             optionD,
             correctAnswer,
             testName,
+            statistic_id,
         },
     });
 };
-TestsService.updateTestData = async ({ id_test, theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, }) => {
+TestsService.updateTestData = async ({ id_test, theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, statistic_id, }) => {
     const test = await prismaClient_1.default.tests.findUnique({
         where: { id_test },
         select: { id_test: true },
@@ -52,10 +53,11 @@ TestsService.updateTestData = async ({ id_test, theme_id, question, optionA, opt
             optionD,
             correctAnswer,
             testName,
+            statistic_id,
         },
     });
 };
-TestsService.deleteTests = async ({ id_test }) => {
+TestsService.deleteTest = async ({ id_test }) => {
     const test = await prismaClient_1.default.tests.findUnique({
         where: { id_test: id_test },
         select: { id_test: true },

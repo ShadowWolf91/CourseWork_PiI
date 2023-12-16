@@ -1,12 +1,10 @@
 export interface IUpdateStatisticRequest {
   id_statistics: number;
-  rightAnswered: number;
-  score: number;
-  mark: number;
-  user_id: number;
-  test_id: number;
-  openQuestion_id: number;
-  card_id: number;
+  rightAnswered?: number;
+  score?: number;
+  mark?: number;
+  user_id?: number;
+  title?: string;
 }
 
 export interface IUpdateStatisticResponse {
@@ -15,7 +13,5 @@ export interface IUpdateStatisticResponse {
   score: number;
   mark: number;
   user_id: number;
-  test_id: number;
-  openQuestion_id: number;
-  card_id: number;
+  title: string;
 }

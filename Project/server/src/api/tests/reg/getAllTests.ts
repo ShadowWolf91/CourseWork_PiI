@@ -1,4 +1,9 @@
-export interface IGetAllTestsRequest {}
+export interface IGetAllTestsRequest {
+  skip: number;
+  take: number;
+  cursor?: number;
+  testName?: string;
+}
 
 export interface IGetAllTestsResponse {
   testsData: {
@@ -11,5 +16,7 @@ export interface IGetAllTestsResponse {
     optionD: string;
     correctAnswer: string;
     testName: string;
+    statistic_id: number;
   }[];
+  cursor: number | null;
 }

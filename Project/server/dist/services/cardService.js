@@ -13,23 +13,24 @@ CardService.getAllCards = async ({ cursor, cardName, skip, take, }) => prismaCli
     cursor: cursor ? { id_card: cursor } : undefined,
     where: { cardName: { contains: cardName, mode: "insensitive" } },
 });
-CardService.createCard = async ({ theme_id, word, correctAnswer, cardName, }) => {
+CardService.createCard = async ({ theme_id, word, correctAnswer, cardName, statistic_id, }) => {
     const card = await prismaClient_1.default.cards.findUnique({
         where: { cardName },
         select: { id_card: true },
     });
-    if (!card)
-        throw userRequestError_1.default.NotFound(`CARD WITH NAME ${cardName} CREATED`);
+    if (card)
+        throw userRequestError_1.default.NotFound(`CARD WITH NAME ${cardName} NOT CREATED`);
     return prismaClient_1.default.cards.create({
         data: {
             theme_id,
             word,
             correctAnswer,
             cardName,
+            statistic_id,
         },
     });
 };
-CardService.updateCardData = async ({ id_card, theme_id, word, correctAnswer, cardName, }) => {
+CardService.updateCardData = async ({ id_card, theme_id, word, correctAnswer, cardName, statistic_id, }) => {
     const card = await prismaClient_1.default.cards.findUnique({
         where: { id_card },
         select: { id_card: true },
@@ -44,6 +45,7 @@ CardService.updateCardData = async ({ id_card, theme_id, word, correctAnswer, ca
             word,
             correctAnswer,
             cardName,
+            statistic_id,
         },
     });
 };

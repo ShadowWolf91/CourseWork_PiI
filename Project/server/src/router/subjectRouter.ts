@@ -1,32 +1,26 @@
-import { Router } from 'express'
-import SubjectEndpoints from '../api/subjects/endpoints'
-import SubjectController from '../controllers/subjectController'
+import { Router } from "express";
+import SubjectEndpoints from "../api/subjects/endpoints";
+import SubjectController from "../controllers/subjectController";
 
-const subjectRouter = Router()
-
-subjectRouter.get(
-	SubjectEndpoints.GET_BY_ID,
-	SubjectController.getSubjectBySubId
-)
+const subjectRouter = Router();
 
 subjectRouter.get(
-	SubjectEndpoints.GET_ALL_SUBJECTS,
-	SubjectController.getAllSubjects
-)
+  SubjectEndpoints.GET_BY_ID,
+  SubjectController.getSubjectBySubId
+);
 
-subjectRouter.post(
-	SubjectEndpoints.CREATE,
-	SubjectController.createSubject
-)
+subjectRouter.get(
+  SubjectEndpoints.GET_ALL_SUBJECTS,
+  SubjectController.getAllSubjects
+);
+
+subjectRouter.post(SubjectEndpoints.CREATE, SubjectController.createSubject);
 
 subjectRouter.patch(
-	SubjectEndpoints.UPDATE,
-	SubjectController.updateSubjectData
-)
+  SubjectEndpoints.UPDATE,
+  SubjectController.updateSubjectData
+);
 
-subjectRouter.delete(
-	SubjectEndpoints.DELETE,
-	SubjectController.deleteSubject
-)
+subjectRouter.delete(SubjectEndpoints.DELETE, SubjectController.deleteSubject);
 
-export default subjectRouter
+export default subjectRouter;

@@ -3,6 +3,7 @@ export interface ICreateOpenQuestionRequest {
   question: string;
   correctAnswer: string;
   openQuestionName: string;
+  statistic_id: number;
 }
 
 export interface ICreateOpenQuestionResponse {
@@ -11,4 +12,5 @@ export interface ICreateOpenQuestionResponse {
   question: string;
   correctAnswer: string;
   openQuestionName: string;
+  statistic_id: number;
 }

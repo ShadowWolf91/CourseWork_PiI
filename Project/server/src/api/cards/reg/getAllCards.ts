@@ -12,6 +12,7 @@ export interface IGetAllCardsResponse {
     word: string;
     correctAnswer: string;
     cardName: string;
+    statistic_id: number;
   }[];
   cursor: number | null;
 }

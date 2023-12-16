@@ -15,23 +15,24 @@ OpenQuestionsService.getAllOpenQuestions = async ({ cursor, openQuestionName, sk
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },
     },
 });
-OpenQuestionsService.createOpenQuestion = async ({ theme_id, question, correctAnswer, openQuestionName, }) => {
+OpenQuestionsService.createOpenQuestion = async ({ theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
         where: { openQuestionName },
         select: { id_openQustion: true },
     });
-    if (!openQuestion)
-        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH NAME ${openQuestionName} CREATED`);
+    if (openQuestion)
+        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH NAME ${openQuestionName} NOT CREATED`);
     return prismaClient_1.default.openQuestions.create({
         data: {
             theme_id,
             question,
             correctAnswer,
             openQuestionName,
+            statistic_id,
         },
     });
 };
-OpenQuestionsService.updateOpenQuestionData = async ({ id_openQustion, theme_id, question, correctAnswer, openQuestionName, }) => {
+OpenQuestionsService.updateOpenQuestionData = async ({ id_openQustion, theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
         where: { id_openQustion },
         select: { id_openQustion: true },
@@ -46,6 +47,7 @@ OpenQuestionsService.updateOpenQuestionData = async ({ id_openQustion, theme_id,
             question,
             correctAnswer,
             openQuestionName,
+            statistic_id,
         },
     });
 };

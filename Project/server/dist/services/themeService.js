@@ -21,7 +21,7 @@ ThemeService.getAllThemes = async ({ cursor, themeName, skip, take, }) => prisma
     skip,
     take,
     cursor: cursor ? { id_theme: cursor } : undefined,
-    where: { themeName: { contains: themeName, mode: 'insensitive' } },
+    where: { themeName: { contains: themeName, mode: "insensitive" } },
 });
 ThemeService.createTheme = async ({ id_theme, subject_id, themeName, mode, questionAmount, }) => {
     const theme = await prismaClient_1.default.themes.findUnique({

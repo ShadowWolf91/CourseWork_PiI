@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { ICreateUserRequest } from "../api/users/reg/createUser";
 import { IDeleteUsersRequest } from "../api/users/reg/deleteUsers";
+import { IDeleteUserRequest } from "../api/users/reg/deleteUser";
 import { IGetAllUsersRequest } from "../api/users/reg/getAllUsers";
 import { IGetUserByUsernameRequest } from "../api/users/reg/getUserByUsername";
 import { IGetUserTokensRequest } from "../api/users/reg/getUserTokens";
@@ -88,4 +89,18 @@ export default class UserService {
         id_user: { in: userIds },
       },
     });
+
+  static deleteUser = async ({ id_user }: IDeleteUserRequest) => {
+    const user = await prismaClient.user.findUnique({
+      where: { id_user: id_user },
+      select: { id_user: true },
+    });
+
+    if (!user)
+      throw UserRequestError.NotFound(`SUBJECT WITH ID ${id_user} NOT FOUND`);
+
+    return prismaClient.user.delete({
+      where: { id_user: id_user },
+    });
+  };
 }

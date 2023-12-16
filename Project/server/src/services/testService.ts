@@ -7,12 +7,18 @@ import prismaClient from "../prismaClient";
 
 export default class TestsService {
   //get
-  static getAllTests = async ({}: IGetAllTestsRequest) => {
-    const test = await prismaClient.tests.findMany({});
-    return {
-      ...test,
-    };
-  };
+  static getAllTests = async ({
+    cursor,
+    testName,
+    skip,
+    take,
+  }: IGetAllTestsRequest) =>
+    prismaClient.tests.findMany({
+      skip,
+      take,
+      cursor: cursor ? { id_test: cursor } : undefined,
+      where: { testName: { contains: testName, mode: "insensitive" } },
+    });
 
   //create
   static createTest = async ({
@@ -24,14 +30,15 @@ export default class TestsService {
     optionD,
     correctAnswer,
     testName,
+    statistic_id,
   }: ICreateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
       where: { testName },
       select: { id_test: true },
     });
 
-    if (!test)
-      throw UserRequestError.NotFound(`TEST WITH NAME ${question} CREATED`);
+    if (test)
+      throw UserRequestError.NotFound(`TEST WITH NAME ${question} NOT CREATED`);
 
     return prismaClient.tests.create({
       data: {
@@ -43,6 +50,7 @@ export default class TestsService {
         optionD,
         correctAnswer,
         testName,
+        statistic_id,
       },
     });
   };
@@ -58,6 +66,7 @@ export default class TestsService {
     optionD,
     correctAnswer,
     testName,
+    statistic_id,
   }: IUpdateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
       where: { id_test },
@@ -78,12 +87,13 @@ export default class TestsService {
         optionD,
         correctAnswer,
         testName,
+        statistic_id,
       },
     });
   };
 
   //delete
-  static deleteTests = async ({ id_test }: IDeleteTestRequest) => {
+  static deleteTest = async ({ id_test }: IDeleteTestRequest) => {
     const test = await prismaClient.tests.findUnique({
       where: { id_test: id_test },
       select: { id_test: true },

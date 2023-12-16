@@ -12,6 +12,7 @@ export interface IGetAllOpenQuestionsResponse {
     question: string;
     correctAnswer: string;
     openQuestionName: string;
+    statistic_id: number;
   }[];
   cursor: number | null;
 }

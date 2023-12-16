@@ -1,13 +1,13 @@
-import { Roles } from '../../enums'
+import { Roles } from "../../enums";
 
 export interface IGetUserByUsernameRequest {
-	username: string
+  username: string;
 }
 
 export interface IGetUserByUsernameResponse {
-	id_user: number
-	username: string
-	password: string
-	role: keyof typeof Roles
-	token: string
+  id_user: number;
+  username: string;
+  password: string;
+  role: keyof typeof Roles;
+  token: string;
 }

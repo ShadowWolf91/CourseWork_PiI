@@ -21,6 +21,7 @@ model Statistics {
   rightAnswered     Int               @default(0)
   score             Int               @default(0)
   mark              Int               @default(0)
+  title             String            @default("") @db.VarChar(50)
   user_id           Int
   user              User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
   tests             Tests[]
@@ -36,7 +37,7 @@ model Subjects {
 }
 
 model Themes {
-  id_theme          Int               @id @default(autoincrement())
+  id_theme          Int               @id @unique
   subject_id        Int
   themeName         String            @db.VarChar(50)
   mode              Modes

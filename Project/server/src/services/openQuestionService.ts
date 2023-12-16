@@ -28,15 +28,16 @@ export default class OpenQuestionsService {
     question,
     correctAnswer,
     openQuestionName,
+    statistic_id,
   }: ICreateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
       where: { openQuestionName },
       select: { id_openQustion: true },
     });
 
-    if (!openQuestion)
+    if (openQuestion)
       throw UserRequestError.NotFound(
-        `OPEN QUESTION WITH NAME ${openQuestionName} CREATED`
+        `OPEN QUESTION WITH NAME ${openQuestionName} NOT CREATED`
       );
 
     return prismaClient.openQuestions.create({
@@ -45,6 +46,7 @@ export default class OpenQuestionsService {
         question,
         correctAnswer,
         openQuestionName,
+        statistic_id,
       },
     });
   };
@@ -56,6 +58,7 @@ export default class OpenQuestionsService {
     question,
     correctAnswer,
     openQuestionName,
+    statistic_id,
   }: IUpdateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
       where: { id_openQustion },
@@ -74,6 +77,7 @@ export default class OpenQuestionsService {
         question,
         correctAnswer,
         openQuestionName,
+        statistic_id,
       },
     });
   };

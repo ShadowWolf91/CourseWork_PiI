@@ -26,14 +26,15 @@ export default class CardService {
     word,
     correctAnswer,
     cardName,
+    statistic_id,
   }: ICreateCardRequest) => {
     const card = await prismaClient.cards.findUnique({
       where: { cardName },
       select: { id_card: true },
     });
 
-    if (!card)
-      throw UserRequestError.NotFound(`CARD WITH NAME ${cardName} CREATED`);
+    if (card)
+      throw UserRequestError.NotFound(`CARD WITH NAME ${cardName} NOT CREATED`);
 
     return prismaClient.cards.create({
       data: {
@@ -41,6 +42,7 @@ export default class CardService {
         word,
         correctAnswer,
         cardName,
+        statistic_id,
       },
     });
   };
@@ -52,6 +54,7 @@ export default class CardService {
     word,
     correctAnswer,
     cardName,
+    statistic_id,
   }: IUpdateCardRequest) => {
     const card = await prismaClient.cards.findUnique({
       where: { id_card },
@@ -68,6 +71,7 @@ export default class CardService {
         word,
         correctAnswer,
         cardName,
+        statistic_id,
       },
     });
   };

@@ -1,13 +1,14 @@
 export interface IUpdateTestRequest {
   id_test: number;
-  theme_id: number;
-  question: string;
-  optionA: string;
-  optionB: string;
-  optionC: string;
-  optionD: string;
-  correctAnswer: string;
-  testName: string;
+  theme_id?: number;
+  question?: string;
+  optionA?: string;
+  optionB?: string;
+  optionC?: string;
+  optionD?: string;
+  correctAnswer?: string;
+  testName?: string;
+  statistic_id?: number;
 }
 
 export interface IUpdateTestResponse {
@@ -20,4 +21,5 @@ export interface IUpdateTestResponse {
   optionD: string;
   correctAnswer: string;
   testName: string;
+  statistic_id: number;
 }

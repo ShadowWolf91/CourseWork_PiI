@@ -19,17 +19,19 @@ UserController.loginUser = async (req, res, next) => {
         const user = await userService_1.default.getUserByLogin(req.query);
         if (!user)
             return next(userRequestError_1.default.NotFound(`USER ${req.query.username} NOT FOUND`));
-        if ((0, node_crypto_1.createHash)('sha512').update(req.query.password).digest('hex') !==
+        if ((0, node_crypto_1.createHash)("sha512").update(req.query.password).digest("hex") !==
             user.password)
-            return next(userRequestError_1.default.BadRequest('WRONG PASSWORD'));
+            return next(userRequestError_1.default.BadRequest("WRONG PASSWORD"));
         const { token } = tokenizator_1.default.generateTokens({
             username: user.username,
             role: user.role,
         });
-        res.cookie('token', token, {
+        res
+            .cookie("token", token, {
             maxAge: 30 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-        }).json({
+        })
+            .json({
             id_user: user.id_user,
             token,
             username: user.username,
@@ -112,6 +114,18 @@ UserController.deleteUsers = async (req, res, next) => {
     try {
         const result = await userService_1.default.deleteUsers(req.body);
         res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+UserController.deleteUser = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        await userService_1.default.deleteUser(req.body);
+        res.json({ count: 1 });
     }
     catch (e) {
         return next(e);

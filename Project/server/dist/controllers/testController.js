@@ -14,7 +14,10 @@ TestController.getAllTests = async (req, res, next) => {
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
         const result = await testService_1.default.getAllTests(req.query);
-        res.json({ testsData: result });
+        res.json({
+            testsData: result,
+            cursor: result[result.length - 1]?.id_test || null,
+        });
     }
     catch (e) {
         return next(e);
@@ -49,7 +52,7 @@ TestController.deleteTest = async (req, res, next) => {
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        await testService_1.default.deleteTests(req.body);
+        await testService_1.default.deleteTest(req.body);
         res.json({ count: 1 });
     }
     catch (e) {
