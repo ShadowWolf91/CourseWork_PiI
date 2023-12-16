@@ -34,7 +34,7 @@ app.use(error_1.default);
 const main = async () => {
     try {
         await prismaClient_1.default.$connect();
-        app.listen(3001, () => console.log(`Server started on port ${3000}`));
+        app.listen(3000, () => console.log(`Server started on port ${3000}`));
     }
     catch (e) {
         console.error("Connection error. Stopping process...");
