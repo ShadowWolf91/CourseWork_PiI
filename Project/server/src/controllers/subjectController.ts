@@ -23,6 +23,7 @@ import {
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import SubjectService from "../services/subjectService";
+import UserRequestError from "../errors/userRequestError";
 
 export default class SubjectController {
   //get
@@ -37,6 +38,12 @@ export default class SubjectController {
 
     try {
       const result = await SubjectService.getSubjectBySubId(req.query);
+      if (!result)
+        return next(
+          UserRequestError.NotFound(
+            `SUBJECT WITH ID ${req.query.id_subject} NOT FOUND`
+          )
+        );
 
       res.json(result);
     } catch (e) {

@@ -9,7 +9,7 @@ class ThemeService {
 _a = ThemeService;
 ThemeService.getThemeById = async ({ id_theme, }) => {
     const theme = await prismaClient_1.default.themes.findUnique({
-        where: { id_theme },
+        where: { id_theme: +id_theme },
     });
     if (!theme)
         throw userRequestError_1.default.NotFound(`THEME WITH ID ${id_theme} NOT FOUND`);

@@ -16,10 +16,14 @@ import {
   IGetAllOpenQuestionsRequest,
   IGetAllOpenQuestionsResponse,
 } from "../api/openQuestions/reg/getAllOpenQuestions";
+import {
+  IGetOpenQuestionByIdRequest,
+  IGetOpenQuestionByIdResponse,
+} from "../api/openQuestions/reg/getOpenQuestionById";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import OpenQuestionsService from "../services/openQuestionService";
-
+import UserRequestError from "../errors/userRequestError";
 export default class OpenQuestionController {
   //get
   static getAllOpenQuestions: RequestHandler<
@@ -35,8 +39,32 @@ export default class OpenQuestionController {
       const result = await OpenQuestionsService.getAllOpenQuestions(req.query);
       res.json({
         openQuestionsData: result,
-        cursor: result[result.length - 1]?.id_openQustion || null,
+        cursor: result[result.length - 1]?.id_openQuestion || null,
       });
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getOpenQuestionById: RequestHandler<
+    undefined,
+    IGetOpenQuestionByIdResponse | IErrorResponse,
+    undefined,
+    IGetOpenQuestionByIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await OpenQuestionsService.getOpenQuestionById(req.query);
+      if (!result)
+        return next(
+          UserRequestError.NotFound(
+            `OPEN QUESTION WITH ID ${req.query.id_openQuestion} NOT FOUND`
+          )
+        );
+
+      res.json(result);
     } catch (e) {
       return next(e);
     }

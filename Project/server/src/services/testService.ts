@@ -2,6 +2,7 @@ import { ICreateTestRequest } from "../api/tests/reg/createTest";
 import { IDeleteTestRequest } from "../api/tests/reg/deleteTest";
 import { IUpdateTestRequest } from "../api/tests/reg/updateTest";
 import { IGetAllTestsRequest } from "../api/tests/reg/getAllTests";
+import { IGetTestByIdRequest } from "../api/tests/reg/getTestById";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
 
@@ -18,6 +19,11 @@ export default class TestsService {
       take,
       cursor: cursor ? { id_test: cursor } : undefined,
       where: { testName: { contains: testName, mode: "insensitive" } },
+    });
+
+  static getTestById = async ({ id_test }: IGetTestByIdRequest) =>
+    prismaClient.tests.findUnique({
+      where: { id_test: +id_test },
     });
 
   //create

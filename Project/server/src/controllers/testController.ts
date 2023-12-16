@@ -16,9 +16,14 @@ import {
   IGetAllTestsRequest,
   IGetAllTestsResponse,
 } from "../api/tests/reg/getAllTests";
+import {
+  IGetTestByIdRequest,
+  IGetTestByIdResponse,
+} from "../api/tests/reg/getTestById";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import TestsService from "../services/testService";
+import UserRequestError from "../errors/userRequestError";
 
 export default class TestController {
   //get
@@ -37,6 +42,30 @@ export default class TestController {
         testsData: result,
         cursor: result[result.length - 1]?.id_test || null,
       });
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getTestById: RequestHandler<
+    undefined,
+    IGetTestByIdResponse | IErrorResponse,
+    undefined,
+    IGetTestByIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await TestsService.getTestById(req.query);
+      if (!result)
+        return next(
+          UserRequestError.NotFound(
+            `TEST WITH ID ${req.query.id_test} NOT FOUND`
+          )
+        );
+
+      res.json(result);
     } catch (e) {
       return next(e);
     }

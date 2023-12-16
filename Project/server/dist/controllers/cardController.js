@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const callUnprocessableEntity_1 = tslib_1.__importDefault(require("../extra/callUnprocessableEntity"));
 const getValidationResult_1 = tslib_1.__importDefault(require("../extra/getValidationResult"));
 const cardService_1 = tslib_1.__importDefault(require("../services/cardService"));
+const userRequestError_1 = tslib_1.__importDefault(require("../errors/userRequestError"));
 class CardController {
 }
 _a = CardController;
@@ -18,6 +19,20 @@ CardController.getAllCards = async (req, res, next) => {
             cardsData: result,
             cursor: result[result.length - 1]?.id_card || null,
         });
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+CardController.getCardById = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await cardService_1.default.getCardById(req.query);
+        if (!result)
+            return next(userRequestError_1.default.NotFound(`CARD WITH ID ${req.query.id_card} NOT FOUND`));
+        res.json(result);
     }
     catch (e) {
         return next(e);

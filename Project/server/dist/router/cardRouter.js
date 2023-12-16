@@ -5,6 +5,7 @@ const express_1 = require("express");
 const endpoints_1 = tslib_1.__importDefault(require("../api/cards/endpoints"));
 const cardController_1 = tslib_1.__importDefault(require("../controllers/cardController"));
 const cardRouter = (0, express_1.Router)();
+cardRouter.get(endpoints_1.default.GET_BY_ID, cardController_1.default.getCardById);
 cardRouter.get(endpoints_1.default.GET_ALL_CARDS, cardController_1.default.getAllCards);
 cardRouter.post(endpoints_1.default.CREATE, cardController_1.default.createCard);
 cardRouter.patch(endpoints_1.default.UPDATE, cardController_1.default.updateCardData);

@@ -64,7 +64,7 @@ model Tests {
 }
 
 model OpenQuestions {
-  id_openQustion    Int               @id @default(autoincrement())
+  id_openQuestion   Int               @id @default(autoincrement())
   theme_id          Int
   question          String            @db.VarChar(200)
   correctAnswer     String            @db.VarChar(50)

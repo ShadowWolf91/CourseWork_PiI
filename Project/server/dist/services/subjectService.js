@@ -7,16 +7,9 @@ const prismaClient_1 = tslib_1.__importDefault(require("../prismaClient"));
 class SubjectService {
 }
 _a = SubjectService;
-SubjectService.getSubjectBySubId = async ({ id_subject, }) => {
-    const subject = await prismaClient_1.default.subjects.findUnique({
-        where: { id_subject },
-    });
-    if (!subject)
-        throw userRequestError_1.default.NotFound(`SUBJECT WITH ID ${id_subject} NOT FOUND`);
-    return {
-        ...subject,
-    };
-};
+SubjectService.getSubjectBySubId = async ({ id_subject, }) => prismaClient_1.default.subjects.findUnique({
+    where: { id_subject: +id_subject },
+});
 SubjectService.getAllSubjects = async ({ cursor, subjectName, skip, take, }) => prismaClient_1.default.subjects.findMany({
     skip,
     take,

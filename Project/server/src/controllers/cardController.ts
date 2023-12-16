@@ -16,9 +16,14 @@ import {
   IGetAllCardsRequest,
   IGetAllCardsResponse,
 } from "../api/cards/reg/getAllCards";
+import {
+  IGetCardByIdRequest,
+  IGetCardByIdResponse,
+} from "../api/cards/reg/getCardById";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import CardService from "../services/cardService";
+import UserRequestError from "../errors/userRequestError";
 
 export default class CardController {
   //get
@@ -37,6 +42,30 @@ export default class CardController {
         cardsData: result,
         cursor: result[result.length - 1]?.id_card || null,
       });
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getCardById: RequestHandler<
+    undefined,
+    IGetCardByIdResponse | IErrorResponse,
+    undefined,
+    IGetCardByIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await CardService.getCardById(req.query);
+      if (!result)
+        return next(
+          UserRequestError.NotFound(
+            `CARD WITH ID ${req.query.id_card} NOT FOUND`
+          )
+        );
+
+      res.json(result);
     } catch (e) {
       return next(e);
     }

@@ -10,15 +10,18 @@ _a = OpenQuestionsService;
 OpenQuestionsService.getAllOpenQuestions = async ({ cursor, openQuestionName, skip, take, }) => prismaClient_1.default.openQuestions.findMany({
     skip,
     take,
-    cursor: cursor ? { id_openQustion: cursor } : undefined,
+    cursor: cursor ? { id_openQuestion: cursor } : undefined,
     where: {
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },
     },
 });
+OpenQuestionsService.getOpenQuestionById = async ({ id_openQuestion, }) => prismaClient_1.default.openQuestions.findUnique({
+    where: { id_openQuestion: +id_openQuestion },
+});
 OpenQuestionsService.createOpenQuestion = async ({ theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
         where: { openQuestionName },
-        select: { id_openQustion: true },
+        select: { id_openQuestion: true },
     });
     if (openQuestion)
         throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH NAME ${openQuestionName} NOT CREATED`);
@@ -32,17 +35,17 @@ OpenQuestionsService.createOpenQuestion = async ({ theme_id, question, correctAn
         },
     });
 };
-OpenQuestionsService.updateOpenQuestionData = async ({ id_openQustion, theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
+OpenQuestionsService.updateOpenQuestionData = async ({ id_openQuestion, theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
-        where: { id_openQustion },
-        select: { id_openQustion: true },
+        where: { id_openQuestion },
+        select: { id_openQuestion: true },
     });
     if (!openQuestion)
-        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH ID ${id_openQustion} NOT FOUND`);
+        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH ID ${id_openQuestion} NOT FOUND`);
     return prismaClient_1.default.openQuestions.update({
-        where: { id_openQustion },
+        where: { id_openQuestion },
         data: {
-            id_openQustion,
+            id_openQuestion,
             theme_id,
             question,
             correctAnswer,
@@ -51,15 +54,15 @@ OpenQuestionsService.updateOpenQuestionData = async ({ id_openQustion, theme_id,
         },
     });
 };
-OpenQuestionsService.deleteOpenQuestions = async ({ id_openQustion, }) => {
+OpenQuestionsService.deleteOpenQuestions = async ({ id_openQuestion, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
-        where: { id_openQustion: id_openQustion },
-        select: { id_openQustion: true },
+        where: { id_openQuestion: id_openQuestion },
+        select: { id_openQuestion: true },
     });
     if (!openQuestion)
-        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH ID ${id_openQustion} NOT FOUND`);
+        throw userRequestError_1.default.NotFound(`OPEN QUESTION WITH ID ${id_openQuestion} NOT FOUND`);
     return prismaClient_1.default.openQuestions.delete({
-        where: { id_openQustion: id_openQustion },
+        where: { id_openQuestion: id_openQuestion },
     });
 };
 exports.default = OpenQuestionsService;

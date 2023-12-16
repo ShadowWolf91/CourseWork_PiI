@@ -4,10 +4,10 @@ import OpenQuestionController from "../controllers/openQuestionController";
 
 const openQuestionRouter = Router();
 
-// cardRouter.get(
-// 	CardEndpoints.GET_BY_ID,
-// 	CardController.getSubjectBySubId
-// )
+openQuestionRouter.get(
+  OpenQuestionEndpoints.GET_BY_ID,
+  OpenQuestionController.getOpenQuestionById
+);
 
 openQuestionRouter.get(
   OpenQuestionEndpoints.GET_ALL_OPEN_QUESTIONS,

@@ -15,7 +15,7 @@ export default class ThemeService {
     id_theme,
   }: IGetThemeByIdRequest): Promise<IGetThemeByIdResponse> => {
     const theme = await prismaClient.themes.findUnique({
-      where: { id_theme },
+      where: { id_theme: +id_theme },
     });
     if (!theme)
       throw UserRequestError.NotFound(`THEME WITH ID ${id_theme} NOT FOUND`);

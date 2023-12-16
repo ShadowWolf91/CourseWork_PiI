@@ -7,7 +7,7 @@ export interface IGetAllOpenQuestionsRequest {
 
 export interface IGetAllOpenQuestionsResponse {
   openQuestionsData: {
-    id_openQustion: number;
+    id_openQuestion: number;
     theme_id: number;
     question: string;
     correctAnswer: string;

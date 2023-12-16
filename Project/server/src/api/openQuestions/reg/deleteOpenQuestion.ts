@@ -1,7 +1,7 @@
 export interface IDeleteOpenQuestionRequest {
-    id_openQustion: number
+  id_openQuestion: number;
 }
 
 export interface IDeleteOpenQuestionResponse {
-	count: number
+  count: number;
 }

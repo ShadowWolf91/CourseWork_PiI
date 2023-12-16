@@ -2,6 +2,7 @@ import { ICreateOpenQuestionRequest } from "../api/openQuestions/reg/createOpenQ
 import { IDeleteOpenQuestionRequest } from "../api/openQuestions/reg/deleteOpenQuestion";
 import { IUpdateOpenQuestionRequest } from "../api/openQuestions/reg/updateOpenQuestion";
 import { IGetAllOpenQuestionsRequest } from "../api/openQuestions/reg/getAllOpenQuestions";
+import { IGetOpenQuestionByIdRequest } from "../api/openQuestions/reg/getOpenQuestionById";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
 
@@ -16,10 +17,17 @@ export default class OpenQuestionsService {
     prismaClient.openQuestions.findMany({
       skip,
       take,
-      cursor: cursor ? { id_openQustion: cursor } : undefined,
+      cursor: cursor ? { id_openQuestion: cursor } : undefined,
       where: {
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },
       },
+    });
+
+  static getOpenQuestionById = async ({
+    id_openQuestion,
+  }: IGetOpenQuestionByIdRequest) =>
+    prismaClient.openQuestions.findUnique({
+      where: { id_openQuestion: +id_openQuestion },
     });
 
   //create
@@ -32,7 +40,7 @@ export default class OpenQuestionsService {
   }: ICreateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
       where: { openQuestionName },
-      select: { id_openQustion: true },
+      select: { id_openQuestion: true },
     });
 
     if (openQuestion)
@@ -53,7 +61,7 @@ export default class OpenQuestionsService {
 
   //update
   static updateOpenQuestionData = async ({
-    id_openQustion,
+    id_openQuestion,
     theme_id,
     question,
     correctAnswer,
@@ -61,18 +69,18 @@ export default class OpenQuestionsService {
     statistic_id,
   }: IUpdateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
-      where: { id_openQustion },
-      select: { id_openQustion: true },
+      where: { id_openQuestion },
+      select: { id_openQuestion: true },
     });
     if (!openQuestion)
       throw UserRequestError.NotFound(
-        `OPEN QUESTION WITH ID ${id_openQustion} NOT FOUND`
+        `OPEN QUESTION WITH ID ${id_openQuestion} NOT FOUND`
       );
 
     return prismaClient.openQuestions.update({
-      where: { id_openQustion },
+      where: { id_openQuestion },
       data: {
-        id_openQustion,
+        id_openQuestion,
         theme_id,
         question,
         correctAnswer,
@@ -84,20 +92,20 @@ export default class OpenQuestionsService {
 
   //delete
   static deleteOpenQuestions = async ({
-    id_openQustion,
+    id_openQuestion,
   }: IDeleteOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
-      where: { id_openQustion: id_openQustion },
-      select: { id_openQustion: true },
+      where: { id_openQuestion: id_openQuestion },
+      select: { id_openQuestion: true },
     });
 
     if (!openQuestion)
       throw UserRequestError.NotFound(
-        `OPEN QUESTION WITH ID ${id_openQustion} NOT FOUND`
+        `OPEN QUESTION WITH ID ${id_openQuestion} NOT FOUND`
       );
 
     return prismaClient.openQuestions.delete({
-      where: { id_openQustion: id_openQustion },
+      where: { id_openQuestion: id_openQuestion },
     });
   };
 }

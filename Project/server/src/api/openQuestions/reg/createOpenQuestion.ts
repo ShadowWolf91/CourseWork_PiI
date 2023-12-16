@@ -7,7 +7,7 @@ export interface ICreateOpenQuestionRequest {
 }
 
 export interface ICreateOpenQuestionResponse {
-  id_openQustion: number;
+  id_openQuestion: number;
   theme_id: number;
   question: string;
   correctAnswer: string;

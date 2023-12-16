@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const callUnprocessableEntity_1 = tslib_1.__importDefault(require("../extra/callUnprocessableEntity"));
 const getValidationResult_1 = tslib_1.__importDefault(require("../extra/getValidationResult"));
 const testService_1 = tslib_1.__importDefault(require("../services/testService"));
+const userRequestError_1 = tslib_1.__importDefault(require("../errors/userRequestError"));
 class TestController {
 }
 _a = TestController;
@@ -18,6 +19,20 @@ TestController.getAllTests = async (req, res, next) => {
             testsData: result,
             cursor: result[result.length - 1]?.id_test || null,
         });
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+TestController.getTestById = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await testService_1.default.getTestById(req.query);
+        if (!result)
+            return next(userRequestError_1.default.NotFound(`TEST WITH ID ${req.query.id_test} NOT FOUND`));
+        res.json(result);
     }
     catch (e) {
         return next(e);

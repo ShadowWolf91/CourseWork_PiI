@@ -2,6 +2,7 @@ import { ICreateCardRequest } from "../api/cards/reg/createCard";
 import { IDeleteCardRequest } from "../api/cards/reg/deleteCard";
 import { IUpdateCardRequest } from "../api/cards/reg/updateCard";
 import { IGetAllCardsRequest } from "../api/cards/reg/getAllCards";
+import { IGetCardByIdRequest } from "../api/cards/reg/getCardById";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
 
@@ -18,6 +19,11 @@ export default class CardService {
       take,
       cursor: cursor ? { id_card: cursor } : undefined,
       where: { cardName: { contains: cardName, mode: "insensitive" } },
+    });
+
+  static getCardById = async ({ id_card }: IGetCardByIdRequest) =>
+    prismaClient.cards.findUnique({
+      where: { id_card: +id_card },
     });
 
   //create

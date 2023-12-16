@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const callUnprocessableEntity_1 = tslib_1.__importDefault(require("../extra/callUnprocessableEntity"));
 const getValidationResult_1 = tslib_1.__importDefault(require("../extra/getValidationResult"));
 const openQuestionService_1 = tslib_1.__importDefault(require("../services/openQuestionService"));
+const userRequestError_1 = tslib_1.__importDefault(require("../errors/userRequestError"));
 class OpenQuestionController {
 }
 _a = OpenQuestionController;
@@ -16,8 +17,22 @@ OpenQuestionController.getAllOpenQuestions = async (req, res, next) => {
         const result = await openQuestionService_1.default.getAllOpenQuestions(req.query);
         res.json({
             openQuestionsData: result,
-            cursor: result[result.length - 1]?.id_openQustion || null,
+            cursor: result[result.length - 1]?.id_openQuestion || null,
         });
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+OpenQuestionController.getOpenQuestionById = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await openQuestionService_1.default.getOpenQuestionById(req.query);
+        if (!result)
+            return next(userRequestError_1.default.NotFound(`OPEN QUESTION WITH ID ${req.query.id_openQuestion} NOT FOUND`));
+        res.json(result);
     }
     catch (e) {
         return next(e);

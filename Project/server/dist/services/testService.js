@@ -13,6 +13,9 @@ TestsService.getAllTests = async ({ cursor, testName, skip, take, }) => prismaCl
     cursor: cursor ? { id_test: cursor } : undefined,
     where: { testName: { contains: testName, mode: "insensitive" } },
 });
+TestsService.getTestById = async ({ id_test }) => prismaClient_1.default.tests.findUnique({
+    where: { id_test: +id_test },
+});
 TestsService.createTest = async ({ theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, statistic_id, }) => {
     const test = await prismaClient_1.default.tests.findUnique({
         where: { testName },

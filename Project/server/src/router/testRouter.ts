@@ -4,10 +4,7 @@ import TestController from "../controllers/testController";
 
 const TestRouter = Router();
 
-// cardRouter.get(
-// 	CardEndpoints.GET_BY_ID,
-// 	CardController.getSubjectBySubId
-// )
+TestRouter.get(TestEndpoints.GET_BY_ID, TestController.getTestById);
 
 TestRouter.get(TestEndpoints.GET_ALL_TESTS, TestController.getAllTests);
 

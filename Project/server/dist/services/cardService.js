@@ -13,6 +13,9 @@ CardService.getAllCards = async ({ cursor, cardName, skip, take, }) => prismaCli
     cursor: cursor ? { id_card: cursor } : undefined,
     where: { cardName: { contains: cardName, mode: "insensitive" } },
 });
+CardService.getCardById = async ({ id_card }) => prismaClient_1.default.cards.findUnique({
+    where: { id_card: +id_card },
+});
 CardService.createCard = async ({ theme_id, word, correctAnswer, cardName, statistic_id, }) => {
     const card = await prismaClient_1.default.cards.findUnique({
         where: { cardName },
