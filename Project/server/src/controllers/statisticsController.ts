@@ -8,9 +8,14 @@ import {
   IGetAllStatisticsRequest,
   IGetAllStatisticsResponse,
 } from "../api/statistics/reg/getAllStatistics";
+import {
+  IGetStatisticByUserIdRequest,
+  IGetStatisticByUserIdResponse,
+} from "../api/statistics/reg/getStatisticByUserId";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import StatisticService from "../services/statisticService";
+import UserRequestError from "../errors/userRequestError";
 
 export default class StatisticsController {
   //get
@@ -29,6 +34,25 @@ export default class StatisticsController {
         statisticsData: result,
         cursor: result[result.length - 1]?.id_statistics || null,
       });
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getStatisticByUserId: RequestHandler<
+    undefined,
+    IGetStatisticByUserIdResponse[] | IErrorResponse,
+    IGetStatisticByUserIdRequest
+    // undefined,
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await StatisticService.getStatisticByUserId(req.body);
+      if (!result) return next(UserRequestError.NotFound(""));
+
+      res.json(result);
     } catch (e) {
       return next(e);
     }

@@ -15,6 +15,9 @@ UserService.getAllStatistics = async ({ cursor, title, skip, take, }) => prismaC
         title: { contains: title, mode: "insensitive" },
     },
 });
+UserService.getStatisticByUserId = async ({ ids }) => prismaClient_1.default.statistics.findMany({
+    where: { id_statistics: { in: ids } },
+});
 UserService.updateStatisticsData = async ({ id_statistics, rightAnswered, score, mark, user_id, }) => {
     const statistic = await prismaClient_1.default.statistics.findUnique({
         where: { id_statistics: id_statistics },

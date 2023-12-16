@@ -1,5 +1,6 @@
 import { IGetAllStatisticsRequest } from "../api/statistics/reg/getAllStatistics";
 import { IUpdateStatisticRequest } from "../api/statistics/reg/updateStatistics";
+import { IGetStatisticByUserIdRequest } from "../api/statistics/reg/getStatisticByUserId";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
 
@@ -18,6 +19,11 @@ export default class UserService {
       where: {
         title: { contains: title, mode: "insensitive" },
       },
+    });
+
+  static getStatisticByUserId = async ({ ids }: IGetStatisticByUserIdRequest) =>
+    prismaClient.statistics.findMany({
+      where: { id_statistics: { in: ids } },
     });
 
   //update
