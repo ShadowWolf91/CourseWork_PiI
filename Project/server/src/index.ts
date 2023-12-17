@@ -1,6 +1,8 @@
 import cookieParser from "cookie-parser";
 import express from "express";
+import cors from "cors";
 import { exit } from "node:process";
+import { CONFIG } from "./config";
 import prismaClient from "./prismaClient";
 import cardRouter from "./router/cardRouter";
 import openQuestionRouter from "./router/openQuestionRouter";
@@ -22,6 +24,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: CONFIG.CLIENT_URL,
+  })
+);
 
 app.use(UserEndpoints.BASE, userRouter);
 app.use(CardEndpoints.BASE, cardRouter);
@@ -35,7 +43,9 @@ app.use(errorMiddleware);
 const main = async () => {
   try {
     await prismaClient.$connect();
-    app.listen(3000, () => console.log(`Server started on port ${3000}`));
+    app.listen(CONFIG.PORT, () =>
+      console.log(`Server started on port ${CONFIG.PORT}`)
+    );
   } catch (e) {
     console.error("Connection error. Stopping process...");
     await prismaClient.$disconnect();

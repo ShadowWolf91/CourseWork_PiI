@@ -8,7 +8,7 @@ const prismaClient_1 = tslib_1.__importDefault(require("../prismaClient"));
 class UserService {
 }
 _a = UserService;
-UserService.getUserByLogin = async ({ username }) => prismaClient_1.default.user.findUnique({
+UserService.getUserByUsername = async ({ username }) => prismaClient_1.default.user.findUnique({
     where: { username },
 });
 UserService.getAllUsers = async ({ cursor, username, skip, take, }) => prismaClient_1.default.user.findMany({
@@ -18,7 +18,7 @@ UserService.getAllUsers = async ({ cursor, username, skip, take, }) => prismaCli
     where: { username: { contains: username, mode: "insensitive" } },
 });
 UserService.getUserTokens = async ({ id_user }) => prismaClient_1.default.user.findMany({ where: { id_user } });
-UserService.createUser = async ({ username, password, role, token, }) => {
+UserService.createUser = async ({ username, password, role, refreshToken, }) => {
     const user = await prismaClient_1.default.user.findUnique({
         where: { username },
         select: { id_user: true },
@@ -30,7 +30,7 @@ UserService.createUser = async ({ username, password, role, token, }) => {
             username,
             role,
             password: (0, node_crypto_1.createHash)("sha512").update(password).digest("hex"),
-            token,
+            refreshToken,
             statistics: { create: {} },
         },
     });

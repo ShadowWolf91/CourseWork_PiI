@@ -10,7 +10,7 @@ userRouter.post(UserEndpoints.USERNAME, UserController.loginUser);
 userRouter.get(
   UserEndpoints.GET_USER_BY_USERNAME,
   authMiddleware,
-  UserController.getUserByLogin
+  UserController.getUserByUsername
 );
 
 userRouter.get(UserEndpoints.GET_ALL_USERS, UserController.getAllUsers);

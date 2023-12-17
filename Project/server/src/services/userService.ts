@@ -11,7 +11,7 @@ import prismaClient from "../prismaClient";
 
 export default class UserService {
   //get
-  static getUserByLogin = async ({ username }: IGetUserByUsernameRequest) =>
+  static getUserByUsername = async ({ username }: IGetUserByUsernameRequest) =>
     prismaClient.user.findUnique({
       where: { username },
     });
@@ -37,7 +37,7 @@ export default class UserService {
     username,
     password,
     role,
-    token,
+    refreshToken,
   }: ICreateUserRequest) => {
     const user = await prismaClient.user.findUnique({
       where: { username },
@@ -50,7 +50,7 @@ export default class UserService {
         username,
         role,
         password: createHash("sha512").update(password).digest("hex"),
-        token,
+        refreshToken,
         statistics: { create: {} },
       },
     });

@@ -16,24 +16,24 @@ UserController.loginUser = async (req, res, next) => {
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        const user = await userService_1.default.getUserByLogin(req.query);
+        const user = await userService_1.default.getUserByUsername(req.query);
         if (!user)
             return next(userRequestError_1.default.NotFound(`USER ${req.query.username} NOT FOUND`));
         if ((0, node_crypto_1.createHash)("sha512").update(req.query.password).digest("hex") !==
             user.password)
             return next(userRequestError_1.default.BadRequest("WRONG PASSWORD"));
-        const { token } = tokenizator_1.default.generateTokens({
+        const { refreshToken } = tokenizator_1.default.generateTokens({
             username: user.username,
             role: user.role,
         });
         res
-            .cookie("token", token, {
+            .cookie("refreshToken", refreshToken, {
             maxAge: 30 * 24 * 60 * 60 * 1000,
             httpOnly: true,
         })
             .json({
             id_user: user.id_user,
-            token,
+            refreshToken,
             username: user.username,
             role: user.role,
         });
@@ -42,12 +42,12 @@ UserController.loginUser = async (req, res, next) => {
         return next(e);
     }
 };
-UserController.getUserByLogin = async (req, res, next) => {
+UserController.getUserByUsername = async (req, res, next) => {
     const errorData = (0, getValidationResult_1.default)(req);
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        const result = await userService_1.default.getUserByLogin(req.params);
+        const result = await userService_1.default.getUserByUsername(req.params);
         if (!result)
             return next(userRequestError_1.default.NotFound(`USER WITH LOGIN ${req.params.username} NOT FOUND`));
         res.json(result);
@@ -88,7 +88,15 @@ UserController.createUser = async (req, res, next) => {
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        const result = await userService_1.default.createUser(req.body);
+        const { refreshToken } = tokenizator_1.default.generateTokens(req.body);
+        const result = await userService_1.default.createUser({
+            ...req.body,
+            refreshToken,
+        });
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+        });
         res.status(201).json(result);
     }
     catch (e) {

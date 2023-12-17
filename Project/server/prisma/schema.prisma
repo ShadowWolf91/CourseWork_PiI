@@ -12,7 +12,7 @@ model User {
   username          String            @unique @db.VarChar(30)
   password          String            @db.VarChar(128)
   role              Roles             @default(DEFAULT)
-  token             String
+  refreshToken      String            @default("")
   statistics        Statistics[]
 }
 

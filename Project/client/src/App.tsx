@@ -1,29 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom'
+import useVirtualStore from './store'
+import { Roles } from './api/enums.ts'
+import { useLogout } from './query/auth/useLogout.ts'
 
 function App() {
-	const [count, setCount] = useState(0)
+	const { role, checkStorageHealth, userId, deviceId } = useVirtualStore()
+	const navigate = useNavigate()
 
+	const { logout } = useLogout()
+
+	if (!checkStorageHealth()) return <Navigate to={'/auth'} />
 	return (
 		<>
-			<div>
-				<a href='https://vitejs.dev' target='_blank'>
-					<img src={viteLogo} className='logo' alt='Vite logo' />
-				</a>
-				<a href='https://react.dev' target='_blank'>
-					<img src={reactLogo} className='logo react' alt='React logo' />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className='card'>
-				<button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
+			<p
+				onClick={async () => {
+					if (!userId || !deviceId) return
+					await logout({ userId: +userId, devicesId: [deviceId] })
+					localStorage.clear()
+					navigate('/auth') //TODO: fix logout
+				}}>
+				Logout
+			</p>
+			{role === Roles.DEFAULT ? (
+				<div>
+					<Link to='/user/recipes'>Рецепты </Link>
+					<Link to='/user/store'>Хранилище</Link>
+					<Link to='/user/checklists'>Чек-листы</Link>
+				</div>
+			) : (
+				<div>
+					<Link to='/admin/users'>Users </Link>
+					<Link to='/admin/products'>Products </Link>
+					<Link to='/admin/recipes'>Recipes</Link>
+				</div>
+			)}
+			<Outlet />
 		</>
 	)
 }

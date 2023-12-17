@@ -51,7 +51,7 @@ export default class UserController {
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      const user = await UserService.getUserByLogin(req.query);
+      const user = await UserService.getUserByUsername(req.query);
       if (!user)
         return next(
           UserRequestError.NotFound(`USER ${req.query.username} NOT FOUND`)
@@ -63,19 +63,19 @@ export default class UserController {
       )
         return next(UserRequestError.BadRequest("WRONG PASSWORD"));
 
-      const { token } = Tokenizator.generateTokens({
+      const { refreshToken } = Tokenizator.generateTokens({
         username: user.username,
         role: user.role,
       });
 
       res
-        .cookie("token", token, {
+        .cookie("refreshToken", refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         })
         .json({
           id_user: user.id_user,
-          token,
+          refreshToken,
           username: user.username,
           role: user.role,
         });
@@ -85,7 +85,7 @@ export default class UserController {
   };
 
   //get
-  static getUserByLogin: RequestHandler<
+  static getUserByUsername: RequestHandler<
     IGetUserByUsernameRequest,
     IGetUserByUsernameResponse | IErrorResponse
   > = async (req, res, next) => {
@@ -93,7 +93,7 @@ export default class UserController {
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      const result = await UserService.getUserByLogin(req.params);
+      const result = await UserService.getUserByUsername(req.params);
       if (!result)
         return next(
           UserRequestError.NotFound(
@@ -154,8 +154,16 @@ export default class UserController {
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      const result = await UserService.createUser(req.body);
+      const { refreshToken } = Tokenizator.generateTokens(req.body);
+      const result = await UserService.createUser({
+        ...req.body,
+        refreshToken,
+      });
 
+      res.cookie("refreshToken", refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
       res.status(201).json(result);
     } catch (e) {
       return next(e);

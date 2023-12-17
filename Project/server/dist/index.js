@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const cookie_parser_1 = tslib_1.__importDefault(require("cookie-parser"));
 const express_1 = tslib_1.__importDefault(require("express"));
+const cors_1 = tslib_1.__importDefault(require("cors"));
 const node_process_1 = require("node:process");
+const config_1 = require("./config");
 const prismaClient_1 = tslib_1.__importDefault(require("./prismaClient"));
 const cardRouter_1 = tslib_1.__importDefault(require("./router/cardRouter"));
 const openQuestionRouter_1 = tslib_1.__importDefault(require("./router/openQuestionRouter"));
@@ -23,6 +25,10 @@ const error_1 = tslib_1.__importDefault(require("./mid/error"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({
+    credentials: true,
+    origin: config_1.CONFIG.CLIENT_URL,
+}));
 app.use(endpoints_1.default.BASE, userRouter_1.default);
 app.use(endpoints_2.default.BASE, cardRouter_1.default);
 app.use(endpoints_3.default.BASE, openQuestionRouter_1.default);
@@ -34,7 +40,7 @@ app.use(error_1.default);
 const main = async () => {
     try {
         await prismaClient_1.default.$connect();
-        app.listen(3000, () => console.log(`Server started on port ${3000}`));
+        app.listen(config_1.CONFIG.PORT, () => console.log(`Server started on port ${config_1.CONFIG.PORT}`));
     }
     catch (e) {
         console.error("Connection error. Stopping process...");
