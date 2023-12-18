@@ -48,7 +48,7 @@ $api.interceptors.response.use(
 						{ withCredentials: true }
 					)
 
-					localStorage.setItem('token', response.data.token)
+					localStorage.setItem('refreshToken', response.data.refreshToken)
 					return $api.request(originalRequest)
 				}
 			} catch (e) {

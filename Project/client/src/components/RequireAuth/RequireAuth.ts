@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import useVirtualStore from '../../store'
-import { Navigate } from 'react-router-dom'
 import { Roles } from '../../api/enums.ts'
+import { Navigate } from 'react-router-dom'
 
 export const RequireAuth = ({
 	children,
@@ -25,4 +25,4 @@ export const RequireAuth = ({
 	) : (
 		<Navigate to={'/auth'} />
 	)
-}
+} 

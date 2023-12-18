@@ -1,22 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import UserEndpoints from '../../api/users/endpoints.ts'
-import {
-	IDeleteUserTokensRequest,
-	IDeleteUserTokensResponse,
-} from '../../api/users/dto/deleteUserTokens.ts'
+// import {
+// 	IDeleteUserTokensRequest,
+// 	IDeleteUserTokensResponse,
+// } from '../../api/users/dto/deleteUserTokens.ts'
 import $api from '../axios/base.ts'
 
 export const useLogout = () => {
 	const { mutateAsync, isError, error, isSuccess } = useMutation({
-		mutationKey: ['login'],
-		mutationFn: async ({
-			userId,
-			devicesId,
-		}: {
-			userId: number
-			devicesId: string[]
-		}) => {
+		mutationKey: ['username'],
+		mutationFn: async ({ id_user }: { id_user: number }) => {
 			try {
 				const result = await $api.delete<
 					IDeleteUserTokensResponse,
@@ -24,10 +18,10 @@ export const useLogout = () => {
 					IDeleteUserTokensRequest
 				>(`${UserEndpoints.BASE}${UserEndpoints.DELETE_USER_TOKENS}`, {
 					data: {
-						userId,
-						devicesId,
+						id_user,
 					},
 				})
+
 				return result.data
 			} catch (e) {
 				if (e instanceof AxiosError) return e.response?.data

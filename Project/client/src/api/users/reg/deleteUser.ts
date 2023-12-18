@@ -1,7 +1,7 @@
 export interface IDeleteUserRequest {
-  id_user: number;
+	id_user: number
 }
 
 export interface IDeleteUserResponse {
-  count: number;
+	count: number
 }

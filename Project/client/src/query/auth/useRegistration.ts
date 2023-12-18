@@ -7,11 +7,11 @@ import {
 	ICreateUserRequest,
 	ICreateUserResponse,
 } from '../../api/users/reg/createUser.ts'
-import {
-	ICreateUserTokenRequest,
-	ICreateUserTokenResponse,
-} from '../../api/users/reg/createUserToken.ts'
-import { Roles } from '../../api/enums.ts'
+// import {
+// 	ICreateUserTokenRequest,
+// 	ICreateUserTokenResponse,
+// } from '../../api/users/reg/createUserToken.ts'
+//import { Roles } from '../../api/enums.ts'
 
 export const useRegistration = () => {
 	const { data, mutateAsync, error, isSuccess, isError } = useMutation({
@@ -38,17 +38,17 @@ export const useRegistration = () => {
 			)
 			if (!user) throw Error('Cannot create user')
 			const userData = user.data
-			const result = await $api.post<
-				AxiosResponse<IErrorResponse>,
-				AxiosResponse<ICreateUserTokenResponse>,
-				ICreateUserTokenRequest
-			>(`${UserEndpoints.BASE}${UserEndpoints.CREATE_USER_TOKEN}`, {
-				id_user: userData.id_user,
-				role: Roles.DEFAULT,
-				username,
-				password,
-			})
-			return { ...userData, ...result.data }
+			//const result = await $api.post<
+			//	AxiosResponse<IErrorResponse>
+			//AxiosResponse<ICreateUserTokenResponse>,
+			//ICreateUserTokenRequest
+			// >(`${UserEndpoints.BASE}${UserEndpoints.CREATE_USER}`, {
+			// 	id_user: userData.id_user,
+			// 	role: Roles.DEFAULT,
+			// 	username,
+			// 	password,
+			// })
+			return { ...userData }
 		},
 		retry: false,
 	})

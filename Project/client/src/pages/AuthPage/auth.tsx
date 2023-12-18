@@ -8,7 +8,7 @@ import { Roles } from '../../api/enums.ts'
 
 export const AuthPage = () => {
 	const [isRegistration, setIsRegistration] = useState(false)
-	const [login, setLogin] = useState('')
+	const [username, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 
 	const navigate = useNavigate()
@@ -18,7 +18,7 @@ export const AuthPage = () => {
 		loginUser,
 		isLoginSuccess,
 		isLoginError,
-		error: authError,
+		//error: authError,
 	} = useAuth()
 	const { data, registerUser, error, isSuccessRegistration, isRegistrationError } =
 		useRegistration()
@@ -27,28 +27,28 @@ export const AuthPage = () => {
 
 	useEffect(() => {
 		if (isSuccessRegistration && isRegistration && data) {
-			localStorage.setItem('token', data.accessToken)
-			localStorage.setItem('deviceId', data.deviceId)
-			localStorage.setItem('userId', data.userId.toString())
+			//localStorage.setItem('token', data.accessToken)
+			//localStorage.setItem('deviceId', data.deviceId)
+			localStorage.setItem('id_user', data.id_user.toString())
 			localStorage.setItem('role', data.role)
-			localStorage.setItem('login', login)
+			localStorage.setItem('username', username)
 			setCredentials({
-				login,
+				username,
 				role: data?.role,
-				deviceId: data.deviceId,
-				userId: data.userId.toString(),
+				//deviceId: data.deviceId,
+				id_user: data.id_user.toString(),
 			})
 			navigate('/user/store')
 		} else if (isLoginSuccess && !isRegistration && loggedUserData) {
-			localStorage.setItem('token', loggedUserData.token)
-			localStorage.setItem('deviceId', loggedUserData.deviceId)
-			localStorage.setItem('userId', loggedUserData.userId.toString())
+			localStorage.setItem('token', loggedUserData.refreshToken)
+			//localStorage.setItem('deviceId', loggedUserData.deviceId)
+			localStorage.setItem('id_user', loggedUserData.id_user.toString())
 			localStorage.setItem('role', loggedUserData.role)
-			localStorage.setItem('login', login)
+			localStorage.setItem('username', username)
 			setCredentials({
-				login,
-				deviceId: loggedUserData.deviceId,
-				userId: loggedUserData.userId.toString(),
+				username,
+				//deviceId: loggedUserData.deviceId,
+				id_user: loggedUserData.id_user.toString(),
 				role: loggedUserData.role,
 			})
 			navigate(loggedUserData.role === Roles.DEFAULT ? '/user/store' : '/admin/users/')
@@ -60,7 +60,7 @@ export const AuthPage = () => {
 		isRegistration,
 		isSuccessRegistration,
 		loggedUserData,
-		login,
+		username,
 		setCredentials,
 	])
 
@@ -78,7 +78,7 @@ export const AuthPage = () => {
 						type='text'
 						placeholder={'Введите логин'}
 						maxLength={30}
-						value={login}
+						value={username}
 						onChange={e => setLogin(e.target.value)}
 						className={styles.input}
 					/>
@@ -99,8 +99,8 @@ export const AuthPage = () => {
 					className={styles.button}
 					onClick={async () => {
 						isRegistration
-							? await registerUser({ login, password })
-							: await loginUser({ login, password })
+							? await registerUser({ username, password })
+							: await loginUser({ username, password })
 					}}>
 					Отправить
 				</button>
@@ -128,7 +128,7 @@ export const AuthPage = () => {
 				</div>
 				{(isRegistrationError || isLoginError) && (
 					<p style={{ color: 'red', marginTop: '5px' }}>
-						{authError?.response.data.message || error?.response.data.message}
+						{/* {authError?.response.data.message || error?.response.data.message} */}
 					</p>
 				)}
 			</div>

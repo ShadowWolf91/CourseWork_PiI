@@ -5,7 +5,7 @@ import { Roles } from './api/enums.ts'
 import { useLogout } from './query/auth/useLogout.ts'
 
 function App() {
-	const { role, checkStorageHealth, userId, deviceId } = useVirtualStore()
+	const { role, checkStorageHealth, id_user } = useVirtualStore()
 	const navigate = useNavigate()
 
 	const { logout } = useLogout()
@@ -15,8 +15,8 @@ function App() {
 		<>
 			<p
 				onClick={async () => {
-					if (!userId || !deviceId) return
-					await logout({ userId: +userId, devicesId: [deviceId] })
+					if (!id_user) return
+					await logout({ id_user: +id_user })
 					localStorage.clear()
 					navigate('/auth') //TODO: fix logout
 				}}>
