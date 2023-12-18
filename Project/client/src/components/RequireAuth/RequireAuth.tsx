@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import useVirtualStore from '../../store'
+import useVirtualStore from '../../store/index.ts'
 import { Roles } from '../../api/enums.ts'
 import { Navigate } from 'react-router-dom'
 
@@ -25,4 +25,4 @@ export const RequireAuth = ({
 	) : (
 		<Navigate to={'/auth'} />
 	)
-} 
+}
