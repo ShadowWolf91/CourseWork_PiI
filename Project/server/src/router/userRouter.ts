@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UserEndpoints from "../api/users/endpoints";
 import UserController from "../controllers/userController";
-import authMiddleware from "../mid/auth";
+//import authMiddleware from "../mid/auth";
 
 const userRouter = Router();
 
@@ -9,7 +9,7 @@ userRouter.post(UserEndpoints.USERNAME, UserController.loginUser);
 
 userRouter.get(
   UserEndpoints.GET_USER_BY_USERNAME,
-  authMiddleware,
+  //authMiddleware,
   UserController.getUserByUsername
 );
 

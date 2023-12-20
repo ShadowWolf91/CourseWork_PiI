@@ -74,7 +74,6 @@ export default class UserController {
           httpOnly: true,
         })
         .json({
-          id_user: user.id_user,
           refreshToken,
           username: user.username,
           role: user.role,

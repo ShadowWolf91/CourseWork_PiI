@@ -28,8 +28,8 @@ UserService.createUser = async ({ username, password, role, refreshToken, }) => 
     return prismaClient_1.default.user.create({
         data: {
             username,
-            role,
             password: (0, node_crypto_1.createHash)("sha512").update(password).digest("hex"),
+            role,
             refreshToken,
             statistics: { create: {} },
         },

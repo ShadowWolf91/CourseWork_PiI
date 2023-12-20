@@ -14,7 +14,7 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use(instance => {
-	instance.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+	instance.headers.Authorization = `Bearer ${localStorage.getItem('refreshToken')}`
 	return instance
 })
 

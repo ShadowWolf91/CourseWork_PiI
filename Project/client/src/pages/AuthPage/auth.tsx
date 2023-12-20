@@ -40,7 +40,7 @@ export const AuthPage = () => {
 			})
 			navigate('/user/store')
 		} else if (isLoginSuccess && !isRegistration && loggedUserData) {
-			localStorage.setItem('token', loggedUserData.refreshToken)
+			//localStorage.setItem('refreshToken', loggedUserData.refreshToken)
 			//localStorage.setItem('deviceId', loggedUserData.deviceId)
 			localStorage.setItem('id_user', loggedUserData.id_user.toString())
 			localStorage.setItem('role', loggedUserData.role)

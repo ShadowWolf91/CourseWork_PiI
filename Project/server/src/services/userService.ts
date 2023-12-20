@@ -48,8 +48,8 @@ export default class UserService {
     return prismaClient.user.create({
       data: {
         username,
-        role,
         password: createHash("sha512").update(password).digest("hex"),
+        role,
         refreshToken,
         statistics: { create: {} },
       },
