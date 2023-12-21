@@ -9,4 +9,5 @@ export interface ILoginUserResponse {
   refreshToken: string;
   role: keyof typeof Roles;
   username: string;
+  id_user: number;
 }

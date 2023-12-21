@@ -16,6 +16,9 @@ export default class UserService {
       where: { username },
     });
 
+  static getUserTokens = async ({ id_user }: IGetUserTokensRequest) =>
+    prismaClient.user.findMany({ where: { id_user } });
+
   static getAllUsers = async ({
     cursor,
     username,
@@ -28,9 +31,6 @@ export default class UserService {
       cursor: cursor ? { id_user: cursor } : undefined,
       where: { username: { contains: username, mode: "insensitive" } },
     });
-
-  static getUserTokens = async ({ id_user }: IGetUserTokensRequest) =>
-    prismaClient.user.findMany({ where: { id_user } });
 
   //create
   static createUser = async ({

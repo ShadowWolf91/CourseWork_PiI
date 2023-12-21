@@ -16,10 +16,10 @@ UserController.loginUser = async (req, res, next) => {
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        const user = await userService_1.default.getUserByUsername(req.query);
+        const user = await userService_1.default.getUserByUsername(req.body);
         if (!user)
-            return next(userRequestError_1.default.NotFound(`USER ${req.query.username} NOT FOUND`));
-        if ((0, node_crypto_1.createHash)("sha512").update(req.query.password).digest("hex") !==
+            return next(userRequestError_1.default.NotFound(`USER ${req.body.username} NOT FOUND`));
+        if ((0, node_crypto_1.createHash)("sha512").update(req.body.password).digest("hex") !==
             user.password)
             return next(userRequestError_1.default.BadRequest("WRONG PASSWORD"));
         const { refreshToken } = tokenizator_1.default.generateTokens({
@@ -35,6 +35,7 @@ UserController.loginUser = async (req, res, next) => {
             refreshToken,
             username: user.username,
             role: user.role,
+            id_user: user.id_user,
         });
     }
     catch (e) {

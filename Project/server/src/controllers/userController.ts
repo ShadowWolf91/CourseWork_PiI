@@ -44,21 +44,20 @@ export default class UserController {
   static loginUser: RequestHandler<
     undefined,
     ILoginUserResponse | IErrorResponse,
-    undefined,
     ILoginUserRequest
   > = async (req, res, next) => {
     const errorData = getValidationResult(req);
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      const user = await UserService.getUserByUsername(req.query);
+      const user = await UserService.getUserByUsername(req.body);
       if (!user)
         return next(
-          UserRequestError.NotFound(`USER ${req.query.username} NOT FOUND`)
+          UserRequestError.NotFound(`USER ${req.body.username} NOT FOUND`)
         );
 
       if (
-        createHash("sha512").update(req.query.password).digest("hex") !==
+        createHash("sha512").update(req.body.password).digest("hex") !==
         user.password
       )
         return next(UserRequestError.BadRequest("WRONG PASSWORD"));
@@ -77,6 +76,7 @@ export default class UserController {
           refreshToken,
           username: user.username,
           role: user.role,
+          id_user: user.id_user,
         });
     } catch (e) {
       return next(e);

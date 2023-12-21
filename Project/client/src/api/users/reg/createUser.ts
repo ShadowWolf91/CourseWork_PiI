@@ -3,7 +3,7 @@ import { Roles } from '../../enums'
 export interface ICreateUserRequest {
 	username: string
 	password: string
-	role: keyof typeof Roles
+	role?: keyof typeof Roles
 	refreshToken?: string
 }
 

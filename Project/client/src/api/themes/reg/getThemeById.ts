@@ -1,13 +1,13 @@
-import { Modes } from "api/enums";
+import { Modes } from '../../enums'
 
 export interface IGetThemeByIdRequest {
-  id_theme: number;
+	id_theme: number
 }
 
 export interface IGetThemeByIdResponse {
-  id_theme: number;
-  subject_id: number;
-  themeName: string;
-  mode: keyof typeof Modes;
-  questionAmount: number;
+	id_theme: number
+	subject_id: number
+	themeName: string
+	mode: keyof typeof Modes
+	questionAmount: number
 }

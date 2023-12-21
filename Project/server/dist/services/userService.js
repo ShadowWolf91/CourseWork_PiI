@@ -11,13 +11,13 @@ _a = UserService;
 UserService.getUserByUsername = async ({ username }) => prismaClient_1.default.user.findUnique({
     where: { username },
 });
+UserService.getUserTokens = async ({ id_user }) => prismaClient_1.default.user.findMany({ where: { id_user } });
 UserService.getAllUsers = async ({ cursor, username, skip, take, }) => prismaClient_1.default.user.findMany({
     skip,
     take,
     cursor: cursor ? { id_user: cursor } : undefined,
     where: { username: { contains: username, mode: "insensitive" } },
 });
-UserService.getUserTokens = async ({ id_user }) => prismaClient_1.default.user.findMany({ where: { id_user } });
 UserService.createUser = async ({ username, password, role, refreshToken, }) => {
     const user = await prismaClient_1.default.user.findUnique({
         where: { username },

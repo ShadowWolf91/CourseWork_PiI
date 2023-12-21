@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import styles from './authPage.module.scss'
 import useVirtualStore from '../../store'
@@ -5,133 +6,171 @@ import { useAuth } from '../../query/auth/useAuth.ts'
 import { useRegistration } from '../../query/auth/useRegistration.ts'
 import { useNavigate } from 'react-router-dom'
 import { Roles } from '../../api/enums.ts'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { AuthInput } from '../../components/authInput/AuthInput.tsx'
 
 export const AuthPage = () => {
-	const [isRegistration, setIsRegistration] = useState(false)
-	const [username, setLogin] = useState('')
-	const [password, setPassword] = useState('')
-
 	const navigate = useNavigate()
+
+	const { setCredentials } = useVirtualStore()
+
+	const [isRegistration, setIsRegistration] = useState(false)
+	const [userCreds, setUserCreds] = useState({
+		login: { value: '', isValid: true },
+		password: { value: '', isValid: true },
+	})
 
 	const {
 		data: loggedUserData,
 		loginUser,
 		isLoginSuccess,
 		isLoginError,
-		//error: authError,
+		error: authError,
 	} = useAuth()
-	const { data, registerUser, error, isSuccessRegistration, isRegistrationError } =
-		useRegistration()
-	const { setCredentials } = useVirtualStore()
-	if (error) console.log(error)
+
+	const {
+		data,
+		registerUser,
+		error: registrationError,
+		isSuccessRegistration,
+		isRegistrationError,
+	} = useRegistration()
 
 	useEffect(() => {
-		if (isSuccessRegistration && isRegistration && data) {
-			//localStorage.setItem('token', data.accessToken)
-			//localStorage.setItem('deviceId', data.deviceId)
-			localStorage.setItem('id_user', data.id_user.toString())
-			localStorage.setItem('role', data.role)
-			localStorage.setItem('username', username)
-			setCredentials({
-				username,
-				role: data?.role,
-				//deviceId: data.deviceId,
-				id_user: data.id_user.toString(),
+		if (isLoginError || isRegistrationError)
+			toast.error(authError?.message || registrationError?.message, {
+				autoClose: 5000,
+				theme: 'dark',
 			})
-			navigate('/user/store')
-		} else if (isLoginSuccess && !isRegistration && loggedUserData) {
-			//localStorage.setItem('refreshToken', loggedUserData.refreshToken)
-			//localStorage.setItem('deviceId', loggedUserData.deviceId)
-			localStorage.setItem('id_user', loggedUserData.id_user.toString())
-			localStorage.setItem('role', loggedUserData.role)
-			localStorage.setItem('username', username)
+	}, [authError?.message, isLoginError, isRegistrationError, registrationError?.message])
+
+	useEffect(() => {
+		if (isSuccessRegistration || isLoginSuccess) {
+			const receivedData = data || loggedUserData
+			if (!receivedData) return
+			//localStorage.setItem('accessToken', receivedData.accessToken)
+			//localStorage.setItem('deviceId', receivedData.deviceId)
+			localStorage.setItem('id_user', receivedData.id_user.toString())
+			localStorage.setItem('role', receivedData.role)
+			localStorage.setItem('username', receivedData.username)
 			setCredentials({
-				username,
-				//deviceId: loggedUserData.deviceId,
-				id_user: loggedUserData.id_user.toString(),
-				role: loggedUserData.role,
+				username: receivedData.username,
+				role: receivedData?.role,
+				//deviceId: receivedData.deviceId,
+				id_user: receivedData.id_user.toString(),
 			})
-			navigate(loggedUserData.role === Roles.DEFAULT ? '/user/store' : '/admin/users/')
+
+			navigate(receivedData.role === Roles.ADMIN ? '/admin/users/' : '/user/store')
 		}
-	}, [
-		navigate,
-		data,
-		isLoginSuccess,
-		isRegistration,
-		isSuccessRegistration,
-		loggedUserData,
-		username,
-		setCredentials,
-	])
+	}, [data, isLoginSuccess, isSuccessRegistration, loggedUserData])
 
 	return (
-		<div
-			style={{
-				width: '100%',
-			}}>
-			<div className={styles.authorizationWindow}>
-				<p className={styles.regText}>
-					{isRegistration ? 'Регистрация' : 'Авторизация'}
-				</p>
-				<div className={styles.inputsContainer}>
-					<input
-						type='text'
-						placeholder={'Введите логин'}
-						maxLength={30}
-						value={username}
-						onChange={e => setLogin(e.target.value)}
-						className={styles.input}
-					/>
-					<br />
-					<input
-						type='password'
-						placeholder={'Введите пароль'}
-						maxLength={120}
-						value={password}
-						onChange={e => setPassword(e.target.value)}
-						className={styles.input}
-					/>
-				</div>
-				<br />
-				<br />
-				<button
-					type={'button'}
-					className={styles.button}
-					onClick={async () => {
-						isRegistration
-							? await registerUser({ username, password })
-							: await loginUser({ username, password })
-					}}>
-					Отправить
-				</button>
-				<br />
-				<div>
-					{isRegistration ? (
-						<p>
-							Уже есть аккаунт? Попробуйте{' '}
-							<mark
-								className={styles.authorizationMark}
-								onClick={() => setIsRegistration(false)}>
-								войти
-							</mark>
-						</p>
-					) : (
-						<p>
-							Нет аккаунта?{' '}
-							<mark
-								className={styles.authorizationMark}
-								onClick={() => setIsRegistration(true)}>
-								Зарегистрируйтесь!
-							</mark>
-						</p>
-					)}
-				</div>
-				{(isRegistrationError || isLoginError) && (
-					<p style={{ color: 'red', marginTop: '5px' }}>
-						{/* {authError?.response.data.message || error?.response.data.message} */}
+		<>
+			<div
+				style={{
+					width: '100%',
+				}}>
+				<div className={styles.authorizationWindow}>
+					<p className={styles.regText}>
+						{isRegistration ? 'Регистрация' : 'Авторизация'}
 					</p>
-				)}
+					<div className={styles.inputsContainer}>
+						<AuthInput
+							id={'username'}
+							type='text'
+							placeholder={'Введите логин'}
+							maxLength={30}
+							value={userCreds.login.value}
+							onChange={e => {
+								setUserCreds(prev => ({
+									...prev,
+									login: {
+										value: e.target.value,
+										isValid: new RegExp(/^[a-zA-Z0-9]{4,30}$/).test(
+											e.target.value
+										),
+									},
+								}))
+							}}
+							className={`${styles.input} ${
+								userCreds.login.isValid ? '' : styles.error
+							}`}
+							errorText={
+								'Логин должен содержать 4-30 латинских символов. ' +
+								'Можно использовать числа'
+							}
+							hasError={!userCreds.login.isValid}
+						/>
+						<br />
+						<AuthInput
+							id={'password'}
+							type='password'
+							placeholder={'Введите пароль'}
+							maxLength={120}
+							value={userCreds.password.value}
+							onChange={e => {
+								setUserCreds(prev => ({
+									...prev,
+									password: {
+										value: e.target.value,
+										isValid: new RegExp(
+											/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,120}/g
+										).test(e.target.value),
+									},
+								}))
+							}}
+							className={`${styles.input} ${
+								userCreds.password.isValid ? undefined : styles.error
+							}`}
+							errorText={`Пароль должен содержать 8-120 латинских символов, включать символы !@#$%^&*, иметь Хотя бы одну заглавную букву`}
+							hasError={!userCreds.password.isValid}
+						/>
+					</div>
+					<br />
+					<br />
+					<button
+						type={'button'}
+						className={styles.button}
+						disabled={
+							!(userCreds.login.isValid && userCreds.password.isValid) ||
+							!userCreds.login.value ||
+							!userCreds.password.value
+						}
+						onClick={async () => {
+							const action = isRegistration ? registerUser : loginUser
+							await action({
+								username: userCreds.login.value,
+								password: userCreds.password.value,
+							})
+						}}>
+						Отправить
+					</button>
+					<br />
+					<div>
+						{isRegistration ? (
+							<p>
+								Уже есть аккаунт? Попробуйте{' '}
+								<mark
+									className={styles.authorizationMark}
+									onClick={() => setIsRegistration(false)}>
+									войти
+								</mark>
+							</p>
+						) : (
+							<p>
+								Нет аккаунта?{' '}
+								<mark
+									className={styles.authorizationMark}
+									onClick={() => setIsRegistration(true)}>
+									Зарегистрируйтесь!
+								</mark>
+							</p>
+						)}
+					</div>
+				</div>
 			</div>
-		</div>
+			<ToastContainer />
+		</>
 	)
 }

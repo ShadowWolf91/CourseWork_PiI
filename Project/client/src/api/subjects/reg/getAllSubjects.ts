@@ -1,14 +1,14 @@
 export interface IGetAllSubjectsRequest {
-  skip: number;
-  take: number;
-  cursor?: number;
-  subjectName?: string;
+	subjectName?: string
+	skip: number
+	take: number
+	cursor?: number
 }
 
 export interface IGetAllSubjectsResponse {
-  subjectsData: {
-    id_subject: number;
-    subjectName: string;
-  }[];
-  cursor: number | null;
+	subjectsData: {
+		id_subject: number
+		subjectName: string
+	}[]
+	cursor: number | null
 }
