@@ -15,8 +15,8 @@ export function NavBar() {
 			{role === Roles.ADMIN ? (
 				<div className={styles.linksContainer}>
 					<Link to='/admin/users'>Пользователи</Link>
-					<Link to='/admin/products'>Продукты</Link>
-					<Link to='/admin/recipes'>Рецепты</Link>
+					<Link to='/admin/subjects'>Предметы</Link>
+					<Link to='/admin/themes'>Темы</Link>
 				</div>
 			) : role === Roles.DEFAULT ? (
 				<div>

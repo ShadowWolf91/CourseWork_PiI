@@ -1,4 +1,4 @@
-import styles from './ThemePage.module.scss'
+import styles from './themePage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateThemeRequest } from '../../../api/themes/reg/createTheme.ts'
 import { IUpdateThemeRequest } from '../../../api/themes/reg/updateTheme.ts'

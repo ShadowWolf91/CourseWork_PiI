@@ -24,7 +24,7 @@ export const browserRouter = createBrowserRouter([
 				),
 			},
 			{
-				path: 'admin/products/',
+				path: 'admin/subjects/',
 				element: (
 					<RequireAuth isRootRequire>
 						<SubjectsPage />
@@ -32,7 +32,7 @@ export const browserRouter = createBrowserRouter([
 				),
 			},
 			{
-				path: 'admin/recipes/',
+				path: 'admin/themes/',
 				element: (
 					<RequireAuth isRootRequire>
 						<ThemesPage />
