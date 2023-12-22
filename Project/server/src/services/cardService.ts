@@ -15,8 +15,8 @@ export default class CardService {
     take,
   }: IGetAllCardsRequest) =>
     prismaClient.cards.findMany({
-      skip,
-      take,
+      skip: +skip,
+      take: +take,
       cursor: cursor ? { id_card: cursor } : undefined,
       where: { cardName: { contains: cardName, mode: "insensitive" } },
     });

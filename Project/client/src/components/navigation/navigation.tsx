@@ -11,12 +11,17 @@ export function NavBar() {
 	//const { logout } = useLogout()
 	return (
 		<div className={styles.navBarContainer}>
-			<div className={`${styles.cube}`}></div>
 			{role === Roles.ADMIN ? (
 				<div className={styles.linksContainer}>
 					<Link to='/admin/users'>Пользователи</Link>
 					<Link to='/admin/subjects'>Предметы</Link>
 					<Link to='/admin/themes'>Темы</Link>
+				</div>
+			) : role === Roles.TEACHER ? (
+				<div className={styles.linksContainer}>
+					<Link to='/teacher/tests'>Тесты </Link>
+					<Link to='/teacher/openQuestions'>Открытые вопросы</Link>
+					<Link to='/teacher/cards'>Карточки</Link>
 				</div>
 			) : role === Roles.DEFAULT ? (
 				<div>
@@ -37,7 +42,6 @@ export function NavBar() {
 				}}>
 				Logout
 			</button>
-			<div className={`${styles.cube}`}></div>
 		</div>
 	)
 }

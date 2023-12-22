@@ -1,281 +1,425 @@
-// import { useInfiniteQuery, useMutation } from '@tanstack/react-query'
-// import $api from '../../../query/axios/base.ts'
-// import TestEndpoints from '../../../api/tests/endpoints.ts'
-// import { IGetAllTestsResponse } from '../../../api/tests/reg/getAllTests.ts'
-// import axios, { AxiosError, AxiosResponse } from 'axios'
-// import styles from './testPage.module.scss'
-// import { useState } from 'react'
-// import { IDeleteTestResponse } from '../../../api/tests/reg/deleteTest.ts'
-// import queryClient from '../../../query/queryClient.ts'
-// import {
-// 	ICreateTestRequest,
-// 	ICreateTestResponse,
-// } from '../../../api/tests/reg/createTest.ts'
-// import {
-// 	IUpdateTestRequest,
-// 	IUpdateTestResponse,
-// } from '../../../api/tests/reg/updateTest.ts'
-// import { IErrorResponse } from '../../../api/errorResponse.ts'
-// //import useVirtualStore from '../../../store'
+import styles from './TestPage.module.scss'
+import { useEffect, useState } from 'react'
+import { ICreateTestRequest } from '../../../api/tests/reg/createTest.ts'
+import { IUpdateTestRequest } from '../../../api/tests/reg/updateTest.ts'
+import { useGetAllTests } from '../../../query/panelTeacher/allTests.ts'
+import { useDropTest } from '../../../query/panelTeacher/deleteTest.ts'
+import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
+import { toast, ToastContainer } from 'react-toastify'
+import { useCreateTest } from '../../../query/panelTeacher/createTest.ts'
+import { useUpdateTest } from '../../../query/panelTeacher/updateTest.ts'
 
-// export const TestsPage = () => {
-// 	//const { id_user } = useVirtualStore()
+export const TestsPage = () => {
+	const [selectedTest, setSelectedTest] = useState<IUpdateTestRequest>(
+		{} as IUpdateTestRequest
+	)
 
-// 	const [selectedTest, setSelectedTest] = useState<null | IUpdateTestRequest>(null)
+	const newTestInitState: ICreateTestRequest = {
+		theme_id: 0,
+		question: '',
+		optionA: '',
+		optionB: '',
+		optionC: '',
+		optionD: '',
+		correctAnswer: '',
+		testName: '',
+		statistic_id: 0,
+	}
 
-// 	const newTestInitState: ICreateTestRequest = {
-// 		theme_id: 0,
-// 		question: '',
-// 		optionA: '',
-// 		optionB: '',
-// 		optionC: '',
-// 		optionD: '',
-// 		correctAnswer: '',
-// 		testName: '',
-// 		statistic_id: 0,
-// 	}
-// 	const [newTest, setNewTest] = useState<ICreateTestRequest>(newTestInitState)
+	const [newTest, setNewTest] = useState<ICreateTestRequest>(newTestInitState)
 
-// 	const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<
-// 		IGetAllTestsResponse,
-// 		IErrorResponse
-// 	>({
-// 		queryKey: ['tests'],
-// 		queryFn: async ({ pageParam }) => {
-// 			try {
-// 				const result = await $api.get<
-// 					AxiosResponse<IErrorResponse>,
-// 					AxiosResponse<IGetAllTestsResponse>
-// 				>(`${TestEndpoints.BASE}${TestEndpoints.GET_ALL_TESTS}`, {
-// 					params: {
-// 						skip: 0,
-// 						take: pageParam?.pageSize || 25,
-// 						cursor: pageParam?.cursor,
-// 					},
-// 				})
-// 				return {
-// 					testsData: result.data?.testsData,
-// 					cursor: result.data?.cursor,
-// 				}
-// 			} catch (e) {
-// 				if (axios.isAxiosError(e)) throw e?.response?.data
-// 				throw e
-// 			}
-// 		},
-// 		refetchOnWindowFocus: false,
-// 		initialPageParam: { pageSize: 25, cursor: null },
-// 		getNextPageParam: lastPage => {
-// 			if (lastPage.testsData.length < 25) return
-// 			return {
-// 				cursor: lastPage?.cursor ? lastPage.cursor + 1 : null,
-// 				pageSize: 25,
-// 			}
-// 		},
-// 		retry: false,
-// 	})
-// 	const [search, setSearch] = useState('')
+	const { data, fetchNextPage, hasNextPage } = useGetAllTests()
+	const [search, setSearch] = useState('')
 
-// 	const { mutateAsync: dropTest } = useMutation({
-// 		mutationFn: async (id_test: number) => {
-// 			try {
-// 				const result = await $api.delete<IDeleteTestResponse>(
-// 					`${TestEndpoints.BASE}${TestEndpoints.DELETE}`,
-// 					{
-// 						data: {
-// 							testsId: [id_test],
-// 						},
-// 					}
-// 				)
-// 				return result.data.count
-// 			} catch (e) {
-// 				if (axios.isAxiosError(e)) throw e?.response?.data
-// 				throw e
-// 			}
-// 		},
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({
-// 				queryKey: ['tests'],
-// 			})
-// 		},
-// 	})
+	const { dropTest } = useDropTest()
 
-// 	const { mutateAsync: createTest } = useMutation({
-// 		mutationFn: async () => {
-// 			try {
-// 				const result = await $api.post<
-// 					AxiosError<IErrorResponse>,
-// 					AxiosResponse<ICreateTestResponse>,
-// 					ICreateTestRequest
-// 				>(`${TestEndpoints.BASE}${TestEndpoints.CREATE}`, {
-// 					theme_id: newTest.theme_id,
-// 					question: newTest.question,
-// 					optionA: newTest.optionA,
-// 					optionB: newTest.optionB,
-// 					optionC: newTest.optionC,
-// 					optionD: newTest.optionD,
-// 					correctAnswer: newTest.correctAnswer,
-// 					testName: newTest.testName,
-// 					statistic_id: newTest.statistic_id,
-// 				})
-// 				return result.data
-// 			} catch (e) {
-// 				if (axios.isAxiosError(e)) throw e?.response?.data
-// 				throw e
-// 			}
-// 		},
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({
-// 				queryKey: ['tests'],
-// 			})
-// 		},
-// 	})
+	const {
+		mutateAsync: createTest,
+		isError: isCreateError,
+		error: createError,
+	} = useCreateTest()
 
-// 	const { mutateAsync: updateTest } = useMutation({
-// 		mutationFn: async () => {
-// 			try {
-// 				if (!selectedTest) return
-// 				const result = await $api.patch<
-// 					IErrorResponse,
-// 					AxiosResponse<IUpdateTestResponse>,
-// 					IUpdateTestRequest
-// 				>(`${TestEndpoints.BASE}${TestEndpoints.UPDATE}`, {
-// 					id_test: selectedTest.id_test,
-// 					question: selectedTest.question,
-// 					testName: selectedTest.testName,
-// 					optionA: selectedTest.optionA,
-// 					optionB: selectedTest.optionB,
-// 					optionC: selectedTest.optionC,
-// 					optionD: selectedTest.optionD,
-// 					correctAnswer: selectedTest.correctAnswer,
-// 					statistic_id: selectedTest.statistic_id,
-// 				})
-// 				return result.data
-// 			} catch (e) {
-// 				if (axios.isAxiosError(e)) throw e?.response?.data
-// 				throw e
-// 			}
-// 		},
-// 		onSuccess: async () => {
-// 			await queryClient.invalidateQueries({
-// 				queryKey: ['tests'],
-// 			})
-// 		},
-// 	})
-// 	return (
-// 		<>
-// 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-// 				<div>
-// 					<p>Искать</p>
-// 					<input
-// 						type='text'
-// 						value={search}
-// 						onChange={e => setSearch(e.target.value)}
-// 					/>
-// 				</div>
-// 			</div>
-// 			<div className={styles.container}>
-// 				<div className={styles.modal}>
-// 					{selectedTest ? (
-// 						<>
-// 							<p>Редактирование Предмета</p>
-// 							<div>
-// 								<p>ID</p>
-// 								<input
-// 									type='number'
-// 									//step={0.01}
-// 									value={selectedTest.id_test}
-// 									onChange={e =>
-// 										setSelectedTest(prev => ({
-// 											...prev,
-// 											id_Test: +e.target.value,
-// 										}))
-// 									}
-// 								/>
-// 							</div>
-// 							<div>
-// 								<p>Название Предмета</p>
-// 								<input
-// 									type='text'
-// 									value={selectedTest.testName}
-// 									onChange={e =>
-// 										setSelectedTest(prev => ({
-// 											...prev,
-// 											TestName: e.target.value,
-// 										}))
-// 									}
-// 								/>
-// 							</div>
-// 							<div>
-// 								<button
-// 									onClick={async () => {
-// 										await updateTest()
-// 										setSelectedTest(null)
-// 									}}>
-// 									Сохранить
-// 								</button>
-// 								<button onClick={() => setSelectedTest(null)}>Отменить</button>
-// 							</div>
-// 						</>
-// 					) : (
-// 						<>
-// 							<p>Создание Предмета</p>
-// 							<div>
-// 								<p>Название Предмета</p>
-// 								<input
-// 									type='text'
-// 									value={newTest.testName}
-// 									onChange={e =>
-// 										setNewTest(prev => ({
-// 											...prev,
-// 											title: e.target.value,
-// 										}))
-// 									}
-// 								/>
-// 							</div>
-// 							<div>
-// 								<button onClick={async () => await createTest()}>
-// 									Сохранить
-// 								</button>
-// 								<button onClick={() => setNewTest(newTestInitState)}>
-// 									Отменить
-// 								</button>
-// 							</div>
-// 						</>
-// 					)}
-// 				</div>
-// 				<div className={styles.cardsContainer}>
-// 					{data?.pages.map(page =>
-// 						page.testsData
-// 							.filter(item =>
-// 								item.testName.toLowerCase().includes(search.toLowerCase())
-// 							)
-// 							.map(item => (
-// 								<div className={styles.card} key={item.id_test}>
-// 									<p>{item.testName}</p>
-// 									<div>
-// 										<div className={styles.cardEditBar}>
-// 											<button
-// 												onClick={() =>
-// 													setSelectedTest({
-// 														id_test: item.id_test,
-// 														testName: item.testName,
-// 													})
-// 												}>
-// 												Edit
-// 											</button>
-// 											<button
-// 												className={styles.redButton}
-// 												onClick={async () => await dropTest(item.id_test)}>
-// 												Удалить навсегда
-// 											</button>
-// 										</div>
-// 									</div>
-// 								</div>
-// 							))
-// 					)}
-// 					{hasNextPage && <button onClick={() => fetchNextPage()}>Ещё</button>}
-// 				</div>
-// 			</div>
-// 		</>
-// 	)
-// }
+	const {
+		mutateAsync: updateTest,
+		isError: isUpdateError,
+		error: updateError,
+	} = useUpdateTest()
+
+	useEffect(() => {
+		if (isCreateError)
+			toast(createError?.field + ' ' + createError.message, { type: 'error' })
+		if (isUpdateError)
+			toast(updateError?.field + ' ' + updateError.message, { type: 'error' })
+	}, [
+		createError?.field,
+		createError?.message,
+		isCreateError,
+		isUpdateError,
+		updateError?.field,
+		updateError?.message,
+	])
+
+	return (
+		<>
+			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
+			</div>
+			<div className={styles.container}>
+				<div className={styles.modal}>
+					{Object.keys(selectedTest).length ? (
+						<div className={styles.modal}>
+							<p>Редактирование теста</p>
+							<div className={styles.div}>
+								<p>ID теста</p>
+								<input
+									type='number'
+									step={1}
+									value={selectedTest.id_test}
+									max={32767}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											id_test: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>ID темы</p>
+								<input
+									type='number'
+									step={1}
+									value={selectedTest.theme_id}
+									max={32767}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											theme_id: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Вопрос</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.question}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											question: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ A</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.optionA}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											optionA: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ B</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.optionB}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											optionB: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ C</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.optionC}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											optionC: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ D</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.optionD}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											optionD: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Правильный ответ</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.correctAnswer}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											correctAnswer: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Название теста</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={selectedTest.testName}
+									maxLength={20}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											testName: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>ID статистики</p>
+								<input
+									type='number'
+									step={1}
+									value={selectedTest.statistic_id}
+									max={32767}
+									onChange={e =>
+										setSelectedTest(prev => ({
+											...prev,
+											statistic_id: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div>
+								<button
+									disabled={selectedTest.testName === ''}
+									onClick={async () => {
+										await updateTest(selectedTest)
+										setSelectedTest({} as IUpdateTestRequest)
+									}}>
+									Сохранить
+								</button>
+								<button onClick={() => setSelectedTest({} as IUpdateTestRequest)}>
+									Отменить
+								</button>
+							</div>
+						</div>
+					) : (
+						<div className={styles.modal}>
+							<p>Создание теста</p>
+							<div className={styles.div}>
+								<p>ID темы</p>
+								<input
+									type='number'
+									step={1}
+									value={newTest.theme_id}
+									max={32767}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											theme_id: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Вопрос</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.question}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											question: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ A</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.optionA}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											optionA: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ B</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.optionB}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											optionB: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ C</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.optionC}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											optionC: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Ответ D</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.optionD}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											optionD: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Правильный ответ</p>
+								<input
+									type='text'
+									className={styles.input}
+									value={newTest.correctAnswer}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											correctAnswer: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Название теста</p>
+								<input
+									type='text'
+									value={newTest.testName}
+									maxLength={20}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											testName: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>ID статистики</p>
+								<input
+									type='number'
+									step={1}
+									value={newTest.statistic_id}
+									max={32767}
+									onChange={e =>
+										setNewTest(prev => ({
+											...prev,
+											statistic_id: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.buttons}>
+								<button
+									disabled={newTest.testName === ''}
+									onClick={async () => {
+										await createTest(newTest)
+										setNewTest(newTestInitState)
+									}}>
+									Сохранить
+								</button>
+								<button onClick={() => setNewTest(newTestInitState)}>
+									Отменить
+								</button>
+							</div>
+						</div>
+					)}
+				</div>
+				<div className={styles.TestsContainer}>
+					{data?.pages.map(page =>
+						page.testsData
+							.filter(item =>
+								item.testName.toLowerCase().includes(search.toLowerCase())
+							)
+							.map(item => (
+								<div className={styles.Test} key={item.id_test}>
+									<p>{item.testName}</p>
+									<div>
+										<div className={styles.TestEditBar}>
+											<button
+												onClick={() =>
+													setSelectedTest({
+														id_test: item.id_test,
+														testName: item.testName,
+													})
+												}>
+												Редактировать
+											</button>
+											<button
+												className={styles.redButton}
+												onClick={async () => await dropTest(item.id_test)}>
+												Удалить навсегда
+											</button>
+										</div>
+									</div>
+								</div>
+							))
+					)}
+					{hasNextPage && <button onClick={() => fetchNextPage()}>Ещё</button>}
+				</div>
+				<ToastContainer />
+			</div>
+		</>
+	)
+}

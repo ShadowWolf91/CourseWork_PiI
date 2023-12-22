@@ -18,8 +18,8 @@ ThemeService.getThemeById = async ({ id_theme, }) => {
     };
 };
 ThemeService.getAllThemes = async ({ cursor, themeName, skip, take, }) => prismaClient_1.default.themes.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_theme: cursor } : undefined,
     where: { themeName: { contains: themeName, mode: "insensitive" } },
 });

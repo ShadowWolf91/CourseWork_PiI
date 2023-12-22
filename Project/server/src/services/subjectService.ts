@@ -22,8 +22,8 @@ export default class SubjectService {
     take,
   }: IGetAllSubjectsRequest) =>
     prismaClient.subjects.findMany({
-      skip,
-      take,
+      skip: +skip,
+      take: +take,
       cursor: cursor ? { id_subject: cursor } : undefined,
       where: { subjectName: { contains: subjectName, mode: "insensitive" } },
     });

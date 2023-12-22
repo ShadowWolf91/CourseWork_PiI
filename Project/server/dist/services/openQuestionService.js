@@ -8,8 +8,8 @@ class OpenQuestionsService {
 }
 _a = OpenQuestionsService;
 OpenQuestionsService.getAllOpenQuestions = async ({ cursor, openQuestionName, skip, take, }) => prismaClient_1.default.openQuestions.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_openQuestion: cursor } : undefined,
     where: {
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },

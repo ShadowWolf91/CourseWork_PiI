@@ -15,8 +15,8 @@ export default class OpenQuestionsService {
     take,
   }: IGetAllOpenQuestionsRequest) =>
     prismaClient.openQuestions.findMany({
-      skip,
-      take,
+      skip: +skip,
+      take: +take,
       cursor: cursor ? { id_openQuestion: cursor } : undefined,
       where: {
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },

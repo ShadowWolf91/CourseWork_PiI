@@ -173,17 +173,21 @@ export function UserCreationForm({
 						/>
 					</div>
 					<div className={styles.div}>
-						<p>Администратор?</p>
-						<input
-							type='checkbox'
+						<p>Какая роль?</p>
+						<select
+							name='unitsselect'
+							id='unitsselectnew'
 							value={newUser?.role}
 							onChange={e =>
 								setNewUser(prev => ({
 									...prev,
-									role: e.target.checked ? Roles.ADMIN : Roles.DEFAULT,
+									role: e.target.value as Roles, // ? Roles.ADMIN : Roles.DEFAULT,
 								}))
-							}
-						/>
+							}>
+							{Object.values(Roles).map(unit => (
+								<option value={unit}>{unit}</option>
+							))}
+						</select>
 					</div>
 					<div className={styles.buttons}>
 						<button

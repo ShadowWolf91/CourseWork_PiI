@@ -1,34 +1,34 @@
-import { IGetAllThemesResponse } from '../../api/themes/reg/getAllThemes.ts'
+import { IGetAllCardsResponse } from '../../api/cards/reg/getAllCards.ts'
 import { IErrorResponse } from '../../api/errorResponse.ts'
 import $api from '../axios/base.ts'
 import axios, { AxiosResponse } from 'axios'
-import ThemeEndpoints from '../../api/themes/endpoints.ts'
+import CardEndpoints from '../../api/cards/endpoints.ts'
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 
-export function useGetAllThemes(themeName?: string) {
+export function useGetAllCards(CardName?: string) {
 	return useInfiniteQuery<
-		IGetAllThemesResponse,
+		IGetAllCardsResponse,
 		IErrorResponse,
-		InfiniteData<IGetAllThemesResponse>,
+		InfiniteData<IGetAllCardsResponse>,
 		(string | undefined)[],
 		{ pageSize: number | undefined; cursor: number | null }
 	>({
-		queryKey: ['themes'],
+		queryKey: ['cards'],
 		queryFn: async ({ pageParam }) => {
 			try {
 				const result = await $api.get<
-					IGetAllThemesResponse,
-					AxiosResponse<IGetAllThemesResponse>
-				>(`${ThemeEndpoints.BASE}${ThemeEndpoints.GET_ALL_THEMES}`, {
+					IGetAllCardsResponse,
+					AxiosResponse<IGetAllCardsResponse>
+				>(`${CardEndpoints.BASE}${CardEndpoints.GET_ALL_CARDS}`, {
 					params: {
 						skip: 0,
-						take: Number(pageParam?.pageSize) || 25,
+						take: pageParam?.pageSize || 25,
 						cursor: pageParam?.cursor,
-						themeName,
+						CardName,
 					},
 				})
 				return {
-					themesData: result.data?.themesData,
+					cardsData: result.data?.cardsData,
 					cursor: result.data?.cursor,
 				}
 			} catch (e) {
@@ -39,7 +39,7 @@ export function useGetAllThemes(themeName?: string) {
 		refetchOnWindowFocus: false,
 		initialPageParam: { pageSize: 25, cursor: null },
 		getNextPageParam: lastPage => {
-			if (lastPage.themesData.length < 25) return
+			if (lastPage.cardsData.length < 25) return
 			return {
 				cursor: lastPage?.cursor ? lastPage.cursor + 1 : null,
 				pageSize: 25,

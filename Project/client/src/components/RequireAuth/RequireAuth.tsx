@@ -16,6 +16,8 @@ export const RequireAuth = ({
 		isRootRequire ? (
 			role === Roles.ADMIN ? (
 				children
+			) : role === Roles.TEACHER ? (
+				children
 			) : (
 				<Navigate to={'/auth'} />
 			)

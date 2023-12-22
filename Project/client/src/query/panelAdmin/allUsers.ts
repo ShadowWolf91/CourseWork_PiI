@@ -22,7 +22,7 @@ export function useGetAllUsers() {
 				>(`${UserEndpoints.BASE}${UserEndpoints.GET_ALL_USERS}`, {
 					params: {
 						skip: 0,
-						take: pageParam?.pageSize || +25,
+						take: Number(pageParam?.pageSize) || 25,
 						cursor: pageParam?.cursor,
 					},
 				})
@@ -33,12 +33,12 @@ export function useGetAllUsers() {
 			}
 		},
 		refetchOnWindowFocus: false,
-		initialPageParam: { pageSize: +25, cursor: null },
+		initialPageParam: { pageSize: 25, cursor: null },
 		getNextPageParam: lastPage => {
 			if (lastPage.usersData.length < 25) return
 			return {
 				cursor: lastPage?.cursor ? lastPage.cursor + 1 : null,
-				pageSize: +25,
+				pageSize: 25,
 			}
 		},
 		retry: false,

@@ -8,8 +8,8 @@ class CardService {
 }
 _a = CardService;
 CardService.getAllCards = async ({ cursor, cardName, skip, take, }) => prismaClient_1.default.cards.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_card: cursor } : undefined,
     where: { cardName: { contains: cardName, mode: "insensitive" } },
 });

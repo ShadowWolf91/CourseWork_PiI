@@ -8,8 +8,8 @@ class UserService {
 }
 _a = UserService;
 UserService.getAllStatistics = async ({ cursor, title, skip, take, }) => prismaClient_1.default.statistics.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_statistics: cursor } : undefined,
     where: {
         title: { contains: title, mode: "insensitive" },

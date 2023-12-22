@@ -4,6 +4,9 @@ import { RequireAuth } from '../components/RequireAuth/RequireAuth.tsx'
 import { UsersPage } from '../pages/adminPanel/userPage/UsersPage.tsx'
 import { SubjectsPage } from '../pages/adminPanel/subjectPage/SubjectPage.tsx'
 import { ThemesPage } from '../pages/adminPanel/themePage/ThemePage.tsx'
+import { TestsPage } from '../pages/teacherPanel/testPage/TestPage.tsx'
+import { OpenQuestionsPage } from '../pages/teacherPanel/openQuestionPage/OpenQuestionPage.tsx'
+import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
 // import { UserChecklistsPage } from '../pages/userPanel/checklistsPage/ChecklistsPage.tsx'
 // import { UserChecklistPage } from '../pages/userPanel/checklistPage/ChecklistPage.tsx'
 // import { UserRecipesPage } from '../pages/userPanel/recipesPage/RecipesPage.tsx'
@@ -36,6 +39,30 @@ export const browserRouter = createBrowserRouter([
 				element: (
 					<RequireAuth isRootRequire>
 						<ThemesPage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'teacher/tests/',
+				element: (
+					<RequireAuth isRootRequire>
+						<TestsPage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'teacher/openQuestions/',
+				element: (
+					<RequireAuth isRootRequire>
+						<OpenQuestionsPage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'teacher/cards/',
+				element: (
+					<RequireAuth isRootRequire>
+						<CardsPage />
 					</RequireAuth>
 				),
 			},

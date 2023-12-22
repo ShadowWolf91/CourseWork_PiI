@@ -11,8 +11,8 @@ SubjectService.getSubjectBySubId = async ({ id_subject, }) => prismaClient_1.def
     where: { id_subject: +id_subject },
 });
 SubjectService.getAllSubjects = async ({ cursor, subjectName, skip, take, }) => prismaClient_1.default.subjects.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_subject: cursor } : undefined,
     where: { subjectName: { contains: subjectName, mode: "insensitive" } },
 });

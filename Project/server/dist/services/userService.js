@@ -13,8 +13,8 @@ UserService.getUserByUsername = async ({ username }) => prismaClient_1.default.u
 });
 UserService.getUserTokens = async ({ id_user }) => prismaClient_1.default.user.findMany({ where: { id_user } });
 UserService.getAllUsers = async ({ cursor, username, skip, take, }) => prismaClient_1.default.user.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_user: cursor } : undefined,
     where: { username: { contains: username, mode: "insensitive" } },
 });

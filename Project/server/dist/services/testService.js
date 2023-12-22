@@ -8,8 +8,8 @@ class TestsService {
 }
 _a = TestsService;
 TestsService.getAllTests = async ({ cursor, testName, skip, take, }) => prismaClient_1.default.tests.findMany({
-    skip,
-    take,
+    skip: +skip,
+    take: +take,
     cursor: cursor ? { id_test: cursor } : undefined,
     where: { testName: { contains: testName, mode: "insensitive" } },
 });

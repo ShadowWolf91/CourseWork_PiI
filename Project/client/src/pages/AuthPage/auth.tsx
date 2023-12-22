@@ -61,7 +61,13 @@ export const AuthPage = () => {
 				id_user: receivedData.id_user.toString(),
 			})
 
-			navigate(receivedData.role === Roles.ADMIN ? '/admin/users/' : '/user/store')
+			navigate(
+				receivedData.role === Roles.ADMIN
+					? '/admin/users/'
+					: receivedData.role === Roles.TEACHER
+						? '/admin/users/'
+						: '/user/store'
+			)
 		}
 	}, [data, isLoginSuccess, isSuccessRegistration, loggedUserData])
 

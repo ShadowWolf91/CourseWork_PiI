@@ -15,8 +15,8 @@ export default class TestsService {
     take,
   }: IGetAllTestsRequest) =>
     prismaClient.tests.findMany({
-      skip,
-      take,
+      skip: +skip,
+      take: +take,
       cursor: cursor ? { id_test: cursor } : undefined,
       where: { testName: { contains: testName, mode: "insensitive" } },
     });

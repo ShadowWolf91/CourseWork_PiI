@@ -32,8 +32,8 @@ export default class ThemeService {
     take,
   }: IGetAllThemesRequest) =>
     prismaClient.themes.findMany({
-      skip,
-      take,
+      skip: +skip,
+      take: +take,
       cursor: cursor ? { id_theme: cursor } : undefined,
       where: { themeName: { contains: themeName, mode: "insensitive" } },
     });
