@@ -26,9 +26,9 @@ export function NavBar() {
 				</div>
 			) : role === Roles.DEFAULT ? (
 				<div>
-					<Link to='/user/recipes'>Рецепты </Link>
-					<Link to='/user/store'>Хранилище</Link>
-					<Link to='/user/checklists'>Чек-листы</Link>
+					{/* <Link to='/user/recipes'>Рецепты </Link>
+					<Link to='/user/store'>Хранилище</Link> */}
+					<Link to='/user/subjects'>Предметы</Link>
 				</div>
 			) : (
 				<Navigate to={'/auth'} />

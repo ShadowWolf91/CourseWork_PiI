@@ -8,7 +8,7 @@ import { TestsPage } from '../pages/teacherPanel/testPage/TestPage.tsx'
 import { OpenQuestionsPage } from '../pages/teacherPanel/openQuestionPage/OpenQuestionPage.tsx'
 import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
 import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
-// import { UserChecklistsPage } from '../pages/userPanel/checklistsPage/ChecklistsPage.tsx'
+import { UserSubjectsPage } from '../pages/userPanel/subjectPage/SubjectPage.tsx'
 // import { UserChecklistPage } from '../pages/userPanel/checklistPage/ChecklistPage.tsx'
 // import { UserRecipesPage } from '../pages/userPanel/recipesPage/RecipesPage.tsx'
 // import { UserStorePage } from '../pages/userPanel/storePage/StorePage.tsx'
@@ -76,37 +76,37 @@ export const browserRouter = createBrowserRouter([
 				),
 			},
 			{
-				path: 'user/checklists/',
-				// element: (
-				// 	<RequireAuth>
-				// 		<UserChecklistsPage />
-				// 	</RequireAuth>
-				// ),
+				path: 'user/subjects/',
+				element: (
+					<RequireAuth>
+						<UserSubjectsPage />
+					</RequireAuth>
+				),
 			},
-			{
-				path: 'user/checklists/:checklistId',
-				// element: (
-				// 	<RequireAuth>
-				// 		<UserChecklistPage />
-				// 	</RequireAuth>
-				// ),
-			},
-			{
-				path: 'user/recipes/',
-				// element: (
-				// 	<RequireAuth>
-				// 		<UserRecipesPage />
-				// 	</RequireAuth>
-				// ),
-			},
-			{
-				path: 'user/store/',
-				// element: (
-				// 	<RequireAuth>
-				// 		<UserStorePage />
-				// 	</RequireAuth>
-				// ),
-			},
+			// {
+			// 	path: 'user/checklists/:checklistId',
+			// 	// element: (
+			// 	// 	<RequireAuth>
+			// 	// 		<UserChecklistPage />
+			// 	// 	</RequireAuth>
+			// 	// ),
+			// },
+			// {
+			// 	path: 'user/recipes/',
+			// 	// element: (
+			// 	// 	<RequireAuth>
+			// 	// 		<UserRecipesPage />
+			// 	// 	</RequireAuth>
+			// 	// ),
+			// },
+			// {
+			// 	path: 'user/store/',
+			// 	// element: (
+			// 	// 	<RequireAuth>
+			// 	// 		<UserStorePage />
+			// 	// 	</RequireAuth>
+			// 	// ),
+			// },
 		],
 	},
 	{ path: 'auth', element: <AuthPage /> },
