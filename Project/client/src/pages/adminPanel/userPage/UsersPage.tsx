@@ -13,6 +13,7 @@ export const UsersPage = () => {
 		username: '',
 		role: Roles.DEFAULT,
 		password: '',
+		device_id: '',
 	}
 
 	const [search, setSearch] = useState('')

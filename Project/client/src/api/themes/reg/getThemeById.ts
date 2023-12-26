@@ -10,4 +10,5 @@ export interface IGetThemeByIdResponse {
 	themeName: string
 	mode: keyof typeof Modes
 	questionAmount: number
+	time: number
 }

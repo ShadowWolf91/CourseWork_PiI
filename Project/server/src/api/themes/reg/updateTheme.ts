@@ -6,6 +6,7 @@ export interface IUpdateThemeRequest {
   themeName?: string;
   mode?: keyof typeof Modes;
   questionAmount?: number;
+  time?: number;
 }
 
 export interface IUpdateThemeResponse {
@@ -14,4 +15,5 @@ export interface IUpdateThemeResponse {
   themeName: string;
   mode: keyof typeof Modes;
   questionAmount: number;
+  time: number;
 }

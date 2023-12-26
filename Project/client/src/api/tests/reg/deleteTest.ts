@@ -1,5 +1,5 @@
 export interface IDeleteTestRequest {
-	id_test: number
+    id_test: number
 }
 
 export interface IDeleteTestResponse {

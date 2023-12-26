@@ -1,8 +1,9 @@
 export interface IGetUserTokensRequest {
-  id_user: number;
+  user_id: number;
 }
 
 export interface IGetUserTokensResponse {
-  id_user: number;
+  user_id: number;
+  device_id: string;
   refreshToken: string;
 }

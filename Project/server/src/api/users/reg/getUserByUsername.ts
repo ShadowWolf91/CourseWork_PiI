@@ -9,5 +9,4 @@ export interface IGetUserByUsernameResponse {
   username: string;
   password: string;
   role: keyof typeof Roles;
-  refreshToken: string;
 }

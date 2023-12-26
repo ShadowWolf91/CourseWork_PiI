@@ -22,10 +22,27 @@ UserController.loginUser = async (req, res, next) => {
         if ((0, node_crypto_1.createHash)("sha512").update(req.body.password).digest("hex") !==
             user.password)
             return next(userRequestError_1.default.BadRequest("WRONG PASSWORD"));
-        const { refreshToken } = tokenizator_1.default.generateTokens({
+        const { refreshToken, accessToken } = tokenizator_1.default.generateTokens({
             username: user.username,
             role: user.role,
+            device_id: req.body.device_id,
         });
+        const userTokens = await userService_1.default.getUserTokens({
+            user_id: user.id_user,
+        });
+        if (userTokens.find((rec) => rec.device_id === req.query.device_id)) {
+            await userService_1.default.updateUserToken({
+                user_id: user.id_user,
+                device_id: req.query.device_id,
+                refreshToken,
+            });
+        }
+        else
+            await userService_1.default.createUserToken({
+                device_id: req.body.device_id,
+                refreshToken,
+                user_id: user.id_user,
+            });
         res
             .cookie("refreshToken", refreshToken, {
             maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -33,9 +50,11 @@ UserController.loginUser = async (req, res, next) => {
         })
             .json({
             refreshToken,
+            accessToken,
             username: user.username,
             role: user.role,
-            id_user: user.id_user,
+            user_id: user.id_user,
+            device_id: req.body.device_id,
         });
     }
     catch (e) {
@@ -88,8 +107,20 @@ UserController.createUser = async (req, res, next) => {
     if (errorData)
         return (0, callUnprocessableEntity_1.default)(next, errorData);
     try {
-        const { refreshToken } = tokenizator_1.default.generateTokens(req.body);
-        const result = await userService_1.default.createUser({
+        const result = await userService_1.default.createUser(req.body);
+        res.status(201).json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+UserController.createUserToken = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const { refreshToken, accessToken } = tokenizator_1.default.generateTokens(req.body);
+        const result = await userService_1.default.createUserToken({
             ...req.body,
             refreshToken,
         });
@@ -97,7 +128,7 @@ UserController.createUser = async (req, res, next) => {
             maxAge: 30 * 24 * 60 * 60 * 1000,
             httpOnly: true,
         });
-        res.status(201).json(result);
+        res.status(201).json({ ...result, accessToken });
     }
     catch (e) {
         return next(e);
@@ -110,6 +141,38 @@ UserController.updateUserData = async (req, res, next) => {
     try {
         const result = await userService_1.default.updateUserData(req.body);
         res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+UserController.updateUserToken = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const { refreshToken: prevRefreshToken } = req.cookies;
+        if (!prevRefreshToken)
+            return next(userRequestError_1.default.Unauthorized());
+        const user = await userService_1.default.getUserByUsername(req.body);
+        const userData = tokenizator_1.default.validateRefreshToken(prevRefreshToken);
+        if (!user || !userData)
+            return next(userRequestError_1.default.Unauthorized());
+        const { refreshToken, accessToken } = tokenizator_1.default.generateTokens({
+            username: user.username,
+            role: user.role,
+            device_id: req.body.device_id,
+        });
+        const result = await userService_1.default.updateUserToken({
+            ...req.body,
+            refreshToken,
+        });
+        res
+            .cookie("refreshToken", refreshToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+        })
+            .json({ ...result, accessToken });
     }
     catch (e) {
         return next(e);
@@ -134,6 +197,18 @@ UserController.deleteUser = async (req, res, next) => {
     try {
         await userService_1.default.deleteUser(req.body);
         res.json({ count: 1 });
+    }
+    catch (e) {
+        return next(e);
+    }
+};
+UserController.deleteUserTokens = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await userService_1.default.deleteUserTokens(req.body);
+        res.json(result);
     }
     catch (e) {
         return next(e);

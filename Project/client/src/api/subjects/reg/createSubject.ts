@@ -1,8 +1,8 @@
 export interface ICreateSubjectRequest {
-	subjectName: string
+  subjectName: string;
 }
 
 export interface ICreateSubjectResponse {
-	id_subject: number
-	subjectName: string
+  id_subject: number;
+  subjectName: string;
 }

@@ -23,6 +23,7 @@ export function useUpdateTheme() {
 					themeName: selectedTheme.themeName,
 					mode: selectedTheme.mode,
 					questionAmount: selectedTheme.questionAmount,
+					time: selectedTheme.time,
 				})
 				return result.data
 			} catch (e) {

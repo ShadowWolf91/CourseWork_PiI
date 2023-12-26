@@ -13,7 +13,6 @@ export interface IGetAllUsersResponse {
     username: string;
     password: string;
     role: keyof typeof Roles;
-    refreshToken: string;
   }[];
   cursor: number | null;
 }

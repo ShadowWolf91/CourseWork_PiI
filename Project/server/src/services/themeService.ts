@@ -40,29 +40,29 @@ export default class ThemeService {
 
   //create
   static createTheme = async ({
-    id_theme,
     subject_id,
     themeName,
     mode,
     questionAmount,
+    time,
   }: ICreateThemeRequest) => {
     const theme = await prismaClient.themes.findUnique({
-      where: { id_theme },
+      where: { themeName },
       select: { id_theme: true },
     });
 
     if (theme)
       throw UserRequestError.BadRequest(
-        `THEME WITH ID ${id_theme} ALREADY EXISTS`
+        `THEME WITH ID ${themeName} ALREADY EXISTS`
       );
 
     return prismaClient.themes.create({
       data: {
-        id_theme,
         subject_id,
         themeName,
         mode,
         questionAmount,
+        time,
       },
     });
   };
@@ -74,6 +74,7 @@ export default class ThemeService {
     themeName,
     mode,
     questionAmount,
+    time,
   }: IUpdateThemeRequest) => {
     const theme = await prismaClient.themes.findUnique({
       where: { id_theme },
@@ -89,6 +90,7 @@ export default class ThemeService {
         themeName,
         mode,
         questionAmount,
+        time,
       },
     });
   };

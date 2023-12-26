@@ -1,13 +1,20 @@
-import { Roles } from '../../enums'
+import { Roles } from "../../enums";
 
 export interface ILoginUserRequest {
-	username: string
-	password: string
+  username: string;
+  password: string;
+  device_id: string;
+}
+
+export interface ILoginUserRequestCookies {
+  refreshToken: string;
 }
 
 export interface ILoginUserResponse {
-	id_user: number
-	refreshToken: string
-	role: keyof typeof Roles
-	username: string
+  user_id: number;
+  refreshToken: string;
+  accessToken: string;
+  device_id: string;
+  role: keyof typeof Roles;
+  username: string;
 }

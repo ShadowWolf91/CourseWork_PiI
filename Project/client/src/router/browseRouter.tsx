@@ -3,10 +3,11 @@ import App from '../App.tsx'
 import { RequireAuth } from '../components/RequireAuth/RequireAuth.tsx'
 import { UsersPage } from '../pages/adminPanel/userPage/UsersPage.tsx'
 import { SubjectsPage } from '../pages/adminPanel/subjectPage/SubjectPage.tsx'
-import { ThemesPage } from '../pages/adminPanel/themePage/ThemePage.tsx'
+import { ThemesPage } from '../pages/teacherPanel/themePage/ThemePage.tsx'
 import { TestsPage } from '../pages/teacherPanel/testPage/TestPage.tsx'
 import { OpenQuestionsPage } from '../pages/teacherPanel/openQuestionPage/OpenQuestionPage.tsx'
 import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
+import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
 // import { UserChecklistsPage } from '../pages/userPanel/checklistsPage/ChecklistsPage.tsx'
 // import { UserChecklistPage } from '../pages/userPanel/checklistPage/ChecklistPage.tsx'
 // import { UserRecipesPage } from '../pages/userPanel/recipesPage/RecipesPage.tsx'
@@ -35,7 +36,7 @@ export const browserRouter = createBrowserRouter([
 				),
 			},
 			{
-				path: 'admin/themes/',
+				path: 'teacher/themes/',
 				element: (
 					<RequireAuth isRootRequire>
 						<ThemesPage />
@@ -63,6 +64,14 @@ export const browserRouter = createBrowserRouter([
 				element: (
 					<RequireAuth isRootRequire>
 						<CardsPage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'teacher/stats/',
+				element: (
+					<RequireAuth isRootRequire>
+						<StatsPage />
 					</RequireAuth>
 				),
 			},

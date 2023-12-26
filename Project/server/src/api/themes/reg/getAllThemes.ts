@@ -14,6 +14,7 @@ export interface IGetAllThemesResponse {
     themeName: string;
     mode: keyof typeof Modes;
     questionAmount: number;
+    time: number;
   }[];
   cursor: number | null;
 }

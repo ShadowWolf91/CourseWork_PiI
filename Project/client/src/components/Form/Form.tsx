@@ -15,6 +15,7 @@ interface UserCreationFormProps {
 		username: string
 		role: keyof typeof Roles
 		password: string
+		device_id: string
 	}
 }
 

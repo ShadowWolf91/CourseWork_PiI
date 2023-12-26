@@ -18,7 +18,7 @@ UserService.getAllStatistics = async ({ cursor, title, skip, take, }) => prismaC
 UserService.getStatisticByUserId = async ({ ids }) => prismaClient_1.default.statistics.findMany({
     where: { id_statistics: { in: ids } },
 });
-UserService.updateStatisticsData = async ({ id_statistics, rightAnswered, score, mark, user_id, }) => {
+UserService.updateStatisticsData = async ({ id_statistics, rightAnsweredTests, rightAnsweredOQs, rightAnsweredCards, markTests, markCards, markOpenQuestions, user_id, }) => {
     const statistic = await prismaClient_1.default.statistics.findUnique({
         where: { id_statistics: id_statistics },
         select: { id_statistics: true },
@@ -29,9 +29,12 @@ UserService.updateStatisticsData = async ({ id_statistics, rightAnswered, score,
         where: { id_statistics: id_statistics },
         data: {
             id_statistics,
-            rightAnswered,
-            score,
-            mark,
+            rightAnsweredTests,
+            rightAnsweredOQs,
+            rightAnsweredCards,
+            markTests,
+            markCards,
+            markOpenQuestions,
             user_id,
         },
     });

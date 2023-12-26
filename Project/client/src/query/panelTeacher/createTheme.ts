@@ -22,6 +22,7 @@ export function useCreateTheme() {
 					themeName: newTheme.themeName,
 					mode: newTheme.mode,
 					questionAmount: newTheme.questionAmount,
+					time: newTheme.time,
 				})
 				return result.data
 			} catch (e) {

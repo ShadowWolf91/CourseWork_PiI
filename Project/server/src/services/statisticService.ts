@@ -29,9 +29,12 @@ export default class UserService {
   //update
   static updateStatisticsData = async ({
     id_statistics,
-    rightAnswered,
-    score,
-    mark,
+    rightAnsweredTests,
+    rightAnsweredOQs,
+    rightAnsweredCards,
+    markTests,
+    markCards,
+    markOpenQuestions,
     user_id,
   }: IUpdateStatisticRequest) => {
     const statistic = await prismaClient.statistics.findUnique({
@@ -47,9 +50,12 @@ export default class UserService {
       where: { id_statistics: id_statistics },
       data: {
         id_statistics,
-        rightAnswered,
-        score,
-        mark,
+        rightAnsweredTests,
+        rightAnsweredOQs,
+        rightAnsweredCards,
+        markTests,
+        markCards,
+        markOpenQuestions,
         user_id,
       },
     });

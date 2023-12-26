@@ -23,24 +23,24 @@ ThemeService.getAllThemes = async ({ cursor, themeName, skip, take, }) => prisma
     cursor: cursor ? { id_theme: cursor } : undefined,
     where: { themeName: { contains: themeName, mode: "insensitive" } },
 });
-ThemeService.createTheme = async ({ id_theme, subject_id, themeName, mode, questionAmount, }) => {
+ThemeService.createTheme = async ({ subject_id, themeName, mode, questionAmount, time, }) => {
     const theme = await prismaClient_1.default.themes.findUnique({
-        where: { id_theme },
+        where: { themeName },
         select: { id_theme: true },
     });
     if (theme)
-        throw userRequestError_1.default.BadRequest(`THEME WITH ID ${id_theme} ALREADY EXISTS`);
+        throw userRequestError_1.default.BadRequest(`THEME WITH ID ${themeName} ALREADY EXISTS`);
     return prismaClient_1.default.themes.create({
         data: {
-            id_theme,
             subject_id,
             themeName,
             mode,
             questionAmount,
+            time,
         },
     });
 };
-ThemeService.updateTheme = async ({ id_theme, subject_id, themeName, mode, questionAmount, }) => {
+ThemeService.updateTheme = async ({ id_theme, subject_id, themeName, mode, questionAmount, time, }) => {
     const theme = await prismaClient_1.default.themes.findUnique({
         where: { id_theme },
         select: { id_theme: true },
@@ -54,6 +54,7 @@ ThemeService.updateTheme = async ({ id_theme, subject_id, themeName, mode, quest
             themeName,
             mode,
             questionAmount,
+            time,
         },
     });
 };

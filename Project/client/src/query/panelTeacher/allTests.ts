@@ -22,7 +22,7 @@ export function useGetAllTests(TestName?: string) {
 				>(`${TestEndpoints.BASE}${TestEndpoints.GET_ALL_TESTS}`, {
 					params: {
 						skip: 0,
-						take: pageParam?.pageSize || 25,
+						take: Number(pageParam?.pageSize) || 25,
 						cursor: pageParam?.cursor,
 						TestName,
 					},

@@ -283,6 +283,8 @@ export const OpenQuestionsPage = () => {
 													setSelectedOpenQuestion({
 														id_openQuestion: item.id_openQuestion,
 														openQuestionName: item.openQuestionName,
+														question: item.question,
+														correctAnswer: item.correctAnswer,
 													})
 												}>
 												Редактировать

@@ -2,12 +2,12 @@ import styles from './themePage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateThemeRequest } from '../../../api/themes/reg/createTheme.ts'
 import { IUpdateThemeRequest } from '../../../api/themes/reg/updateTheme.ts'
-import { useGetAllThemes } from '../../../query/panelAdmin/allThemes.ts'
-import { useDropTheme } from '../../../query/panelAdmin/deleteTheme.ts'
+import { useGetAllThemes } from '../../../query/panelTeacher/allThemes.ts'
+import { useDropTheme } from '../../../query/panelTeacher/deleteTheme.ts'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
-import { useCreateTheme } from '../../../query/panelAdmin/createTheme.ts'
-import { useUpdateTheme } from '../../../query/panelAdmin/updateTheme.ts'
+import { useCreateTheme } from '../../../query/panelTeacher/createTheme.ts'
+import { useUpdateTheme } from '../../../query/panelTeacher/updateTheme.ts'
 import { Modes } from '../../../api/enums.ts'
 
 export const ThemesPage = () => {
@@ -20,6 +20,7 @@ export const ThemesPage = () => {
 		themeName: '',
 		mode: 'TEST',
 		questionAmount: 0,
+		time: 0,
 	}
 
 	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(newThemeInitState)
@@ -113,8 +114,8 @@ export const ThemesPage = () => {
 							<div className={styles.div}>
 								<p>Режим</p>
 								<select
-									name='unitsselect'
-									id='unitsselectnew'
+									name='modesselect'
+									id='modesselectnew'
 									value={selectedTheme.mode}
 									onChange={e =>
 										setSelectedTheme(prev => ({
@@ -122,8 +123,8 @@ export const ThemesPage = () => {
 											mode: e.target.value as Modes,
 										}))
 									}>
-									{Object.values(Modes).map(unit => (
-										<option value={unit}>{unit}</option>
+									{Object.values(Modes).map(mode => (
+										<option value={mode}>{mode}</option>
 									))}
 								</select>
 							</div>
@@ -132,12 +133,27 @@ export const ThemesPage = () => {
 								<input
 									type='number'
 									step={1}
-									max={32767}
+									max={20}
 									value={selectedTheme.questionAmount}
 									onChange={e =>
 										setSelectedTheme(prev => ({
 											...prev,
 											questionAmount: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Время</p>
+								<input
+									type='number'
+									step={1}
+									max={20}
+									value={selectedTheme.time}
+									onChange={e =>
+										setSelectedTheme(prev => ({
+											...prev,
+											time: +e.target.value,
 										}))
 									}
 								/>
@@ -193,8 +209,8 @@ export const ThemesPage = () => {
 							<div className={styles.div}>
 								<p>Режим</p>
 								<select
-									name='unitsselect'
-									id='unitsselectnew'
+									name='modesselect'
+									id='modesselectnew'
 									value={newTheme.mode}
 									onChange={e =>
 										setNewTheme(prev => ({
@@ -202,8 +218,8 @@ export const ThemesPage = () => {
 											mode: e.target.value as Modes,
 										}))
 									}>
-									{Object.values(Modes).map(unit => (
-										<option value={unit}>{unit}</option>
+									{Object.values(Modes).map(mode => (
+										<option value={mode}>{mode}</option>
 									))}
 								</select>
 							</div>
@@ -212,12 +228,27 @@ export const ThemesPage = () => {
 								<input
 									type='number'
 									step={1}
-									max={32767}
+									max={20}
 									value={selectedTheme.questionAmount}
 									onChange={e =>
 										setNewTheme(prev => ({
 											...prev,
 											questionAmount: +e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div className={styles.div}>
+								<p>Время</p>
+								<input
+									type='number'
+									step={1}
+									max={20}
+									value={selectedTheme.time}
+									onChange={e =>
+										setNewTheme(prev => ({
+											...prev,
+											time: +e.target.value,
 										}))
 									}
 								/>
@@ -259,6 +290,9 @@ export const ThemesPage = () => {
 													setSelectedTheme({
 														id_theme: item.id_theme,
 														themeName: item.themeName,
+														questionAmount: item.questionAmount,
+														time: item.time,
+														mode: item.mode,
 													})
 												}>
 												Редактировать

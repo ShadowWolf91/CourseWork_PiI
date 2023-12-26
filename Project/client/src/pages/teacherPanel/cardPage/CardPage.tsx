@@ -278,6 +278,8 @@ export const CardsPage = () => {
 													setSelectedCard({
 														id_card: item.id_card,
 														cardName: item.cardName,
+														word: item.word,
+														correctAnswer: item.correctAnswer,
 													})
 												}>
 												Редактировать

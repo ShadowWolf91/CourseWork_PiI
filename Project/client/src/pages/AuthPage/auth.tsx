@@ -49,16 +49,16 @@ export const AuthPage = () => {
 		if (isSuccessRegistration || isLoginSuccess) {
 			const receivedData = data || loggedUserData
 			if (!receivedData) return
-			//localStorage.setItem('accessToken', receivedData.accessToken)
-			//localStorage.setItem('deviceId', receivedData.deviceId)
-			localStorage.setItem('id_user', receivedData.id_user.toString())
+			localStorage.setItem('accessToken', receivedData.accessToken)
+			localStorage.setItem('device_id', receivedData.device_id)
+			localStorage.setItem('id_user', receivedData.user_id.toString())
 			localStorage.setItem('role', receivedData.role)
 			localStorage.setItem('username', receivedData.username)
 			setCredentials({
 				username: receivedData.username,
 				role: receivedData?.role,
-				//deviceId: receivedData.deviceId,
-				id_user: receivedData.id_user.toString(),
+				device_id: receivedData.device_id,
+				id_user: receivedData.user_id.toString(),
 			})
 
 			navigate(

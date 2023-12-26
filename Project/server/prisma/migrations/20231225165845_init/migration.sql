@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Themes" ADD COLUMN     "time" INTEGER NOT NULL DEFAULT 10;

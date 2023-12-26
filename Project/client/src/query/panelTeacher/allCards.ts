@@ -22,7 +22,7 @@ export function useGetAllCards(CardName?: string) {
 				>(`${CardEndpoints.BASE}${CardEndpoints.GET_ALL_CARDS}`, {
 					params: {
 						skip: 0,
-						take: pageParam?.pageSize || 25,
+						take: Number(pageParam?.pageSize) || 25,
 						cursor: pageParam?.cursor,
 						CardName,
 					},

@@ -24,7 +24,7 @@ export function useGetAllOpenQuestions(OpenQuestionName?: string) {
 					{
 						params: {
 							skip: 0,
-							take: pageParam?.pageSize || 25,
+							take: Number(pageParam?.pageSize) || 25,
 							cursor: pageParam?.cursor,
 							OpenQuestionName,
 						},

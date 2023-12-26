@@ -6,6 +6,10 @@ import {
   ICreateUserResponse,
 } from "../api/users/reg/createUser";
 import {
+  ICreateUserTokenRequest,
+  ICreateUserTokenResponse,
+} from "../api/users/reg/createUserToken";
+import {
   IDeleteUsersRequest,
   IDeleteUsersResponse,
 } from "../api/users/reg/deleteUsers";
@@ -13,6 +17,10 @@ import {
   IDeleteUserRequest,
   IDeleteUserResponse,
 } from "../api/users/reg/deleteUser";
+import {
+  IDeleteUserTokensRequest,
+  IDeleteUserTokensResponse,
+} from "../api/users/reg/deleteUserTokens";
 import {
   IGetAllUsersRequest,
   IGetAllUsersResponse,
@@ -27,12 +35,17 @@ import {
 } from "../api/users/reg/getUserTokens";
 import {
   ILoginUserRequest,
+  ILoginUserRequestCookies,
   ILoginUserResponse,
 } from "../api/users/reg/loginUser";
 import {
   IUpdateUserDataRequest,
   IUpdateUserDataResponse,
 } from "../api/users/reg/updateUserData";
+import {
+  IUpdateUserTokenRequest,
+  IUpdateUserTokenResponse,
+} from "../api/users/reg/updateUserToken";
 import UserRequestError from "../errors/userRequestError";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
@@ -62,10 +75,32 @@ export default class UserController {
       )
         return next(UserRequestError.BadRequest("WRONG PASSWORD"));
 
-      const { refreshToken } = Tokenizator.generateTokens({
+      const { refreshToken, accessToken } = Tokenizator.generateTokens({
         username: user.username,
         role: user.role,
+        device_id: req.body.device_id,
       });
+
+      const userTokens = await UserService.getUserTokens({
+        user_id: user.id_user,
+      });
+
+      if (userTokens.find((rec) => rec.device_id === req.query.device_id)) {
+        await UserService.updateUserToken({
+          user_id: user.id_user,
+          device_id: req.query.device_id,
+          refreshToken,
+        } as IUpdateUserTokenRequest & {
+          refreshToken: string;
+        });
+      } else
+        await UserService.createUserToken({
+          device_id: req.body.device_id,
+          refreshToken,
+          user_id: user.id_user,
+        } as ICreateUserTokenRequest & {
+          refreshToken: string;
+        });
 
       res
         .cookie("refreshToken", refreshToken, {
@@ -74,9 +109,11 @@ export default class UserController {
         })
         .json({
           refreshToken,
+          accessToken,
           username: user.username,
           role: user.role,
-          id_user: user.id_user,
+          user_id: user.id_user,
+          device_id: req.body.device_id,
         });
     } catch (e) {
       return next(e);
@@ -153,8 +190,26 @@ export default class UserController {
     if (errorData) return callUnprocessableEntity(next, errorData);
 
     try {
-      const { refreshToken } = Tokenizator.generateTokens(req.body);
-      const result = await UserService.createUser({
+      const result = await UserService.createUser(req.body);
+      res.status(201).json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static createUserToken: RequestHandler<
+    undefined,
+    ICreateUserTokenResponse | IErrorResponse,
+    ICreateUserTokenRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const { refreshToken, accessToken } = Tokenizator.generateTokens(
+        req.body
+      );
+      const result = await UserService.createUserToken({
         ...req.body,
         refreshToken,
       });
@@ -163,7 +218,7 @@ export default class UserController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
-      res.status(201).json(result);
+      res.status(201).json({ ...result, accessToken });
     } catch (e) {
       return next(e);
     }
@@ -181,6 +236,44 @@ export default class UserController {
     try {
       const result = await UserService.updateUserData(req.body);
       res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static updateUserToken: RequestHandler<
+    undefined,
+    IUpdateUserTokenResponse | IErrorResponse,
+    IUpdateUserTokenRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const { refreshToken: prevRefreshToken } =
+        req.cookies as ILoginUserRequestCookies;
+      if (!prevRefreshToken) return next(UserRequestError.Unauthorized());
+
+      const user = await UserService.getUserByUsername(req.body);
+      const userData = Tokenizator.validateRefreshToken(prevRefreshToken);
+      if (!user || !userData) return next(UserRequestError.Unauthorized());
+
+      const { refreshToken, accessToken } = Tokenizator.generateTokens({
+        username: user.username,
+        role: user.role,
+        device_id: req.body.device_id,
+      });
+
+      const result = await UserService.updateUserToken({
+        ...req.body,
+        refreshToken,
+      });
+      res
+        .cookie("refreshToken", refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        })
+        .json({ ...result, accessToken });
     } catch (e) {
       return next(e);
     }
@@ -216,6 +309,23 @@ export default class UserController {
       await UserService.deleteUser(req.body);
 
       res.json({ count: 1 });
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static deleteUserTokens: RequestHandler<
+    undefined,
+    IDeleteUserTokensResponse | IErrorResponse,
+    IDeleteUserTokensRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await UserService.deleteUserTokens(req.body);
+
+      res.json(result);
     } catch (e) {
       return next(e);
     }

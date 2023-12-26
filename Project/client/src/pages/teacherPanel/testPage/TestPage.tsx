@@ -402,6 +402,12 @@ export const TestsPage = () => {
 													setSelectedTest({
 														id_test: item.id_test,
 														testName: item.testName,
+														question: item.question,
+														optionA: item.optionA,
+														optionB: item.optionB,
+														optionC: item.optionC,
+														optionD: item.optionD,
+														correctAnswer: item.correctAnswer,
 													})
 												}>
 												Редактировать

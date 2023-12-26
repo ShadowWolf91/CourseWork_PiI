@@ -6,21 +6,39 @@ export default class Tokenizator {
   static generateTokens({
     username,
     role = Roles.DEFAULT,
+    device_id,
   }: {
     username: string;
     role?: keyof typeof Roles;
+    device_id: string;
   }) {
-    const refreshToken = sign({ username, role }, CONFIG.JWT_REFRESH, {
-      expiresIn: "15d",
+    const accessToken = sign({ username, role, device_id }, CONFIG.JWT_ACCESS, {
+      expiresIn: "3d",
       algorithm: "HS512",
     });
+    const refreshToken = sign(
+      { username, role, device_id },
+      CONFIG.JWT_REFRESH,
+      {
+        expiresIn: "15d",
+        algorithm: "HS512",
+      }
+    );
 
-    return { refreshToken };
+    return { accessToken, refreshToken };
   }
 
-  static validateToken(refreshToken: string) {
+  static validateAccessToken(token: string) {
     try {
-      return verify(refreshToken, CONFIG.JWT_REFRESH);
+      return verify(token, CONFIG.JWT_ACCESS);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static validateRefreshToken(token: string) {
+    try {
+      return verify(token, CONFIG.JWT_REFRESH);
     } catch (e) {
       return null;
     }
