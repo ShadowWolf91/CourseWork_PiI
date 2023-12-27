@@ -1,4 +1,4 @@
-import styles from './SubjectPage.module.scss'
+import styles from './subjectPage.module.scss'
 import { useState } from 'react'
 import { useGetAllSubjects } from '../../../query/panelAdmin/allSubjects.ts'
 //import { SearchInput } from '../../../components/searchInput/searchInput.tsx'

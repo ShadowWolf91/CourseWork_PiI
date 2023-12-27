@@ -1,4 +1,4 @@
-import styles from './SubjectPage.module.scss'
+import styles from './subjectPage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateSubjectRequest } from '../../../api/subjects/reg/createSubject.ts'
 import { IUpdateSubjectRequest } from '../../../api/subjects/reg/updateSubject.ts'

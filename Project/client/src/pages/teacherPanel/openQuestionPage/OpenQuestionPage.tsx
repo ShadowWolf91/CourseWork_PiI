@@ -1,4 +1,4 @@
-import styles from './OpenQuestionPage.module.scss'
+import styles from './openQuestionPage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateOpenQuestionRequest } from '../../../api/openQuestions/reg/createOpenQuestion.ts'
 import { IUpdateOpenQuestionRequest } from '../../../api/openQuestions/reg/updateOpenQuestion.ts'

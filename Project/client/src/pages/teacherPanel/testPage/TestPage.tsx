@@ -1,4 +1,4 @@
-import styles from './TestPage.module.scss'
+import styles from './testPage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateTestRequest } from '../../../api/tests/reg/createTest.ts'
 import { IUpdateTestRequest } from '../../../api/tests/reg/updateTest.ts'
