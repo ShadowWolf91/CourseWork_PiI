@@ -20,6 +20,10 @@ import {
   IGetCardByIdRequest,
   IGetCardByIdResponse,
 } from "../api/cards/reg/getCardById";
+import {
+  IGetCardByThemeIdRequest,
+  IGetCardByThemeIdResponse,
+} from "api/cards/reg/getByThemeId";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import CardService from "../services/cardService";
@@ -65,6 +69,23 @@ export default class CardController {
           )
         );
 
+      res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getCardByThemeId: RequestHandler<
+    undefined,
+    IGetCardByThemeIdResponse | IErrorResponse,
+    undefined,
+    IGetCardByThemeIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await CardService.getCardByThemeId(req.query);
       res.json(result);
     } catch (e) {
       return next(e);

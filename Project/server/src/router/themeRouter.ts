@@ -13,11 +13,17 @@ themeRouter.get(
 );
 
 themeRouter.get(
+  ThemeEndpoints.GET_BY_SUBJECT_ID,
+  ThemeDataValidator.subject_id(query),
+  ThemeController.getBySubjectId
+);
+
+themeRouter.get(
   ThemeEndpoints.GET_ALL_THEMES,
   ThemeDataValidator.title(query),
   ThemeDataValidator.cursor(query),
-  ThemeDataValidator.skip(query),
-  ThemeDataValidator.take(query),
+  // ThemeDataValidator.skip(query),
+  // ThemeDataValidator.take(query),
   ThemeController.getAllThemes
 );
 

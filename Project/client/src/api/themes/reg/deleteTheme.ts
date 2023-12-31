@@ -1,5 +1,5 @@
 export interface IDeleteThemeRequest {
-	id_theme: number
+    id_theme: number
 }
 
 export interface IDeleteThemeResponse {

@@ -16,9 +16,15 @@ openQuestionRouter.get(
   OpenQuestionEndpoints.GET_ALL_OPEN_QUESTIONS,
   OpenQuestionDataValidator.title(query),
   OpenQuestionDataValidator.cursor(query),
-  OpenQuestionDataValidator.skip(query),
-  OpenQuestionDataValidator.take(query),
+  // OpenQuestionDataValidator.skip(query),
+  // OpenQuestionDataValidator.take(query),
   OpenQuestionController.getAllOpenQuestions
+);
+
+openQuestionRouter.get(
+  OpenQuestionEndpoints.GET_BY_THEME_ID,
+  OpenQuestionDataValidator.theme_id(query),
+  OpenQuestionController.getOpenQuestionByThemeId
 );
 
 openQuestionRouter.post(

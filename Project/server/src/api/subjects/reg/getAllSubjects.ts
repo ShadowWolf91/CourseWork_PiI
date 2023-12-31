@@ -12,3 +12,8 @@ export interface IGetAllSubjectsResponse {
   }[];
   cursor: number | null;
 }
+
+export interface IGetSubjectsResponse {
+  id_subject: number;
+  subjectName: string;
+}

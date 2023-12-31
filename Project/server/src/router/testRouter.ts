@@ -16,9 +16,15 @@ TestRouter.get(
   TestEndpoints.GET_ALL_TESTS,
   TestDataValidator.title(query),
   TestDataValidator.cursor(query),
-  TestDataValidator.skip(query),
-  TestDataValidator.take(query),
+  // TestDataValidator.skip(query),
+  // TestDataValidator.take(query),
   TestController.getAllTests
+);
+
+TestRouter.get(
+  TestEndpoints.GET_BY_THEME_ID,
+  TestDataValidator.theme_id(query),
+  TestController.getTestByThemeId
 );
 
 TestRouter.post(

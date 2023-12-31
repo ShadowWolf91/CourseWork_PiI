@@ -38,6 +38,18 @@ CardController.getCardById = async (req, res, next) => {
         return next(e);
     }
 };
+CardController.getCardByThemeId = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await cardService_1.default.getCardByThemeId(req.query);
+        res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
 CardController.createCard = async (req, res, next) => {
     const errorData = (0, getValidationResult_1.default)(req);
     if (errorData)

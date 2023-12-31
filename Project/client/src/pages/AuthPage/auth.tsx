@@ -65,8 +65,8 @@ export const AuthPage = () => {
 				receivedData.role === Roles.ADMIN
 					? '/admin/users/'
 					: receivedData.role === Roles.TEACHER
-						? '/admin/users/'
-						: '/user/store'
+						? '/teacher/themes/'
+						: '/user/subjects'
 			)
 		}
 	}, [data, isLoginSuccess, isSuccessRegistration, loggedUserData])

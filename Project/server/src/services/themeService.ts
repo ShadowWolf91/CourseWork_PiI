@@ -5,6 +5,10 @@ import {
   IGetThemeByIdRequest,
   IGetThemeByIdResponse,
 } from "../api/themes/reg/getThemeById";
+import {
+  IGetBySubjectIdRequest,
+  IGetBySubjectIdResponse,
+} from "../api/themes/reg/getBySubjectId";
 import { IUpdateThemeRequest } from "../api/themes/reg/updateTheme";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
@@ -25,6 +29,26 @@ export default class ThemeService {
     };
   };
 
+  static getBySubjectId = async ({
+    subject_id,
+  }: IGetBySubjectIdRequest): Promise<IGetBySubjectIdResponse> => {
+    const theme = await prismaClient.themes.findMany({
+      select: {
+        themeName: true,
+      },
+      where: { subject_id: +subject_id },
+    });
+    if (!theme)
+      throw UserRequestError.NotFound(
+        `THEME WITH SUBJECT_ID ${subject_id} NOT FOUND`
+      );
+
+    return {
+      subject_id,
+      themeName: theme.map((t) => t.themeName),
+    };
+  };
+
   static getAllThemes = async ({
     cursor,
     themeName,
@@ -32,8 +56,8 @@ export default class ThemeService {
     take,
   }: IGetAllThemesRequest) =>
     prismaClient.themes.findMany({
-      skip: +skip,
-      take: +take,
+      skip: skip,
+      take: take,
       cursor: cursor ? { id_theme: cursor } : undefined,
       where: { themeName: { contains: themeName, mode: "insensitive" } },
     });

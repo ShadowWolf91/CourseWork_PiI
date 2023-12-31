@@ -16,8 +16,8 @@ statisticsRouter.get(
   StatisticsEndpoints.GET_ALL_STATISTICS,
   StatisticDataValidator.title(query),
   StatisticDataValidator.cursor(query),
-  StatisticDataValidator.skip(query),
-  StatisticDataValidator.take(query),
+  // StatisticDataValidator.skip(query),
+  // StatisticDataValidator.take(query),
   StatisticsController.getAllStatistics
 );
 

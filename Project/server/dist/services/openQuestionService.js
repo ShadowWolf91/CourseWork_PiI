@@ -8,8 +8,8 @@ class OpenQuestionsService {
 }
 _a = OpenQuestionsService;
 OpenQuestionsService.getAllOpenQuestions = async ({ cursor, openQuestionName, skip, take, }) => prismaClient_1.default.openQuestions.findMany({
-    skip: +skip,
-    take: +take,
+    skip: skip,
+    take: take,
     cursor: cursor ? { id_openQuestion: cursor } : undefined,
     where: {
         openQuestionName: { contains: openQuestionName, mode: "insensitive" },
@@ -18,6 +18,21 @@ OpenQuestionsService.getAllOpenQuestions = async ({ cursor, openQuestionName, sk
 OpenQuestionsService.getOpenQuestionById = async ({ id_openQuestion, }) => prismaClient_1.default.openQuestions.findUnique({
     where: { id_openQuestion: +id_openQuestion },
 });
+OpenQuestionsService.getOpenQuestionByThemeId = async ({ theme_id, }) => {
+    const openQuestion = await prismaClient_1.default.openQuestions.findMany({
+        select: {
+            question: true,
+            correctAnswer: true,
+        },
+        where: { theme_id: +theme_id },
+    });
+    if (!openQuestion)
+        throw userRequestError_1.default.NotFound(`THEME WITH THEME_ID ${theme_id} NOT FOUND`);
+    return {
+        theme_id,
+        openQuestion,
+    };
+};
 OpenQuestionsService.createOpenQuestion = async ({ theme_id, question, correctAnswer, openQuestionName, statistic_id, }) => {
     const openQuestion = await prismaClient_1.default.openQuestions.findUnique({
         where: { openQuestionName },

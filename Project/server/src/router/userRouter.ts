@@ -23,8 +23,8 @@ userRouter.get(
 
 userRouter.get(
   UserEndpoints.GET_ALL_USERS,
-  UserDataValidator.take(query),
-  UserDataValidator.skip(query),
+  // UserDataValidator.take(query),
+  // UserDataValidator.skip(query),
   UserDataValidator.username(query, true),
   UserDataValidator.cursor(query),
   UserController.getAllUsers

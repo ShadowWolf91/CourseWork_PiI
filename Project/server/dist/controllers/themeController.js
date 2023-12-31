@@ -20,6 +20,18 @@ ThemeController.getThemeById = async (req, res, next) => {
         return next(e);
     }
 };
+ThemeController.getBySubjectId = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await themeService_1.default.getBySubjectId(req.query);
+        res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
 ThemeController.getAllThemes = async (req, res, next) => {
     const errorData = (0, getValidationResult_1.default)(req);
     if (errorData)

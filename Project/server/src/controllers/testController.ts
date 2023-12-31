@@ -20,6 +20,10 @@ import {
   IGetTestByIdRequest,
   IGetTestByIdResponse,
 } from "../api/tests/reg/getTestById";
+import {
+  IGetTestByThemeIdRequest,
+  IGetTestByThemeIdResponse,
+} from "../api/tests/reg/getByThemeId";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import TestsService from "../services/testService";
@@ -65,6 +69,23 @@ export default class TestController {
           )
         );
 
+      res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getTestByThemeId: RequestHandler<
+    undefined,
+    IGetTestByThemeIdResponse | IErrorResponse,
+    undefined,
+    IGetTestByThemeIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await TestsService.getTestByThemeId(req.query);
       res.json(result);
     } catch (e) {
       return next(e);

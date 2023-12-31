@@ -29,8 +29,8 @@ export default class UserService {
     take,
   }: IGetAllUsersRequest) =>
     prismaClient.user.findMany({
-      skip: +skip,
-      take: +take,
+      skip: skip,
+      take: take,
       cursor: cursor ? { id_user: cursor } : undefined,
       where: { username: { contains: username, mode: "insensitive" } },
     });

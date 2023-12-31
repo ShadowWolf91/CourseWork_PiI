@@ -20,10 +20,15 @@ import {
   IGetOpenQuestionByIdRequest,
   IGetOpenQuestionByIdResponse,
 } from "../api/openQuestions/reg/getOpenQuestionById";
+import {
+  IGetOpenQuestionByThemeIdResponse,
+  IGetOpenQuestionByThemeIdRequest,
+} from "api/openQuestions/reg/getByThemeId";
 import callUnprocessableEntity from "../extra/callUnprocessableEntity";
 import getValidationResult from "../extra/getValidationResult";
 import OpenQuestionsService from "../services/openQuestionService";
 import UserRequestError from "../errors/userRequestError";
+
 export default class OpenQuestionController {
   //get
   static getAllOpenQuestions: RequestHandler<
@@ -64,6 +69,25 @@ export default class OpenQuestionController {
           )
         );
 
+      res.json(result);
+    } catch (e) {
+      return next(e);
+    }
+  };
+
+  static getOpenQuestionByThemeId: RequestHandler<
+    undefined,
+    IGetOpenQuestionByThemeIdResponse | IErrorResponse,
+    undefined,
+    IGetOpenQuestionByThemeIdRequest
+  > = async (req, res, next) => {
+    const errorData = getValidationResult(req);
+    if (errorData) return callUnprocessableEntity(next, errorData);
+
+    try {
+      const result = await OpenQuestionsService.getOpenQuestionByThemeId(
+        req.query
+      );
       res.json(result);
     } catch (e) {
       return next(e);

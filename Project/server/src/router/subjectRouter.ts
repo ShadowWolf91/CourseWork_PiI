@@ -16,8 +16,8 @@ subjectRouter.get(
   SubjectEndpoints.GET_ALL_SUBJECTS,
   SubjectDataValidator.title(query),
   SubjectDataValidator.cursor(query),
-  SubjectDataValidator.skip(query),
-  SubjectDataValidator.take(query),
+  // SubjectDataValidator.skip(query),
+  // SubjectDataValidator.take(query),
   SubjectController.getAllSubjects
 );
 

@@ -13,8 +13,8 @@ export default class UserService {
     take,
   }: IGetAllStatisticsRequest) =>
     prismaClient.statistics.findMany({
-      skip: +skip,
-      take: +take,
+      skip: skip,
+      take: take,
       cursor: cursor ? { id_statistics: cursor } : undefined,
       where: {
         title: { contains: title, mode: "insensitive" },

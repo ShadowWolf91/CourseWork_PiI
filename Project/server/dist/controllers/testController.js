@@ -38,6 +38,18 @@ TestController.getTestById = async (req, res, next) => {
         return next(e);
     }
 };
+TestController.getTestByThemeId = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await testService_1.default.getTestByThemeId(req.query);
+        res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
 TestController.createTest = async (req, res, next) => {
     const errorData = (0, getValidationResult_1.default)(req);
     if (errorData)

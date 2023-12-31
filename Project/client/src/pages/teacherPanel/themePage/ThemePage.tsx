@@ -9,6 +9,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useCreateTheme } from '../../../query/panelTeacher/createTheme.ts'
 import { useUpdateTheme } from '../../../query/panelTeacher/updateTheme.ts'
 import { Modes } from '../../../api/enums.ts'
+//import useGetSubjects from '../../../query/panelTeacher/allSubjects.ts'
+//import { IGetSubjectsResponse } from '../../../api/subjects/reg/getAllSubjects.ts'
 
 export const ThemesPage = () => {
 	const [selectedTheme, setSelectedTheme] = useState<IUpdateThemeRequest>(
@@ -26,6 +28,7 @@ export const ThemesPage = () => {
 	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(newThemeInitState)
 
 	const { data, fetchNextPage, hasNextPage } = useGetAllThemes()
+	// const { data: subjects, isFetching: fetchingSubject } = useGetSubjects()
 	const [search, setSearch] = useState('')
 
 	const { dropTheme } = useDropTheme()
@@ -223,6 +226,26 @@ export const ThemesPage = () => {
 									))}
 								</select>
 							</div>
+							{/* <div className={styles.div}>
+								<p>Предмет</p>
+								<select
+									name='subjectselect'
+									id='subjectselectnew'
+									//value={newTheme?.subjects.subjectName}
+									onChange={e =>
+										setNewTheme(prev => ({
+											...prev,
+											subjects: e.target.value as IGetSubjectsResponse,
+										}))
+									}>
+									{!fetchingSubject &&
+										subjects!.map(subject => (
+											<option value={subject.subjectName}>
+												{subject.subjectName}
+											</option>
+										))}
+								</select>
+							</div> */}
 							<div className={styles.div}>
 								<p>Кол-во вопросов</p>
 								<input

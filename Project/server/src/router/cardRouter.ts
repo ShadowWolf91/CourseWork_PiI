@@ -16,9 +16,15 @@ cardRouter.get(
   CardEndpoints.GET_ALL_CARDS,
   CardDataValidator.cardName(query),
   CardDataValidator.cursor(query),
-  CardDataValidator.skip(query),
-  CardDataValidator.take(query),
+  // CardDataValidator.skip(query),
+  // CardDataValidator.take(query),
   CardController.getAllCards
+);
+
+cardRouter.get(
+  CardEndpoints.GET_BY_THEME_ID,
+  CardDataValidator.theme_id(query),
+  CardController.getCardByThemeId
 );
 
 cardRouter.post(

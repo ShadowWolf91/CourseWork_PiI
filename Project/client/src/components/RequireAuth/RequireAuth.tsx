@@ -18,6 +18,8 @@ export const RequireAuth = ({
 				children
 			) : role === Roles.TEACHER ? (
 				children
+			) : role === Roles.DEFAULT ? (
+				children
 			) : (
 				<Navigate to={'/auth'} />
 			)

@@ -17,9 +17,23 @@ ThemeService.getThemeById = async ({ id_theme, }) => {
         ...theme,
     };
 };
+ThemeService.getBySubjectId = async ({ subject_id, }) => {
+    const theme = await prismaClient_1.default.themes.findMany({
+        select: {
+            themeName: true,
+        },
+        where: { subject_id: +subject_id },
+    });
+    if (!theme)
+        throw userRequestError_1.default.NotFound(`THEME WITH SUBJECT_ID ${subject_id} NOT FOUND`);
+    return {
+        subject_id,
+        themeName: theme.map((t) => t.themeName),
+    };
+};
 ThemeService.getAllThemes = async ({ cursor, themeName, skip, take, }) => prismaClient_1.default.themes.findMany({
-    skip: +skip,
-    take: +take,
+    skip: skip,
+    take: take,
     cursor: cursor ? { id_theme: cursor } : undefined,
     where: { themeName: { contains: themeName, mode: "insensitive" } },
 });

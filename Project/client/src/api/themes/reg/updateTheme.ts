@@ -1,4 +1,4 @@
-import { Modes } from '../../enums'
+import { Modes } from '../../../api/enums'
 
 export interface IUpdateThemeRequest {
 	id_theme: number

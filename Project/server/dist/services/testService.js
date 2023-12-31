@@ -8,14 +8,33 @@ class TestsService {
 }
 _a = TestsService;
 TestsService.getAllTests = async ({ cursor, testName, skip, take, }) => prismaClient_1.default.tests.findMany({
-    skip: +skip,
-    take: +take,
+    skip: skip,
+    take: take,
     cursor: cursor ? { id_test: cursor } : undefined,
     where: { testName: { contains: testName, mode: "insensitive" } },
 });
 TestsService.getTestById = async ({ id_test }) => prismaClient_1.default.tests.findUnique({
     where: { id_test: +id_test },
 });
+TestsService.getTestByThemeId = async ({ theme_id, }) => {
+    const test = await prismaClient_1.default.tests.findMany({
+        select: {
+            question: true,
+            optionA: true,
+            optionB: true,
+            optionC: true,
+            optionD: true,
+            correctAnswer: true,
+        },
+        where: { theme_id: +theme_id },
+    });
+    if (!test)
+        throw userRequestError_1.default.NotFound(`THEME WITH THEME_ID ${theme_id} NOT FOUND`);
+    return {
+        theme_id,
+        test,
+    };
+};
 TestsService.createTest = async ({ theme_id, question, optionA, optionB, optionC, optionD, correctAnswer, testName, statistic_id, }) => {
     const test = await prismaClient_1.default.tests.findUnique({
         where: { testName },

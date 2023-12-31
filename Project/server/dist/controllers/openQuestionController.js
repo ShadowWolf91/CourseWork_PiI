@@ -38,6 +38,18 @@ OpenQuestionController.getOpenQuestionById = async (req, res, next) => {
         return next(e);
     }
 };
+OpenQuestionController.getOpenQuestionByThemeId = async (req, res, next) => {
+    const errorData = (0, getValidationResult_1.default)(req);
+    if (errorData)
+        return (0, callUnprocessableEntity_1.default)(next, errorData);
+    try {
+        const result = await openQuestionService_1.default.getOpenQuestionByThemeId(req.query);
+        res.json(result);
+    }
+    catch (e) {
+        return next(e);
+    }
+};
 OpenQuestionController.createOpenQuestion = async (req, res, next) => {
     const errorData = (0, getValidationResult_1.default)(req);
     if (errorData)

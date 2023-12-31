@@ -3,6 +3,10 @@ import { IDeleteTestRequest } from "../api/tests/reg/deleteTest";
 import { IUpdateTestRequest } from "../api/tests/reg/updateTest";
 import { IGetAllTestsRequest } from "../api/tests/reg/getAllTests";
 import { IGetTestByIdRequest } from "../api/tests/reg/getTestById";
+import {
+  IGetTestByThemeIdRequest,
+  IGetTestByThemeIdResponse,
+} from "../api/tests/reg/getByThemeId";
 import UserRequestError from "../errors/userRequestError";
 import prismaClient from "../prismaClient";
 
@@ -15,8 +19,8 @@ export default class TestsService {
     take,
   }: IGetAllTestsRequest) =>
     prismaClient.tests.findMany({
-      skip: +skip,
-      take: +take,
+      skip: skip,
+      take: take,
       cursor: cursor ? { id_test: cursor } : undefined,
       where: { testName: { contains: testName, mode: "insensitive" } },
     });
@@ -25,6 +29,31 @@ export default class TestsService {
     prismaClient.tests.findUnique({
       where: { id_test: +id_test },
     });
+
+  static getTestByThemeId = async ({
+    theme_id,
+  }: IGetTestByThemeIdRequest): Promise<IGetTestByThemeIdResponse> => {
+    const test = await prismaClient.tests.findMany({
+      select: {
+        question: true,
+        optionA: true,
+        optionB: true,
+        optionC: true,
+        optionD: true,
+        correctAnswer: true,
+      },
+      where: { theme_id: +theme_id },
+    });
+    if (!test)
+      throw UserRequestError.NotFound(
+        `THEME WITH THEME_ID ${theme_id} NOT FOUND`
+      );
+
+    return {
+      theme_id,
+      test,
+    };
+  };
 
   //create
   static createTest = async ({

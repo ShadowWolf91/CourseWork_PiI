@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useGetAllSubjects } from '../../../query/panelAdmin/allSubjects.ts'
 //import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { ToastContainer } from 'react-toastify'
+//import useGetThemes from '../../../query/userPanel/getThemesBySubjectId.ts'
 //import { Button } from 'react-bootstrap'
 
 export const UserSubjectsPage = () => {
@@ -10,8 +11,8 @@ export const UserSubjectsPage = () => {
 		[subject_id: number]: boolean
 	}>({})
 
-	const { data, error, isLoading } = useGetAllSubjects()
-
+	const { data: subjects, error, isLoading } = useGetAllSubjects()
+	//const { data: themes } = useGetThemes()
 	if (isLoading) return <h2>Loading...</h2>
 	if (error) return <p>Error</p>
 
@@ -19,7 +20,7 @@ export const UserSubjectsPage = () => {
 		<>
 			<div className={styles.container}>
 				<div className={styles.cardsContainer}>
-					{data?.pages.map(page =>
+					{subjects?.pages.map(page =>
 						page.subjectsData.map(item => (
 							<div
 								className={styles.card}
@@ -36,6 +37,11 @@ export const UserSubjectsPage = () => {
 									}))
 								}>
 								<p>{item.subjectName}</p>
+								<button
+								// onClick={() => setSelectedTheme({} as IUpdateThemeRequest)}
+								>
+									Выбрать
+								</button>
 							</div>
 						))
 					)}

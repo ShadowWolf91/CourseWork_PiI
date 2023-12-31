@@ -25,7 +25,7 @@ export function NavBar() {
 					<Link to='/teacher/stats'>Статистики</Link>
 				</div>
 			) : role === Roles.DEFAULT ? (
-				<div>
+				<div className={styles.linksContainer}>
 					{/* <Link to='/user/recipes'>Рецепты </Link>
 					<Link to='/user/store'>Хранилище</Link> */}
 					<Link to='/user/subjects'>Предметы</Link>
