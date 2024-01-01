@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useCreateTheme } from '../../../query/panelTeacher/createTheme.ts'
 import { useUpdateTheme } from '../../../query/panelTeacher/updateTheme.ts'
 import { Modes } from '../../../api/enums.ts'
+import useGetSubjects from '../../../query/panelTeacher/allSubjects.ts'
 //import useGetSubjects from '../../../query/panelTeacher/allSubjects.ts'
 //import { IGetSubjectsResponse } from '../../../api/subjects/reg/getAllSubjects.ts'
 
@@ -28,7 +29,7 @@ export const ThemesPage = () => {
 	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(newThemeInitState)
 
 	const { data, fetchNextPage, hasNextPage } = useGetAllThemes()
-	// const { data: subjects, isFetching: fetchingSubject } = useGetSubjects()
+	const { data: subjects, isFetching: fetchingSubject } = useGetSubjects()
 	const [search, setSearch] = useState('')
 
 	const { dropTheme } = useDropTheme()
@@ -180,21 +181,6 @@ export const ThemesPage = () => {
 						<div className={styles.modal}>
 							<p>Создание темы</p>
 							<div className={styles.div}>
-								<p>ID предмета</p>
-								<input
-									type='number'
-									step={1}
-									max={32767}
-									value={newTheme.subject_id}
-									onChange={e =>
-										setNewTheme(prev => ({
-											...prev,
-											subject_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
 								<p>Название темы</p>
 								<input
 									type='text'
@@ -226,26 +212,26 @@ export const ThemesPage = () => {
 									))}
 								</select>
 							</div>
-							{/* <div className={styles.div}>
+							<div className={styles.div}>
 								<p>Предмет</p>
 								<select
 									name='subjectselect'
 									id='subjectselectnew'
-									//value={newTheme?.subjects.subjectName}
-									onChange={e =>
+									value={newTheme?.subject_id}
+									onChange={e => {
 										setNewTheme(prev => ({
 											...prev,
-											subjects: e.target.value as IGetSubjectsResponse,
+											subject_id: +e.target.value,
 										}))
-									}>
+									}}>
 									{!fetchingSubject &&
-										subjects!.map(subject => (
-											<option value={subject.subjectName}>
+										subjects?.map(subject => (
+											<option value={subject.id_subject}>
 												{subject.subjectName}
 											</option>
 										))}
 								</select>
-							</div> */}
+							</div>
 							<div className={styles.div}>
 								<p>Кол-во вопросов</p>
 								<input
@@ -278,12 +264,14 @@ export const ThemesPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									disabled={newTheme.themeName === ''}
+									// disabled={newTheme.themeName === ''}
 									onClick={async () => {
-										await createTheme(newTheme)
+										await createTheme({
+											newTheme,
+										})
 										setNewTheme(newThemeInitState)
 									}}>
-									Сохранить
+									Создать
 								</button>
 								<button onClick={() => setNewTheme(newThemeInitState)}>
 									Отменить

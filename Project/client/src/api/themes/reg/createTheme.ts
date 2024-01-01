@@ -1,18 +1,19 @@
-import { Modes } from "api/enums";
+import { Modes } from '../../../api/enums'
+import { IGetSubjectsResponse } from '../../subjects/reg/getAllSubjects'
 
 export interface ICreateThemeRequest {
-  subject_id: number;
-  themeName: string;
-  mode: keyof typeof Modes;
-  questionAmount: number;
-  time: number;
+	subject_id: number
+	themeName: string
+	mode: keyof typeof Modes
+	questionAmount: number
+	time: number
 }
 
 export interface ICreateThemeResponse {
-  id_theme: number;
-  subject_id: number;
-  themeName: string;
-  mode: keyof typeof Modes;
-  questionAmount: number;
-  time: number;
+	subject: IGetSubjectsResponse
+	id_theme: number
+	themeName: string
+	mode: keyof typeof Modes
+	questionAmount: number
+	time: number
 }

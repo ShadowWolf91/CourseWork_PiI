@@ -14,7 +14,6 @@ export default defineConfig({
 		cssMinify: true,
 	},
 	esbuild: {
-		drop: ['console', 'debugger'],
 		legalComments: 'none',
 		minifyIdentifiers: true,
 		minifyWhitespace: true,

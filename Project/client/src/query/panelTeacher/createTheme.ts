@@ -10,8 +10,12 @@ import queryClient from '../queryClient.ts'
 import { useMutation } from '@tanstack/react-query'
 
 export function useCreateTheme() {
-	return useMutation<ICreateThemeResponse, IErrorResponse, ICreateThemeRequest>({
-		mutationFn: async newTheme => {
+	return useMutation<
+		ICreateThemeResponse,
+		IErrorResponse,
+		{ newTheme: ICreateThemeRequest }
+	>({
+		mutationFn: async ({ newTheme }) => {
 			try {
 				const result = await $api.post<
 					ICreateThemeResponse,

@@ -1,4 +1,5 @@
 import { Modes } from "api/enums";
+import { IGetSubjectsResponse } from "api/subjects/reg/getAllSubjects";
 
 export interface ICreateThemeRequest {
   subject_id: number;
@@ -10,7 +11,7 @@ export interface ICreateThemeRequest {
 
 export interface ICreateThemeResponse {
   id_theme: number;
-  subject_id: number;
+  subject: IGetSubjectsResponse;
   themeName: string;
   mode: keyof typeof Modes;
   questionAmount: number;
