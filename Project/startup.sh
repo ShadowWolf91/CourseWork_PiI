@@ -6,5 +6,5 @@ npm start &
 
 cd /app/client || exit
 
-npm run build
+# npm run build
 npm run dev
