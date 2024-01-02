@@ -10,8 +10,6 @@ import { useCreateTheme } from '../../../query/panelTeacher/createTheme.ts'
 import { useUpdateTheme } from '../../../query/panelTeacher/updateTheme.ts'
 import { Modes } from '../../../api/enums.ts'
 import useGetSubjects from '../../../query/panelTeacher/allSubjects.ts'
-//import useGetSubjects from '../../../query/panelTeacher/allSubjects.ts'
-//import { IGetSubjectsResponse } from '../../../api/subjects/reg/getAllSubjects.ts'
 
 export const ThemesPage = () => {
 	const [selectedTheme, setSelectedTheme] = useState<IUpdateThemeRequest>(
@@ -70,36 +68,6 @@ export const ThemesPage = () => {
 					{Object.keys(selectedTheme).length ? (
 						<div className={styles.modal}>
 							<p>Редактирование темы</p>
-							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									max={32767}
-									value={selectedTheme.id_theme}
-									onChange={e =>
-										setSelectedTheme(prev => ({
-											...prev,
-											id_theme: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID предмета</p>
-								<input
-									type='number'
-									step={1}
-									max={32767}
-									value={selectedTheme.subject_id}
-									onChange={e =>
-										setSelectedTheme(prev => ({
-											...prev,
-											subject_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
 							<div className={styles.div}>
 								<p>Название темы</p>
 								<input
@@ -299,7 +267,6 @@ export const ThemesPage = () => {
 											<button
 												onClick={() =>
 													setSelectedTheme({
-														id_theme: item.id_theme,
 														themeName: item.themeName,
 														questionAmount: item.questionAmount,
 														time: item.time,

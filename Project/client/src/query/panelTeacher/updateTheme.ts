@@ -18,7 +18,6 @@ export function useUpdateTheme() {
 					AxiosResponse<IUpdateThemeResponse>,
 					IUpdateThemeRequest
 				>(`${ThemeEndpoints.BASE}${ThemeEndpoints.UPDATE}`, {
-					id_theme: selectedTheme.id_theme,
 					subject_id: selectedTheme.subject_id,
 					themeName: selectedTheme.themeName,
 					mode: selectedTheme.mode,

@@ -10,8 +10,12 @@ import queryClient from '../queryClient.ts'
 import { useMutation } from '@tanstack/react-query'
 
 export function useCreateTest() {
-	return useMutation<ICreateTestResponse, IErrorResponse, ICreateTestRequest>({
-		mutationFn: async newTest => {
+	return useMutation<
+		ICreateTestResponse,
+		IErrorResponse,
+		{ newTest: ICreateTestRequest }
+	>({
+		mutationFn: async ({ newTest }) => {
 			try {
 				const result = await $api.post<
 					ICreateTestResponse,

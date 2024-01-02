@@ -8,6 +8,7 @@ import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { useCreateTest } from '../../../query/panelTeacher/createTest.ts'
 import { useUpdateTest } from '../../../query/panelTeacher/updateTest.ts'
+import useGetThemes from '../../../query/panelTeacher/allThemesForTests.ts'
 
 export const TestsPage = () => {
 	const [selectedTest, setSelectedTest] = useState<IUpdateTestRequest>(
@@ -29,6 +30,7 @@ export const TestsPage = () => {
 	const [newTest, setNewTest] = useState<ICreateTestRequest>(newTestInitState)
 
 	const { data, fetchNextPage, hasNextPage } = useGetAllTests()
+	const { data: themes, isFetching: fetchingTheme } = useGetThemes()
 	const [search, setSearch] = useState('')
 
 	const { dropTest } = useDropTest()
@@ -237,19 +239,22 @@ export const TestsPage = () => {
 						<div className={styles.modal}>
 							<p>Создание теста</p>
 							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={newTest.theme_id}
-									max={32767}
-									onChange={e =>
+								<p>Тема</p>
+								<select
+									name='themeselect'
+									id='themeselectnew'
+									value={newTest?.theme_id}
+									onChange={e => {
 										setNewTest(prev => ({
 											...prev,
 											theme_id: +e.target.value,
 										}))
-									}
-								/>
+									}}>
+									{!fetchingTheme &&
+										themes?.map(theme => (
+											<option value={theme.id_theme}>{theme.themeName}</option>
+										))}
+								</select>
 							</div>
 							<div className={styles.div}>
 								<p>Вопрос</p>
@@ -372,12 +377,12 @@ export const TestsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									disabled={newTest.testName === ''}
+									//disabled={newTest.testName === ''}
 									onClick={async () => {
-										await createTest(newTest)
+										await createTest({ newTest })
 										setNewTest(newTestInitState)
 									}}>
-									Сохранить
+									Создать
 								</button>
 								<button onClick={() => setNewTest(newTestInitState)}>
 									Отменить
@@ -393,7 +398,7 @@ export const TestsPage = () => {
 								item.testName.toLowerCase().includes(search.toLowerCase())
 							)
 							.map(item => (
-								<div className={styles.Test} key={item.id_test}>
+								<div className={styles.card} key={item.id_test}>
 									<p>{item.testName}</p>
 									<div>
 										<div className={styles.TestEditBar}>

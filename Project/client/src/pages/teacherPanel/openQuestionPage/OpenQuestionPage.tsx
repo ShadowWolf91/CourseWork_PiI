@@ -8,6 +8,7 @@ import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { useCreateOpenQuestion } from '../../../query/panelTeacher/createOpenQuestion.ts'
 import { useUpdateOpenQuestion } from '../../../query/panelTeacher/updateOpenQuestion.ts'
+import useGetThemes from '../../../query/panelTeacher/allThemesForOpenQuestions.ts'
 
 export const OpenQuestionsPage = () => {
 	const [selectedOpenQuestion, setSelectedOpenQuestion] =
@@ -26,6 +27,7 @@ export const OpenQuestionsPage = () => {
 	)
 
 	const { data, fetchNextPage, hasNextPage } = useGetAllOpenQuestions()
+	const { data: themes, isFetching: fetchingTheme } = useGetThemes()
 	const [search, setSearch] = useState('')
 
 	const { dropOpenQuestion } = useDropOpenQuestion()
@@ -177,19 +179,22 @@ export const OpenQuestionsPage = () => {
 						<div className={styles.modal}>
 							<p>Создание открытого вопроса</p>
 							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={newOpenQuestion.theme_id}
-									max={32767}
-									onChange={e =>
+								<p>Тема</p>
+								<select
+									name='themeselect'
+									id='themeselectnew'
+									value={newOpenQuestion?.theme_id}
+									onChange={e => {
 										setNewOpenQuestion(prev => ({
 											...prev,
 											theme_id: +e.target.value,
 										}))
-									}
-								/>
+									}}>
+									{!fetchingTheme &&
+										themes?.map(theme => (
+											<option value={theme.id_theme}>{theme.themeName}</option>
+										))}
+								</select>
 							</div>
 							<div className={styles.div}>
 								<p>Вопрос</p>
@@ -230,7 +235,7 @@ export const OpenQuestionsPage = () => {
 									onChange={e =>
 										setNewOpenQuestion(prev => ({
 											...prev,
-											OpenQuestionName: e.target.value,
+											openQuestionName: e.target.value,
 										}))
 									}
 								/>
@@ -252,9 +257,11 @@ export const OpenQuestionsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									disabled={newOpenQuestion.openQuestionName === ''}
+									//disabled={newOpenQuestion.openQuestionName === ''}
 									onClick={async () => {
-										await createOpenQuestion(newOpenQuestion)
+										await createOpenQuestion({
+											newOpenQuestion,
+										})
 										setNewOpenQuestion(newOpenQuestionInitState)
 									}}>
 									Сохранить
@@ -274,7 +281,7 @@ export const OpenQuestionsPage = () => {
 								item.openQuestionName.toLowerCase().includes(search.toLowerCase())
 							)
 							.map(item => (
-								<div className={styles.OpenQuestion} key={item.id_openQuestion}>
+								<div className={styles.card} key={item.id_openQuestion}>
 									<p>{item.openQuestionName}</p>
 									<div>
 										<div className={styles.OpenQuestionEditBar}>

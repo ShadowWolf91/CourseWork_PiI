@@ -13,9 +13,9 @@ export function useCreateOpenQuestion() {
 	return useMutation<
 		ICreateOpenQuestionResponse,
 		IErrorResponse,
-		ICreateOpenQuestionRequest
+		{ newOpenQuestion: ICreateOpenQuestionRequest }
 	>({
-		mutationFn: async newOpenQuestion => {
+		mutationFn: async ({ newOpenQuestion }) => {
 			try {
 				const result = await $api.post<
 					ICreateOpenQuestionResponse,

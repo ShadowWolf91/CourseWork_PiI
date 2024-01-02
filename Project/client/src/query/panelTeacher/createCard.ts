@@ -10,8 +10,12 @@ import queryClient from '../queryClient.ts'
 import { useMutation } from '@tanstack/react-query'
 
 export function useCreateCard() {
-	return useMutation<ICreateCardResponse, IErrorResponse, ICreateCardRequest>({
-		mutationFn: async newCard => {
+	return useMutation<
+		ICreateCardResponse,
+		IErrorResponse,
+		{ newCard: ICreateCardRequest }
+	>({
+		mutationFn: async ({ newCard }) => {
 			try {
 				const result = await $api.post<
 					ICreateCardResponse,

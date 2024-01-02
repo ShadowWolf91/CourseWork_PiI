@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user            Int               @id @default(autoincrement())
+  username           String            @unique @db.VarChar(30)
+  password           String            @db.VarChar(128)
+  role               Roles             @default(DEFAULT)
+  statistics         Statistics[]
+  userToken          UserToken[]
+}
+
+model UserToken {
+  device_id          String
+  refreshToken       String
+  user_id            Int
+  user               User              @relation(fields: [user_id], references: [id_user], onDelete: Cascade)
+  @@id([user_id, device_id])
+}
+
+model Statistics {
+  id_statistics      Int               @id @default(autoincrement())
+  rightAnsweredTests Int               @default(0)
+  rightAnsweredCards Int               @default(0)
+  rightAnsweredOQs   Int               @default(0)
+  markTests          Int               @default(0)
+  markCards          Int               @default(0)
+  markOpenQuestions  Int               @default(0)
+  title              String            @default("") @db.VarChar(50)
+  user_id            Int
+  user               User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
+  tests              Tests[]
+  openQuestions      OpenQuestions[]
+  cards              Cards[]
+}
+
+
+model Subjects {
+  id_subject         Int               @id @default(autoincrement())
+  subjectName        String            @unique @db.VarChar(50)
+  themes Themes[]
+}
+
+model Themes {
+  id_theme           Int               @id @default(autoincrement())
+  subject_id         Int
+  themeName          String            @db.VarChar(50) @unique
+  mode               Modes
+  questionAmount     Int               @default(10)
+  time               Int               @default(10)
+  subjects           Subjects          @relation(fields: [subject_id],references: [id_subject],onDelete: Cascade)
+  tests              Tests[]
+  openQuestions      OpenQuestions[]
+  cards              Cards[]
+}
+
+model Tests {
+  id_test            Int               @id @default(autoincrement())
+  theme_id           Int
+  question           String            @db.VarChar(200)
+  optionA            String            @db.VarChar(50)
+  optionB            String            @db.VarChar(50)
+  optionC            String            @db.VarChar(50)
+  optionD            String            @db.VarChar(50)
+  correctAnswer      String            @db.VarChar(50)
+  testName           String            @unique
+  statistic_id       Int               
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
+}
+
+model OpenQuestions {
+  id_openQuestion    Int               @id @default(autoincrement())
+  theme_id           Int
+  question           String            @db.VarChar(200)
+  correctAnswer      String            @db.VarChar(50)
+  openQuestionName   String            @unique
+  statistic_id       Int               @default(0)
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
+}
+
+model Cards {
+  id_card            Int               @id @default(autoincrement())
+  theme_id           Int
+  word               String            @db.VarChar(50)
+  correctAnswer      String            @db.VarChar(50)
+  cardName           String            @unique
+  statistic_id       Int               @default(0)
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
+}
+enum Roles {
+  ADMIN
+  TEACHER
+  DEFAULT
+}
+
+enum Modes {
+  TEST
+  OPEN_QUESTION
+  CARD
+}

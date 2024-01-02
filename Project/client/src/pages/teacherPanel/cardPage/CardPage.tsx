@@ -8,6 +8,7 @@ import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { useCreateCard } from '../../../query/panelTeacher/createCard.ts'
 import { useUpdateCard } from '../../../query/panelTeacher/updateCard.ts'
+import useGetThemes from '../../../query/panelTeacher/allThemesForCards.ts'
 
 export const CardsPage = () => {
 	const [selectedCard, setSelectedCard] = useState<IUpdateCardRequest>(
@@ -25,6 +26,7 @@ export const CardsPage = () => {
 	const [newCard, setNewCard] = useState<ICreateCardRequest>(newCardInitState)
 
 	const { data, fetchNextPage, hasNextPage } = useGetAllCards()
+	const { data: themes, isFetching: fetchingTheme } = useGetThemes()
 	const [search, setSearch] = useState('')
 
 	const { dropCard } = useDropCard()
@@ -173,19 +175,22 @@ export const CardsPage = () => {
 						<div className={styles.modal}>
 							<p>Создание карточки</p>
 							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={newCard.theme_id}
-									max={32767}
-									onChange={e =>
+								<p>Тема</p>
+								<select
+									name='themeselect'
+									id='themeselectnew'
+									value={newCard?.theme_id}
+									onChange={e => {
 										setNewCard(prev => ({
 											...prev,
 											theme_id: +e.target.value,
 										}))
-									}
-								/>
+									}}>
+									{!fetchingTheme &&
+										themes?.map(theme => (
+											<option value={theme.id_theme}>{theme.themeName}</option>
+										))}
+								</select>
 							</div>
 							<div className={styles.div}>
 								<p>Слово</p>
@@ -248,9 +253,11 @@ export const CardsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									disabled={newCard.cardName === ''}
+									//disabled={newCard.cardName === ''}
 									onClick={async () => {
-										await createCard(newCard)
+										await createCard({
+											newCard,
+										})
 										setNewCard(newCardInitState)
 									}}>
 									Сохранить

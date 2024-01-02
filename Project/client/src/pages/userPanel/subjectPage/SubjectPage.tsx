@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useGetAllSubjects } from '../../../query/panelAdmin/allSubjects.ts'
 //import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 //import useGetThemes from '../../../query/userPanel/getThemesBySubjectId.ts'
 //import { Button } from 'react-bootstrap'
 
@@ -10,6 +11,8 @@ export const UserSubjectsPage = () => {
 	const [selectedSubject, setSelectedSubject] = useState<{
 		[subject_id: number]: boolean
 	}>({})
+
+	const navigate = useNavigate()
 
 	const { data: subjects, error, isLoading } = useGetAllSubjects()
 	//const { data: themes } = useGetThemes()
@@ -38,8 +41,7 @@ export const UserSubjectsPage = () => {
 								}>
 								<p>{item.subjectName}</p>
 								<button
-								// onClick={() => setSelectedTheme({} as IUpdateThemeRequest)}
-								>
+									onClick={() => navigate(`/user/subjects/${item.id_subject}`)}>
 									Выбрать
 								</button>
 							</div>

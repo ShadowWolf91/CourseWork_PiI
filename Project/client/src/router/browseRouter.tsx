@@ -9,7 +9,7 @@ import { OpenQuestionsPage } from '../pages/teacherPanel/openQuestionPage/OpenQu
 import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
 import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
 import { UserSubjectsPage } from '../pages/userPanel/subjectPage/SubjectPage.tsx'
-// import { UserChecklistPage } from '../pages/userPanel/checklistPage/ChecklistPage.tsx'
+import { UserThemePage } from '../pages/userPanel/themePage/ThemePage.tsx'
 // import { UserRecipesPage } from '../pages/userPanel/recipesPage/RecipesPage.tsx'
 // import { UserStorePage } from '../pages/userPanel/storePage/StorePage.tsx'
 import { AuthPage } from '../pages/AuthPage/auth.tsx'
@@ -83,14 +83,14 @@ export const browserRouter = createBrowserRouter([
 					</RequireAuth>
 				),
 			},
-			// {
-			// 	path: 'user/checklists/:checklistId',
-			// 	// element: (
-			// 	// 	<RequireAuth>
-			// 	// 		<UserChecklistPage />
-			// 	// 	</RequireAuth>
-			// 	// ),
-			// },
+			{
+				path: 'user/subjects/:subject_id',
+				element: (
+					<RequireAuth>
+						<UserThemePage />
+					</RequireAuth>
+				),
+			},
 			// {
 			// 	path: 'user/recipes/',
 			// 	// element: (

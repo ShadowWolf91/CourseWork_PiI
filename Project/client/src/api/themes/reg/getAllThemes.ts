@@ -18,3 +18,8 @@ export interface IGetAllThemesResponse {
 	}[]
 	cursor: number | null
 }
+
+export interface IGetThemesResponse {
+	id_theme: number
+	themeName: string
+}
