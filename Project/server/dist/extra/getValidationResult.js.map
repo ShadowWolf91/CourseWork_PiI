@@ -1,1 +1,0 @@
-{"version":3,"file":"getValidationResult.js","sourceRoot":"","sources":["../../src/extra/getValidationResult.ts"],"names":[],"mappings":";;AAAA,yDAAoD;AAEpD,SAAwB,mBAAmB,CAC1C,GAA2C;IAE3C,MAAM,aAAa,GAAG,IAAA,oCAAgB,EAAC,GAAG,CAAC,CAAA;IAC3C,OAAO,aAAa,CAAC,OAAO,EAAE,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,aAAa,CAAC,KAAK,EAAE,CAAC,CAAC,CAAC,CAAA;AACjE,CAAC;AALD,sCAKC"}
