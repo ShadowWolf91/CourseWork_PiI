@@ -26,8 +26,7 @@ export function NavBar() {
 				</div>
 			) : role === Roles.DEFAULT ? (
 				<div className={styles.linksContainer}>
-					{/* <Link to='/user/recipes'>Рецепты </Link>
-					<Link to='/user/store'>Хранилище</Link> */}
+					<Link to='/user/card'>Карточки</Link>
 					<Link to='/user/subjects'>Предметы</Link>
 				</div>
 			) : (
@@ -37,7 +36,7 @@ export function NavBar() {
 				className={styles.logout}
 				onClick={async () => {
 					if (!id_user || !device_id) return
-					await logout({ user_id: +id_user, devices_id: [device_id] })
+					await logout({ user_id: +id_user, device_id: [device_id] })
 					localStorage.clear()
 					navigate('/auth')
 				}}>

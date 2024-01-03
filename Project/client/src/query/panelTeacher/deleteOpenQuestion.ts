@@ -18,7 +18,7 @@ export function useDropOpenQuestion() {
 					`${OpenQuestionEndpoints.BASE}${OpenQuestionEndpoints.DELETE}`,
 					{
 						data: {
-							OpenQuestionsId: [id_openQuestion],
+							openQuestionId: [id_openQuestion],
 						},
 					}
 				)

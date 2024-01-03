@@ -1,24 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
-import { IErrorResponse } from '../../../api/errorResponse.ts'
-import $api from '../../../query/axios/base.ts'
 import { AxiosResponse, isAxiosError } from 'axios'
 import { useState } from 'react'
-import styles from './themePage.module.scss'
-import { Modes } from '../../../api/enums.ts'
-import ThemeEndpoints from '../../../api/themes/endpoints.ts'
 import { useParams } from 'react-router-dom'
-// import useVirtualStore from '../../../store'
-import { useGetAllThemes } from '../../../query/panelTeacher/allThemes.ts'
-import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
+import { IErrorResponse } from '../../../api/errorResponse.ts'
+import ThemeEndpoints from '../../../api/themes/endpoints.ts'
+import $api from '../../../query/axios/base.ts'
+import styles from './themePage.module.scss'
+//import useVirtualStore from '../../../store'
 import { ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 import {
 	IGetBySubjectIdRequest,
 	IGetBySubjectIdResponse,
 } from '../../../api/themes/reg/getBySubjectId.ts'
+import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 
 export const UserThemePage = () => {
 	// const { userId } = useVirtualStore()
-
+	const navigate = useNavigate()
 	const { subject_id } = useParams()
 	const { data, error, isLoading } = useQuery<
 		IGetBySubjectIdRequest,
@@ -38,15 +37,6 @@ export const UserThemePage = () => {
 					},
 				})
 
-				setThemesModal(
-					result.data.themes.map(item => ({
-						id_theme: item?.id_theme || 1,
-						themeName: item?.themeName || '',
-						questionAmount: item?.questionAmount,
-						mode: (item.mode as Modes) || Modes.TEST,
-						time: item?.time || 10,
-					}))
-				)
 				return result.data
 			} catch (e) {
 				if (isAxiosError(e)) return e?.response?.data
@@ -59,20 +49,6 @@ export const UserThemePage = () => {
 
 	const [search, setSearch] = useState('')
 
-	const [searchTheme, setSearchTheme] = useState('')
-	const { data: themesData } = useGetAllThemes(searchTheme)
-
-	const [themesModal, setThemesModal] = useState(
-		[] as {
-			id_theme: number
-			themeName: string
-			questionAmount: number
-			mode: Modes
-			time: number
-		}[]
-	)
-	console.log(data)
-
 	if (isLoading) return <h2>Loading...</h2>
 	if (error) return <p>Error</p>
 	if (!data) return <p>Данных нету</p>
@@ -83,7 +59,7 @@ export const UserThemePage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				{/* <div className={styles.modal}>
 					<>
 						<p>Добавление продукта</p>
 						<div>
@@ -183,7 +159,7 @@ export const UserThemePage = () => {
 							<button onClick={() => setThemesModal([])}>Очистить</button>
 						</div>
 					</>
-				</div>
+				</div> */}
 				<div className={styles.cardsContainer}>
 					{data?.themes
 						.filter(
@@ -194,12 +170,20 @@ export const UserThemePage = () => {
 								<p>{item?.themeName}</p>
 								<div>
 									<div>
-										<p>Название: {item?.themeName}</p>
+										{/* <p>Название: {item?.themeName}</p> */}
 										<p>Режим: {item?.mode}</p>
 										<p>Кол-во вопросов: {item?.questionAmount}</p>
 										<p>Время: {item?.time}</p>
 									</div>
 								</div>
+								<button
+									onClick={() =>
+										navigate(
+											`/user/subjects/${item.themeName}/${item.id_theme}`
+										)
+									}>
+									Выбрать
+								</button>
 							</div>
 						))}
 				</div>

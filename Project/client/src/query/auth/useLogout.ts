@@ -12,10 +12,10 @@ export const useLogout = () => {
 		mutationKey: ['username'],
 		mutationFn: async ({
 			user_id,
-			devices_id,
+			device_id,
 		}: {
 			user_id: number
-			devices_id: string[]
+			device_id: string[]
 		}) => {
 			try {
 				const result = await $api.delete<
@@ -25,7 +25,7 @@ export const useLogout = () => {
 				>(`${UserEndpoints.BASE}${UserEndpoints.DELETE_USER_TOKENS}`, {
 					data: {
 						user_id,
-						devices_id,
+						device_id,
 					},
 				})
 				return result.data

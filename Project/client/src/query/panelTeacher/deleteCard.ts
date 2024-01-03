@@ -18,7 +18,7 @@ export function useDropCard() {
 					`${CardEndpoints.BASE}${CardEndpoints.DELETE}`,
 					{
 						data: {
-							CardsId: [id_card],
+							cardId: [id_card],
 						},
 					}
 				)

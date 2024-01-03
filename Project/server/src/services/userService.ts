@@ -52,7 +52,6 @@ export default class UserService {
         username,
         password: createHash("sha512").update(password).digest("hex"),
         role,
-        statistics: { create: {} },
       },
       include: { userToken: true },
     });

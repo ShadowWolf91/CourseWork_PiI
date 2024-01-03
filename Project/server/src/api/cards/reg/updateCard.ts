@@ -4,7 +4,6 @@ export interface IUpdateCardRequest {
   word?: string;
   correctAnswer?: string;
   cardName?: string;
-  statistic_id?: number;
 }
 
 export interface IUpdateCardResponse {
@@ -13,5 +12,4 @@ export interface IUpdateCardResponse {
   word: string;
   correctAnswer: string;
   cardName: string;
-  statistic_id: number;
 }

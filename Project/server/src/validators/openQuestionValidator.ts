@@ -32,11 +32,8 @@ export default class ProductDataValidator extends MainValidator {
     return MainValidator.title(location, isOptional, length, "title");
   }
 
-  static statistic_id(location: TLocation) {
-    return MainValidator.id(location, "statistic_id");
-  }
   static openQuestionId(location: TLocation) {
-    return location("testId")
+    return location("openQuestionId")
       .isInt({ min: 0 })
       .withMessage("SHOULD BE AN INTEGER >= 0")
       .toInt();

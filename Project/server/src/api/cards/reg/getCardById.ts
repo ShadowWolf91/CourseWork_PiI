@@ -8,5 +8,4 @@ export interface IGetCardByIdResponse {
   word: string;
   correctAnswer: string;
   cardName: string;
-  statistic_id: number;
 }

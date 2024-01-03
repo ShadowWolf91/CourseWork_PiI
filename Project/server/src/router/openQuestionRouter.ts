@@ -33,7 +33,6 @@ openQuestionRouter.post(
   OpenQuestionDataValidator.question(body),
   OpenQuestionDataValidator.correctAnswer(body),
   OpenQuestionDataValidator.theme_id(body),
-  OpenQuestionDataValidator.statistic_id(body),
   OpenQuestionController.createOpenQuestion
 );
 
@@ -44,7 +43,6 @@ openQuestionRouter.patch(
   OpenQuestionDataValidator.question(body),
   OpenQuestionDataValidator.correctAnswer(body),
   OpenQuestionDataValidator.theme_id(body),
-  OpenQuestionDataValidator.statistic_id(body),
   OpenQuestionController.updateOpenQuestionData
 );
 

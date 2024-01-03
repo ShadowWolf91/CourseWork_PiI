@@ -1,5 +1,5 @@
 export interface IDeleteOpenQuestionRequest {
-  id_openQuestion: number;
+  openQuestionId: number[];
 }
 
 export interface IDeleteOpenQuestionResponse {

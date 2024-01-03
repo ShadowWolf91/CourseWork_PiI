@@ -143,21 +143,6 @@ export const OpenQuestionsPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedOpenQuestion.statistic_id}
-									max={32767}
-									onChange={e =>
-										setSelectedOpenQuestion(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
 							<div>
 								<button
 									disabled={selectedOpenQuestion.openQuestionName === ''}
@@ -236,21 +221,6 @@ export const OpenQuestionsPage = () => {
 										setNewOpenQuestion(prev => ({
 											...prev,
 											openQuestionName: e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={newOpenQuestion.statistic_id}
-									max={32767}
-									onChange={e =>
-										setNewOpenQuestion(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
 										}))
 									}
 								/>

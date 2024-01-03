@@ -8,55 +8,39 @@ export default class UserService {
   //get
   static getAllStatistics = async ({
     cursor,
-    title,
     skip,
     take,
   }: IGetAllStatisticsRequest) =>
     prismaClient.statistics.findMany({
       skip: skip,
       take: take,
-      cursor: cursor ? { id_statistics: cursor } : undefined,
-      where: {
-        title: { contains: title, mode: "insensitive" },
-      },
+      cursor: cursor ? { id: cursor } : undefined,
     });
 
   static getStatisticByUserId = async ({ ids }: IGetStatisticByUserIdRequest) =>
     prismaClient.statistics.findMany({
-      where: { id_statistics: { in: ids } },
+      where: { id: { in: ids } },
     });
 
   //update
   static updateStatisticsData = async ({
-    id_statistics,
-    rightAnsweredTests,
-    rightAnsweredOQs,
-    rightAnsweredCards,
-    markTests,
-    markCards,
-    markOpenQuestions,
-    user_id,
+    id,
+    rightAnswered,
+    mark,
   }: IUpdateStatisticRequest) => {
     const statistic = await prismaClient.statistics.findUnique({
-      where: { id_statistics: id_statistics },
-      select: { id_statistics: true },
+      where: { id: id },
+      select: { id: true },
     });
     if (!statistic)
-      throw UserRequestError.NotFound(
-        `STATISTIC WITH ID ${id_statistics} NOT FOUND`
-      );
+      throw UserRequestError.NotFound(`STATISTIC WITH ID ${id} NOT FOUND`);
 
     return prismaClient.statistics.update({
-      where: { id_statistics: id_statistics },
+      where: { id: id },
       data: {
-        id_statistics,
-        rightAnsweredTests,
-        rightAnsweredOQs,
-        rightAnsweredCards,
-        markTests,
-        markCards,
-        markOpenQuestions,
-        user_id,
+        id,
+        rightAnswered,
+        mark,
       },
     });
   };

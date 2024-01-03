@@ -1,8 +1,8 @@
 export interface IDeleteUserTokensRequest {
-  user_id: number;
-  devices_id: string[];
+	user_id: number
+	device_id: string[]
 }
 
 export interface IDeleteUserTokensResponse {
-  count: number;
+	count: number
 }

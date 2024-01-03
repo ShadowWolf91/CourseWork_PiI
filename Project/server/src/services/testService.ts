@@ -65,7 +65,6 @@ export default class TestsService {
     optionD,
     correctAnswer,
     testName,
-    statistic_id,
   }: ICreateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
       where: { testName },
@@ -85,7 +84,6 @@ export default class TestsService {
         optionD,
         correctAnswer,
         testName,
-        statistic_id,
       },
     });
   };
@@ -101,7 +99,6 @@ export default class TestsService {
     optionD,
     correctAnswer,
     testName,
-    statistic_id,
   }: IUpdateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
       where: { id_test },
@@ -122,23 +119,14 @@ export default class TestsService {
         optionD,
         correctAnswer,
         testName,
-        statistic_id,
       },
     });
   };
 
   //delete
-  static deleteTest = async ({ id_test }: IDeleteTestRequest) => {
-    const test = await prismaClient.tests.findUnique({
-      where: { id_test: id_test },
-      select: { id_test: true },
-    });
-
-    if (!test)
-      throw UserRequestError.NotFound(`TEST WITH ID ${id_test} NOT FOUND`);
-
-    return prismaClient.tests.delete({
-      where: { id_test: id_test },
+  static deleteTest = async ({ testId }: IDeleteTestRequest) => {
+    return prismaClient.tests.deleteMany({
+      where: { id_test: { in: testId } },
     });
   };
 }

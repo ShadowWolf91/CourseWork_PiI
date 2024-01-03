@@ -18,7 +18,7 @@ export function useDropTest() {
 					`${TestEndpoints.BASE}${TestEndpoints.DELETE}`,
 					{
 						data: {
-							TestsId: [id_test],
+							testId: [id_test],
 						},
 					}
 				)

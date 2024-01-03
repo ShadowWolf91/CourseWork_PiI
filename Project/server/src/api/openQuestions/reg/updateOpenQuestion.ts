@@ -4,7 +4,6 @@ export interface IUpdateOpenQuestionRequest {
   question?: string;
   correctAnswer?: string;
   openQuestionName?: string;
-  statistic_id?: number;
 }
 
 export interface IUpdateOpenQuestionResponse {
@@ -13,5 +12,4 @@ export interface IUpdateOpenQuestionResponse {
   question: string;
   correctAnswer: string;
   openQuestionName: string;
-  statistic_id: number;
 }

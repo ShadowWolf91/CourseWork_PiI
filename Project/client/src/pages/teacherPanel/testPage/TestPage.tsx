@@ -206,21 +206,6 @@ export const TestsPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedTest.statistic_id}
-									max={32767}
-									onChange={e =>
-										setSelectedTest(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
 							<div>
 								<button
 									disabled={selectedTest.testName === ''}
@@ -356,21 +341,6 @@ export const TestsPage = () => {
 										setNewTest(prev => ({
 											...prev,
 											testName: e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={newTest.statistic_id}
-									max={32767}
-									onChange={e =>
-										setNewTest(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
 										}))
 									}
 								/>

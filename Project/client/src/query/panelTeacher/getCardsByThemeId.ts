@@ -1,36 +1,47 @@
-import { AxiosResponse, isAxiosError } from 'axios'
-import { useQuery } from '@tanstack/react-query'
-import { IGetCardByThemeIdResponse } from '../../api/cards/reg/getByThemeId.ts'
-import { IErrorResponse } from '../../api/errorResponse.ts'
 import $api from '../axios/base.ts'
-import CardsEndpoints from '../../api/cards/endpoints.ts'
+import { useQuery } from '@tanstack/react-query'
+import axios, { AxiosResponse } from 'axios'
+import {
+	IGetCardByThemeIdRequest,
+	IGetCardByThemeIdResponse,
+} from '../../api/cards/reg/getByThemeId.ts'
+import CardEndpoints from '../../api/cards/endpoints.ts'
+import { IErrorResponse } from '../../api/errorResponse.ts'
+import { useParams } from 'react-router-dom'
 
-export function useGetCards(theme_id: string | null) {
-	return useQuery<
-		IGetCardByThemeIdResponse,
+export function useGetCards() {
+	const { theme_id } = useParams()
+	const { data, error, isLoading } = useQuery<
+		IGetCardByThemeIdRequest,
 		IErrorResponse,
 		IGetCardByThemeIdResponse,
-		string[]
+		['themeCard']
 	>({
-		queryKey: ['cards'],
+		queryKey: ['themeCard'],
 		queryFn: async () => {
 			try {
 				const result = await $api.get<
 					IGetCardByThemeIdResponse,
 					AxiosResponse<IGetCardByThemeIdResponse>
-				>(`${CardsEndpoints.BASE}${CardsEndpoints.GET_BY_THEME_ID}`, {
+				>(`${CardEndpoints.BASE}${CardEndpoints.GET_BY_THEME_ID}`, {
 					params: {
-						theme_id: +theme_id!,
+						theme_id,
 					},
 				})
 				return result.data
 			} catch (e) {
-				if (isAxiosError(e)) throw e?.response?.data
+				if (axios.isAxiosError(e)) throw e?.response?.data
 				throw e
 			}
 		},
-		refetchOnWindowFocus: true,
 		retry: false,
-		enabled: !!theme_id,
 	})
+
+	return {
+		data,
+		error,
+		isLoading,
+	}
 }
+
+export default useGetCards

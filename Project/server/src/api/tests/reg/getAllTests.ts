@@ -16,7 +16,6 @@ export interface IGetAllTestsResponse {
     optionD: string;
     correctAnswer: string;
     testName: string;
-    statistic_id: number;
   }[];
   cursor: number | null;
 }

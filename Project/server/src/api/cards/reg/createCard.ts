@@ -5,7 +5,6 @@ export interface ICreateCardRequest {
   word: string;
   correctAnswer: string;
   cardName: string;
-  statistic_id: number;
 }
 
 export interface ICreateCardResponse {
@@ -14,5 +13,4 @@ export interface ICreateCardResponse {
   word: string;
   correctAnswer: string;
   cardName: string;
-  statistic_id: number;
 }

@@ -1,7 +1,7 @@
 export interface IDeleteSubjectRequest {
-    id_subject: number
+  subjectId: number[];
 }
 
 export interface IDeleteSubjectResponse {
-	count: number
+  count: number;
 }

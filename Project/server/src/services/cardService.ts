@@ -35,6 +35,7 @@ export default class CardService {
   }: IGetCardByThemeIdRequest): Promise<IGetCardByThemeIdResponse> => {
     const card = await prismaClient.cards.findMany({
       select: {
+        id_card: true,
         word: true,
         correctAnswer: true,
       },
@@ -57,7 +58,6 @@ export default class CardService {
     word,
     correctAnswer,
     cardName,
-    statistic_id,
   }: ICreateCardRequest) => {
     const card = await prismaClient.cards.findUnique({
       where: { cardName },
@@ -73,7 +73,6 @@ export default class CardService {
         word,
         correctAnswer,
         cardName,
-        statistic_id,
       },
     });
   };
@@ -85,7 +84,6 @@ export default class CardService {
     word,
     correctAnswer,
     cardName,
-    statistic_id,
   }: IUpdateCardRequest) => {
     const card = await prismaClient.cards.findUnique({
       where: { id_card },
@@ -102,23 +100,14 @@ export default class CardService {
         word,
         correctAnswer,
         cardName,
-        statistic_id,
       },
     });
   };
 
   //delete
-  static deleteCard = async ({ id_card }: IDeleteCardRequest) => {
-    const card = await prismaClient.cards.findUnique({
-      where: { id_card: id_card },
-      select: { id_card: true },
-    });
-
-    if (!card)
-      throw UserRequestError.NotFound(`CARD WITH ID ${id_card} NOT FOUND`);
-
-    return prismaClient.cards.delete({
-      where: { id_card: id_card },
+  static deleteCard = async ({ cardId }: IDeleteCardRequest) => {
+    return prismaClient.cards.deleteMany({
+      where: { id_card: { in: cardId } },
     });
   };
 }

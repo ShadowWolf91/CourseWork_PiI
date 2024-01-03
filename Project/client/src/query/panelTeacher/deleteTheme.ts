@@ -18,7 +18,7 @@ export function useDropTheme() {
 					`${ThemeEndpoints.BASE}${ThemeEndpoints.DELETE}`,
 					{
 						data: {
-							ThemesId: [id],
+							themeId: [id],
 						},
 					}
 				)

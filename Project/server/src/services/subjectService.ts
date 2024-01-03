@@ -73,19 +73,9 @@ export default class SubjectService {
   };
 
   //delete
-  static deleteSubject = async ({ id_subject }: IDeleteSubjectRequest) => {
-    const subject = await prismaClient.subjects.findUnique({
-      where: { id_subject: id_subject },
-      select: { id_subject: true },
-    });
-
-    if (!subject)
-      throw UserRequestError.NotFound(
-        `SUBJECT WITH ID ${id_subject} NOT FOUND`
-      );
-
-    return prismaClient.subjects.delete({
-      where: { id_subject: id_subject },
+  static deleteSubject = async ({ subjectId }: IDeleteSubjectRequest) => {
+    return prismaClient.subjects.deleteMany({
+      where: { id_subject: { in: subjectId } },
     });
   };
 }

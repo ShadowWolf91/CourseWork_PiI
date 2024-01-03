@@ -1,7 +1,7 @@
 export interface IDeleteCardRequest {
-    id_card: number
+  cardId: number[];
 }
 
 export interface IDeleteCardResponse {
-	count: number
+  count: number;
 }

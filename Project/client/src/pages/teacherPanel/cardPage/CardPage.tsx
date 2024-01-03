@@ -20,7 +20,6 @@ export const CardsPage = () => {
 		word: '',
 		correctAnswer: '',
 		cardName: '',
-		statistic_id: 0,
 	}
 
 	const [newCard, setNewCard] = useState<ICreateCardRequest>(newCardInitState)
@@ -142,21 +141,6 @@ export const CardsPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedCard.statistic_id}
-									max={32767}
-									onChange={e =>
-										setSelectedCard(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
 							<div>
 								<button
 									disabled={selectedCard.cardName === ''}
@@ -232,21 +216,6 @@ export const CardsPage = () => {
 										setNewCard(prev => ({
 											...prev,
 											cardName: e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID статистики</p>
-								<input
-									type='number'
-									step={1}
-									value={newCard.statistic_id}
-									max={32767}
-									onChange={e =>
-										setNewCard(prev => ({
-											...prev,
-											statistic_id: +e.target.value,
 										}))
 									}
 								/>

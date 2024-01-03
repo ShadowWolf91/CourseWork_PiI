@@ -5,6 +5,7 @@ export interface IGetCardByThemeIdRequest {
 export interface IGetCardByThemeIdResponse {
   theme_id: number;
   card: {
+    id_card: number;
     word: string;
     correctAnswer: string;
   }[];

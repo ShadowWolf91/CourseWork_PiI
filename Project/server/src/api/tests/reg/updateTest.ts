@@ -8,7 +8,6 @@ export interface IUpdateTestRequest {
   optionD?: string;
   correctAnswer?: string;
   testName?: string;
-  statistic_id?: number;
 }
 
 export interface IUpdateTestResponse {
@@ -21,5 +20,4 @@ export interface IUpdateTestResponse {
   optionD: string;
   correctAnswer: string;
   testName: string;
-  statistic_id: number;
 }

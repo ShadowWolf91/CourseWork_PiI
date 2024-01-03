@@ -26,7 +26,6 @@ export function useCreateCard() {
 					word: newCard.word,
 					correctAnswer: newCard.correctAnswer,
 					cardName: newCard.cardName,
-					statistic_id: newCard.statistic_id,
 				})
 				return result.data
 			} catch (e) {

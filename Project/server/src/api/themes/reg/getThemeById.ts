@@ -9,6 +9,5 @@ export interface IGetThemeByIdResponse {
   subject_id: number;
   themeName: string;
   mode: keyof typeof Modes;
-  questionAmount: number;
   time: number;
 }

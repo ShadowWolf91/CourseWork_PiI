@@ -16,19 +16,28 @@ export const ThemesPage = () => {
 		{} as IUpdateThemeRequest
 	)
 
-	const newThemeInitState: ICreateThemeRequest = {
-		subject_id: 0,
-		themeName: '',
-		mode: 'TEST',
-		questionAmount: 0,
-		time: 0,
-	}
-
-	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(newThemeInitState)
-
 	const { data, fetchNextPage, hasNextPage } = useGetAllThemes()
 	const { data: subjects, isFetching: fetchingSubject } = useGetSubjects()
 	const [search, setSearch] = useState('')
+
+	const newThemeInitState: ICreateThemeRequest = {
+		subject_id: 1,
+		themeName: '',
+		mode: 'TEST',
+		questionAmount: 0,
+		time: 15,
+	}
+
+	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(
+		(subjects && {
+			subject_id: subjects[0].id_subject,
+			themeName: '',
+			mode: 'TEST',
+			questionAmount: 0,
+			time: 15,
+		}) ||
+			newThemeInitState
+	)
 
 	const { dropTheme } = useDropTheme()
 
@@ -115,7 +124,7 @@ export const ThemesPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
+							{/* <div className={styles.div}>
 								<p>Время</p>
 								<input
 									type='number'
@@ -129,7 +138,7 @@ export const ThemesPage = () => {
 										}))
 									}
 								/>
-							</div>
+							</div> */}
 							<div>
 								<button
 									disabled={selectedTheme.themeName === ''}
@@ -215,7 +224,7 @@ export const ThemesPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
+							{/* <div className={styles.div}>
 								<p>Время</p>
 								<input
 									type='number'
@@ -229,7 +238,7 @@ export const ThemesPage = () => {
 										}))
 									}
 								/>
-							</div>
+							</div> */}
 							<div className={styles.buttons}>
 								<button
 									// disabled={newTheme.themeName === ''}

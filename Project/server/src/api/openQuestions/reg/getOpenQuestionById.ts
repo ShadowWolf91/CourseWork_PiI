@@ -8,5 +8,4 @@ export interface IGetOpenQuestionByIdResponse {
   question: string;
   correctAnswer: string;
   openQuestionName: string;
-  statistic_id: number;
 }

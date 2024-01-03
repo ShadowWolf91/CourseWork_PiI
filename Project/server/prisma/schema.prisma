@@ -12,8 +12,8 @@ model User {
   username           String            @unique @db.VarChar(30)
   password           String            @db.VarChar(128)
   role               Roles             @default(DEFAULT)
-  statistics         Statistics[]
   userToken          UserToken[]
+  tocSession         TOCSession[]
 }
 
 model UserToken {
@@ -24,20 +24,21 @@ model UserToken {
   @@id([user_id, device_id])
 }
 
+model TOCSession{
+  id Int  @id @default(autoincrement())
+  userId Int 
+  statisticId Int @unique
+  themeId Int
+
+  user User @relation(fields: [userId], references: [id_user])
+  statistics Statistics @relation(fields: [statisticId], references: [id])
+}
+
 model Statistics {
-  id_statistics      Int               @id @default(autoincrement())
-  rightAnsweredTests Int               @default(0)
-  rightAnsweredCards Int               @default(0)
-  rightAnsweredOQs   Int               @default(0)
-  markTests          Int               @default(0)
-  markCards          Int               @default(0)
-  markOpenQuestions  Int               @default(0)
-  title              String            @default("") @db.VarChar(50)
-  user_id            Int
-  user               User              @relation(fields: [user_id],references: [id_user],onDelete: Cascade)
-  tests              Tests[]
-  openQuestions      OpenQuestions[]
-  cards              Cards[]
+  id      Int               @id @default(autoincrement())
+  rightAnswered Int               @default(0)
+  mark  Int               @default(0)
+  tocSession TOCSession?
 }
 
 
@@ -52,7 +53,6 @@ model Themes {
   subject_id         Int
   themeName          String            @db.VarChar(50) @unique
   mode               Modes
-  questionAmount     Int               @default(10)
   time               Int               @default(10)
   subjects           Subjects          @relation(fields: [subject_id],references: [id_subject],onDelete: Cascade)
   tests              Tests[]
@@ -70,9 +70,8 @@ model Tests {
   optionD            String            @db.VarChar(50)
   correctAnswer      String            @db.VarChar(50)
   testName           String            @unique
-  statistic_id       Int               
+           
   theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
 
 model OpenQuestions {
@@ -81,9 +80,7 @@ model OpenQuestions {
   question           String            @db.VarChar(200)
   correctAnswer      String            @db.VarChar(50)
   openQuestionName   String            @unique
-  statistic_id       Int               @default(0)
   theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
 
 model Cards {
@@ -92,9 +89,7 @@ model Cards {
   word               String            @db.VarChar(50)
   correctAnswer      String            @db.VarChar(50)
   cardName           String            @unique
-  statistic_id       Int               @default(0)
   theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
-  statistics         Statistics        @relation(fields: [statistic_id],references: [id_statistics],onDelete: Cascade)
 }
 enum Roles {
   ADMIN

@@ -28,9 +28,7 @@ export const UserSubjectsPage = () => {
 							<div
 								className={styles.card}
 								style={{
-									border: `1px solid ${
-										selectedSubject[item.id_subject] ? 'red' : 'white'
-									}`,
+									border: `1px solid ${selectedSubject[item.id_subject]}`,
 								}}
 								key={item.id_subject}
 								onClick={() =>

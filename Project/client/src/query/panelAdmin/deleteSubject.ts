@@ -18,7 +18,7 @@ export function useDropSubject() {
 					`${SubjectEndpoints.BASE}${SubjectEndpoints.DELETE}`,
 					{
 						data: {
-							subjectsId: [id],
+							subjectId: [id],
 						},
 					}
 				)

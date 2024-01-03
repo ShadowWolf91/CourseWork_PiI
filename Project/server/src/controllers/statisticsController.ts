@@ -32,7 +32,7 @@ export default class StatisticsController {
       const result = await StatisticService.getAllStatistics(req.query);
       res.json({
         statisticsData: result,
-        cursor: result[result.length - 1]?.id_statistics || null,
+        cursor: result[result.length - 1]?.id || null,
       });
     } catch (e) {
       return next(e);

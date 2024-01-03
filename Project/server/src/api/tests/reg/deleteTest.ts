@@ -1,7 +1,7 @@
 export interface IDeleteTestRequest {
-    id_test: number
+  testId: number[];
 }
 
 export interface IDeleteTestResponse {
-	count: number
+  count: number;
 }

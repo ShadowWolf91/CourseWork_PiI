@@ -37,7 +37,6 @@ TestRouter.post(
   TestDataValidator.optionD(body),
   TestDataValidator.correctAnswer(body),
   TestDataValidator.theme_id(body),
-  TestDataValidator.statistic_id(body),
   TestController.createTest
 );
 
@@ -52,7 +51,6 @@ TestRouter.patch(
   TestDataValidator.optionD(body),
   TestDataValidator.correctAnswer(body),
   TestDataValidator.theme_id(body),
-  TestDataValidator.statistic_id(body),
   TestController.updateTestData
 );
 

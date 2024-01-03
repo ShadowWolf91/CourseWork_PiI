@@ -10,9 +10,9 @@ import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
 import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
 import { UserSubjectsPage } from '../pages/userPanel/subjectPage/SubjectPage.tsx'
 import { UserThemePage } from '../pages/userPanel/themePage/ThemePage.tsx'
-// import { UserRecipesPage } from '../pages/userPanel/recipesPage/RecipesPage.tsx'
-// import { UserStorePage } from '../pages/userPanel/storePage/StorePage.tsx'
+import { UserCardCreatePage } from '../pages/userPanel/CardCreatePage/CardCreatePage.tsx'
 import { AuthPage } from '../pages/AuthPage/auth.tsx'
+import { UserTOCPage } from '../pages/userPanel/TOCPage/TOCPage.tsx'
 
 export const browserRouter = createBrowserRouter([
 	{
@@ -91,22 +91,22 @@ export const browserRouter = createBrowserRouter([
 					</RequireAuth>
 				),
 			},
-			// {
-			// 	path: 'user/recipes/',
-			// 	// element: (
-			// 	// 	<RequireAuth>
-			// 	// 		<UserRecipesPage />
-			// 	// 	</RequireAuth>
-			// 	// ),
-			// },
-			// {
-			// 	path: 'user/store/',
-			// 	// element: (
-			// 	// 	<RequireAuth>
-			// 	// 		<UserStorePage />
-			// 	// 	</RequireAuth>
-			// 	// ),
-			// },
+			{
+				path: 'user/subjects/:themeName/:theme_id',
+				element: (
+					<RequireAuth>
+						<UserTOCPage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'user/card/',
+				element: (
+					<RequireAuth>
+						<UserCardCreatePage />
+					</RequireAuth>
+				),
+			},
 		],
 	},
 	{ path: 'auth', element: <AuthPage /> },

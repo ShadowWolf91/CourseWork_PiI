@@ -32,10 +32,6 @@ export default class ProductDataValidator extends MainValidator {
     return MainValidator.title(location, isOptional, length, "title");
   }
 
-  static statistic_id(location: TLocation) {
-    return MainValidator.id(location, "statistic_id");
-  }
-
   static cardId(location: TLocation) {
     return location("cardId")
       .isInt({ min: 0 })

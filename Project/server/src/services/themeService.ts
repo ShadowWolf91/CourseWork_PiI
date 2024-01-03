@@ -24,9 +24,7 @@ export default class ThemeService {
     if (!theme)
       throw UserRequestError.NotFound(`THEME WITH ID ${id_theme} NOT FOUND`);
 
-    return {
-      ...theme,
-    };
+    return theme;
   };
 
   static getBySubjectId = async ({
@@ -79,7 +77,6 @@ export default class ThemeService {
     subject_id,
     themeName,
     mode,
-    questionAmount,
     time,
   }: ICreateThemeRequest) => {
     const theme = await prismaClient.themes.findUnique({
@@ -97,7 +94,6 @@ export default class ThemeService {
         subject_id,
         themeName,
         mode,
-        questionAmount,
         time,
       },
     });
@@ -109,7 +105,6 @@ export default class ThemeService {
     subject_id,
     themeName,
     mode,
-    questionAmount,
     time,
   }: IUpdateThemeRequest) => {
     const theme = await prismaClient.themes.findUnique({
@@ -125,24 +120,23 @@ export default class ThemeService {
         subject_id,
         themeName,
         mode,
-        questionAmount,
         time,
       },
     });
   };
 
   //delete
-  static deleteTheme = async ({ id_theme }: IDeleteThemeRequest) => {
-    const theme = await prismaClient.themes.findUnique({
-      where: { id_theme: id_theme },
-      select: { id_theme: true },
-    });
+  static deleteTheme = async ({ themeId }: IDeleteThemeRequest) => {
+    // const theme = await prismaClient.themes.findMany({
+    //   where: { id_theme: { in: themeId } },
+    //   select: { id_theme: true },
+    // });
 
-    if (!theme)
-      throw UserRequestError.NotFound(`THEME WITH ID ${id_theme} NOT FOUND`);
+    // if (!theme)
+    //   throw UserRequestError.NotFound(`THEME WITH ID ${themeId} NOT FOUND`);
 
-    return prismaClient.themes.delete({
-      where: { id_theme: id_theme },
+    return prismaClient.themes.deleteMany({
+      where: { id_theme: { in: themeId } },
     });
   };
 }

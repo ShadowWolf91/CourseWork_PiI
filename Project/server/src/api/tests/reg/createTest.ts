@@ -9,7 +9,6 @@ export interface ICreateTestRequest {
   optionD: string;
   correctAnswer: string;
   testName: string;
-  statistic_id: number;
 }
 
 export interface ICreateTestResponse {
@@ -22,5 +21,4 @@ export interface ICreateTestResponse {
   optionD: string;
   correctAnswer: string;
   testName: string;
-  statistic_id: number;
 }

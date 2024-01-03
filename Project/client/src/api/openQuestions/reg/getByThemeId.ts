@@ -1,11 +1,12 @@
 export interface IGetOpenQuestionByThemeIdRequest {
-  theme_id: number;
+	theme_id: number
 }
 
 export interface IGetOpenQuestionByThemeIdResponse {
-  theme_id: number;
-  openQuestion: {
-    question: string;
-    correctAnswer: string;
-  }[];
+	theme_id: number
+	openQuestion: {
+		id_openQuestion: number
+		question: string
+		correctAnswer: string
+	}[]
 }

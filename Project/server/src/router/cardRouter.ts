@@ -33,7 +33,6 @@ cardRouter.post(
   CardDataValidator.word(body),
   CardDataValidator.correctAnswer(body),
   CardDataValidator.theme_id(body),
-  CardDataValidator.statistic_id(body),
   CardController.createCard
 );
 
@@ -44,7 +43,6 @@ cardRouter.patch(
   CardDataValidator.word(body),
   CardDataValidator.correctAnswer(body),
   CardDataValidator.theme_id(body),
-  CardDataValidator.statistic_id(body),
   CardController.updateCardData
 );
 
