@@ -18,15 +18,9 @@ export function useUpdateStat() {
 					AxiosResponse<IUpdateStatisticResponse>,
 					IUpdateStatisticRequest
 				>(`${StatisticsEndpoints.BASE}${StatisticsEndpoints.UPDATE}`, {
-					id_statistics: selectedStatistic.id_statistics,
-					rightAnsweredTests: selectedStatistic?.rightAnsweredTests,
-					rightAnsweredOQs: selectedStatistic?.rightAnsweredOQs,
-					rightAnsweredCards: selectedStatistic?.rightAnsweredCards,
-					markTests: selectedStatistic?.markTests,
-					markCards: selectedStatistic?.markCards,
-					markOpenQuestions: selectedStatistic?.markOpenQuestions,
-					title: selectedStatistic.title,
-					user_id: selectedStatistic?.user_id,
+					id: selectedStatistic.id,
+					rightAnswered: selectedStatistic?.rightAnswered,
+					mark: selectedStatistic?.mark,
 				})
 				return result.data
 			} catch (e) {

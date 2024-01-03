@@ -10,7 +10,7 @@ export default class SubjectValidator extends MainValidator {
     return MainValidator.title(location, isOptional, length, "title");
   }
 
-  static idSubject(location: TLocation) {
+  static id_subject(location: TLocation) {
     return location("idSubject")
       .isInt({ min: 0 })
       .withMessage("SHOULD BE AN INTEGER >= 0")

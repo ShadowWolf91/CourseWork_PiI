@@ -79,24 +79,21 @@ export default class CardService {
 
   //update
   static updateCardData = async ({
-    id_card,
-    theme_id,
+    cardId,
     word,
     correctAnswer,
     cardName,
   }: IUpdateCardRequest) => {
     const card = await prismaClient.cards.findUnique({
-      where: { id_card },
+      where: { id_card: cardId },
       select: { id_card: true },
     });
     if (!card)
-      throw UserRequestError.NotFound(`CARD WITH ID ${id_card} NOT FOUND`);
+      throw UserRequestError.NotFound(`CARD WITH ID ${cardId} NOT FOUND`);
 
     return prismaClient.cards.update({
-      where: { id_card },
+      where: { id_card: cardId },
       data: {
-        id_card,
-        theme_id,
         word,
         correctAnswer,
         cardName,

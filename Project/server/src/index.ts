@@ -19,6 +19,8 @@ import TestEndpoints from "./api/tests/endpoints";
 import ThemeEndpoints from "./api/themes/endpoints";
 import StatisticsEndpoints from "./api/statistics/endpoints";
 import errorMiddleware from "./mid/error";
+import SessionEndpoints from "./api/sessions/endpoints";
+import sessionRouter from "./router/sessionRouter";
 
 const app = express();
 
@@ -38,6 +40,7 @@ app.use(SubjectEndpoints.BASE, subjectRouter);
 app.use(TestEndpoints.BASE, testRouter);
 app.use(ThemeEndpoints.BASE, themeRouter);
 app.use(StatisticsEndpoints.BASE, statisticsRouter);
+app.use(SessionEndpoints.BASE, sessionRouter);
 app.use(errorMiddleware);
 
 const main = async () => {

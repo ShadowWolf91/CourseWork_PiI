@@ -210,6 +210,7 @@ export const ThemesPage = () => {
 											<button
 												onClick={() =>
 													setSelectedTheme({
+														themeId: item.id_theme,
 														themeName: item.themeName,
 														mode: item.mode,
 													})

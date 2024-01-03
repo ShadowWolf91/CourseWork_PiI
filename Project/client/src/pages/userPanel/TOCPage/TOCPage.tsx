@@ -6,6 +6,8 @@ import useGetCards from '../../../query/panelTeacher/getCardsByThemeId.ts'
 import useGetOpenQuestion from '../../../query/userPanel/getOpenQuestionsByThemeId.ts'
 import useGetTests from '../../../query/userPanel/getTestsByThemeId.ts'
 import styles from './tocPage.module.scss'
+import { useUpdateStat } from '../../../query/panelTeacher/updateStat.ts'
+import useVirtualStore from '../../../store/index.ts'
 
 export const UserTOCPage = () => {
 	const { data: testData, error: testError, isLoading: isTestLoading } = useGetTests()
@@ -15,9 +17,9 @@ export const UserTOCPage = () => {
 		error: openQuestionError,
 		isLoading: isOpenQuestionLoading,
 	} = useGetOpenQuestion()
-
+	const { statisticId } = useVirtualStore()
 	const [result, setResult] = useState({ correct: 0, total: 0 })
-
+	const { mutateAsync: updateStat } = useUpdateStat()
 	const [search, setSearch] = useState('')
 	const [showCardAnswer, setShowCardAnswer] = useState(
 		cardData?.card.reduce(
@@ -42,7 +44,7 @@ export const UserTOCPage = () => {
 		)
 	)
 
-	const getTOCResult = () => {
+	const getTOCResult = async () => {
 		if (!OCAnswers || !testAnswers || !showCardAnswer) return
 		const OC = Object.values(OCAnswers).filter(item => item.isCorrect).length
 		const test = Object.values(testAnswers).filter(item => item.isCorrect).length
@@ -51,6 +53,15 @@ export const UserTOCPage = () => {
 		setResult(prev => ({ ...prev, correct: OC + test + card }))
 		setStopped(true)
 		console.log(OC + test + card)
+		await updateStat({
+			id: statisticId,
+			mark: [
+				...(testData?.test || []),
+				...(openQuestionData?.openQuestion || []),
+				...(cardData?.card || []),
+			].length,
+			rightAnswered: OC + test + card,
+		})
 	}
 
 	useEffect(() => {

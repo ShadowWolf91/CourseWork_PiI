@@ -18,8 +18,7 @@ export function useUpdateCard() {
 					AxiosResponse<IUpdateCardResponse>,
 					IUpdateCardRequest
 				>(`${CardEndpoints.BASE}${CardEndpoints.UPDATE}`, {
-					id_card: selectedCard.id_card,
-					theme_id: selectedCard?.theme_id,
+					cardId: selectedCard.cardId,
 					word: selectedCard?.word,
 					correctAnswer: selectedCard?.correctAnswer,
 					cardName: selectedCard?.cardName,

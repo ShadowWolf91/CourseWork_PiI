@@ -18,11 +18,9 @@ export function useUpdateTheme() {
 					AxiosResponse<IUpdateThemeResponse>,
 					IUpdateThemeRequest
 				>(`${ThemeEndpoints.BASE}${ThemeEndpoints.UPDATE}`, {
-					subject_id: selectedTheme.subject_id,
+					themeId: selectedTheme.themeId,
 					themeName: selectedTheme.themeName,
 					mode: selectedTheme.mode,
-					questionAmount: selectedTheme.questionAmount,
-					time: selectedTheme.time,
 				})
 				return result.data
 			} catch (e) {

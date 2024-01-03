@@ -231,7 +231,7 @@ export const OpenQuestionsPage = () => {
 											<button
 												onClick={() =>
 													setSelectedOpenQuestion({
-														id_openQuestion: item.id_openQuestion,
+														openQuestionId: item.id_openQuestion,
 														openQuestionName: item.openQuestionName,
 														question: item.question,
 														correctAnswer: item.correctAnswer,

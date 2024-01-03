@@ -42,7 +42,7 @@ cardRouter.patch(
   CardDataValidator.cardName(body, true, { max: 50 }),
   CardDataValidator.word(body),
   CardDataValidator.correctAnswer(body),
-  CardDataValidator.theme_id(body),
+  // CardDataValidator.theme_id(body),
   CardController.updateCardData
 );
 

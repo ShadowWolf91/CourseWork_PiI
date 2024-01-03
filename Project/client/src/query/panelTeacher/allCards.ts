@@ -13,7 +13,7 @@ export function useGetAllCards(CardName?: string) {
 		(string | undefined)[],
 		{ pageSize: number | undefined; cursor: number | null }
 	>({
-		queryKey: ['cards'],
+		queryKey: ['Cards'],
 		queryFn: async ({ pageParam }) => {
 			try {
 				const result = await $api.get<

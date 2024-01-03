@@ -53,7 +53,7 @@ userRouter.post(
 
 userRouter.patch(
   UserEndpoints.UPDATE_USER_DATA,
-  UserDataValidator.user_id(body),
+  // UserDataValidator.user_id(body),
   UserDataValidator.username(body, true, { max: 30 }),
   UserDataValidator.password(body, true, { max: 120 }),
   UserController.updateUserData

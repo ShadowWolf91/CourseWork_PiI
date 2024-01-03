@@ -30,9 +30,9 @@ export function useCreateSubject() {
 			await queryClient.invalidateQueries({
 				queryKey: ['subjects'],
 			})
-			await queryClient.invalidateQueries({
-				queryKey: ['themes'],
-			})
+			// await queryClient.invalidateQueries({
+			// 	queryKey: ['themes'],
+			// })
 		},
 	})
 }

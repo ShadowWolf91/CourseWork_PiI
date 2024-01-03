@@ -35,7 +35,6 @@ export default class SubjectService {
   static createSubject = async ({ subjectName }: ICreateSubjectRequest) => {
     const subject = await prismaClient.subjects.findUnique({
       where: { subjectName },
-      select: { id_subject: true },
     });
 
     if (subject)

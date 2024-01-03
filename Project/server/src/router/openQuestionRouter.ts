@@ -42,7 +42,6 @@ openQuestionRouter.patch(
   OpenQuestionDataValidator.openQuestionName(body, true, { max: 50 }),
   OpenQuestionDataValidator.question(body),
   OpenQuestionDataValidator.correctAnswer(body),
-  OpenQuestionDataValidator.theme_id(body),
   OpenQuestionController.updateOpenQuestionData
 );
 

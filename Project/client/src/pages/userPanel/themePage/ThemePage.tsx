@@ -14,11 +14,15 @@ import {
 	IGetBySubjectIdResponse,
 } from '../../../api/themes/reg/getBySubjectId.ts'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
+import { useCreateSession } from '../../../query/panelTeacher/createSession.ts'
+import useVirtualStore from '../../../store/index.ts'
 
 export const UserThemePage = () => {
-	// const { userId } = useVirtualStore()
+	const { setCredentials, id_user, device_id, role, username, checkStorageHealth } =
+		useVirtualStore()
 	const navigate = useNavigate()
 	const { subject_id } = useParams()
+	const { mutateAsync: createSession } = useCreateSession()
 	const { data, error, isLoading } = useQuery<
 		IGetBySubjectIdRequest,
 		IErrorResponse,
@@ -175,11 +179,23 @@ export const UserThemePage = () => {
 									</div>
 								</div>
 								<button
-									onClick={() =>
+									onClick={async () => {
+										const result = await createSession({
+											id_theme: item.id_theme,
+										})
+										console.log(item)
+
+										setCredentials({
+											id_user,
+											device_id,
+											role,
+											username,
+											statisticId: result.statisticId,
+										})
 										navigate(
 											`/user/subjects/${item.themeName}/${item.id_theme}`
 										)
-									}>
+									}}>
 									Выбрать
 								</button>
 							</div>

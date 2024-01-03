@@ -101,21 +101,21 @@ export default class ThemeService {
 
   //update
   static updateTheme = async ({
-    id_theme,
+    themeId,
     subject_id,
     themeName,
     mode,
     time,
   }: IUpdateThemeRequest) => {
     const theme = await prismaClient.themes.findUnique({
-      where: { id_theme },
+      where: { id_theme: themeId },
       select: { id_theme: true },
     });
     if (!theme)
-      throw UserRequestError.NotFound(`THEME WITH NAME ${id_theme} NOT FOUND`);
+      throw UserRequestError.NotFound(`THEME WITH NAME ${themeId} NOT FOUND`);
 
     return prismaClient.themes.update({
-      where: { id_theme },
+      where: { id_theme: themeId },
       data: {
         subject_id,
         themeName,

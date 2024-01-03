@@ -1,5 +1,5 @@
 export interface IUpdateOpenQuestionRequest {
-	id_openQuestion: number
+	openQuestionId: number
 	theme_id?: number
 	question?: string
 	correctAnswer?: string
@@ -8,7 +8,6 @@ export interface IUpdateOpenQuestionRequest {
 }
 
 export interface IUpdateOpenQuestionResponse {
-	id_openQuestion: number
 	theme_id: number
 	question: string
 	correctAnswer: string

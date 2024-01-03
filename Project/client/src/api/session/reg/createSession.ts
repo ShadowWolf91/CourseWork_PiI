@@ -1,5 +1,6 @@
 export interface ICreateSessionRequest {
-	id: number
+	themeId: number
+	userId: number
 }
 
 export interface ICreateSessionResponse {

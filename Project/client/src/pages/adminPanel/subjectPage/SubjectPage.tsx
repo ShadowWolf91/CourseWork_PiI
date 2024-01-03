@@ -63,21 +63,6 @@ export const SubjectsPage = () => {
 						<div className={styles.modal}>
 							<p>Редактирование предмета</p>
 							<div className={styles.div}>
-								<p>ID предмета</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedSubject.id_subject}
-									max={32767}
-									onChange={e =>
-										setSelectedSubject(prev => ({
-											...prev,
-											id_subject: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
 								<p>Название предмета</p>
 								<input
 									type='text'

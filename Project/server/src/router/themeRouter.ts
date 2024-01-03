@@ -46,9 +46,7 @@ themeRouter.post(
   ThemeEndpoints.CREATE,
   ThemeDataValidator.themeName(body, true, { max: 50 }),
   ThemeDataValidator.subject_id(body),
-  ThemeDataValidator.questionAmount(body),
-  ThemeDataValidator.time(body),
-  ThemeDataValidator.modes(body),
+  ThemeDataValidator.mode(body),
   ThemeController.createTheme
 );
 
@@ -56,10 +54,8 @@ themeRouter.patch(
   ThemeEndpoints.UPDATE,
   ThemeDataValidator.themeId(body),
   ThemeDataValidator.themeName(body, true, { max: 50 }),
-  ThemeDataValidator.subject_id(body),
-  ThemeDataValidator.questionAmount(body, true),
-  ThemeDataValidator.time(body, true),
-  ThemeDataValidator.modes(body, true),
+  // ThemeDataValidator.subject_id(body),
+  ThemeDataValidator.mode(body, true),
   ThemeController.updateTheme
 );
 

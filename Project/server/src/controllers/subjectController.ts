@@ -121,9 +121,7 @@ export default class SubjectController {
 
     try {
       const result = await SubjectService.updateSubject(req.body);
-      res.json({
-        ...result,
-      });
+      res.json(result);
     } catch (e) {
       return next(e);
     }

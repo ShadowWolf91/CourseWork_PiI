@@ -13,7 +13,7 @@ export function useGetAllOpenQuestions(OpenQuestionName?: string) {
 		(string | undefined)[],
 		{ pageSize: number | undefined; cursor: number | null }
 	>({
-		queryKey: ['openQuestions'],
+		queryKey: ['OpenQuestions'],
 		queryFn: async ({ pageParam }) => {
 			try {
 				const result = await $api.get<

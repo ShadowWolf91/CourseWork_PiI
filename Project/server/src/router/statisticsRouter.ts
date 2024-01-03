@@ -24,13 +24,8 @@ statisticsRouter.get(
 statisticsRouter.patch(
   StatisticsEndpoints.UPDATE,
   StatisticDataValidator.id(body),
-  StatisticDataValidator.title(body, true, { max: 50 }),
-  StatisticDataValidator.rightAnsweredTests(body, true),
-  StatisticDataValidator.rightAnsweredCards(body, true),
-  StatisticDataValidator.rightAnsweredOQs(body, true),
-  StatisticDataValidator.markTests(body, true),
-  StatisticDataValidator.markCards(body, true),
-  StatisticDataValidator.markOpenQuestions(body, true),
+  StatisticDataValidator.rightAnswered(body, true),
+  StatisticDataValidator.mark(body, true),
   StatisticDataValidator.user_id(body),
   StatisticsController.updateStatisticsData
 );

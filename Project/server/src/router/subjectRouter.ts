@@ -26,13 +26,13 @@ subjectRouter.get(SubjectEndpoints.GET_SUBJECTS, SubjectController.getSubjects);
 subjectRouter.post(
   SubjectEndpoints.CREATE,
   SubjectDataValidator.subjectName(body, true, { max: 50 }),
-  SubjectDataValidator.idSubject(body),
+  // SubjectDataValidator.subjectId(body),
   SubjectController.createSubject
 );
 
 subjectRouter.patch(
   SubjectEndpoints.UPDATE,
-  SubjectDataValidator.subjectId(body),
+  // SubjectDataValidator.subjectId(body),
   SubjectDataValidator.subjectName(body, true, { max: 50 }),
   SubjectController.updateSubjectData
 );

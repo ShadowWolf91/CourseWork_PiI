@@ -22,7 +22,7 @@ export function useUpdateOpenQuestion() {
 					AxiosResponse<IUpdateOpenQuestionResponse>,
 					IUpdateOpenQuestionRequest
 				>(`${OpenQuestionEndpoints.BASE}${OpenQuestionEndpoints.UPDATE}`, {
-					id_openQuestion: selectedOpenQuestion.id_openQuestion,
+					openQuestionId: selectedOpenQuestion.openQuestionId,
 					theme_id: selectedOpenQuestion?.theme_id,
 					question: selectedOpenQuestion?.question,
 					correctAnswer: selectedOpenQuestion?.correctAnswer,

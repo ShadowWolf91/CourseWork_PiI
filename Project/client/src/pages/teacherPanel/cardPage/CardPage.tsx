@@ -225,7 +225,7 @@ export const CardsPage = () => {
 											<button
 												onClick={() =>
 													setSelectedCard({
-														id_card: item.id_card,
+														cardId: item.id_card,
 														cardName: item.cardName,
 														word: item.word,
 														correctAnswer: item.correctAnswer,

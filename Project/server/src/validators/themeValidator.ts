@@ -18,40 +18,14 @@ export default class ProductDataValidator extends MainValidator {
     return MainValidator.title(location, isOptional, length, "title");
   }
 
-  static questionAmount(location: TLocation, isOptional = false) {
+  static mode(location: TLocation, isOptional = false) {
     return isOptional
-      ? location("questionAmount")
-          .optional({ values: "undefined" })
-          .isInt({ min: 0, max: 20 })
-          .withMessage("SHOULD BE AN INT >= 0 AND <= 20")
-          .toInt()
-      : location("questionAmount")
-          .isInt({ min: 0, max: 20 })
-          .withMessage("SHOULD BE AN INT >= 0 AND <= 20")
-          .toInt();
-  }
-
-  static time(location: TLocation, isOptional = false) {
-    return isOptional
-      ? location("time")
-          .optional({ values: "undefined" })
-          .isInt({ min: 0, max: 20 })
-          .withMessage("SHOULD BE AN INT >= 0 AND <= 20")
-          .toInt()
-      : location("time")
-          .isInt({ min: 0, max: 20 })
-          .withMessage("SHOULD BE AN INT >= 0 AND <= 20")
-          .toInt();
-  }
-
-  static modes(location: TLocation, isOptional = false) {
-    return isOptional
-      ? location("modes")
+      ? location("mode")
           .isString()
           .withMessage("SHOULD BE STRING")
           .isIn(Object.values(Modes))
           .withMessage(`ALLOWED VALUES: ${Object.values(Modes).join(" | ")}`)
-      : location("modes")
+      : location("mode")
           .optional()
           .isString()
           .withMessage("SHOULD BE STRING")

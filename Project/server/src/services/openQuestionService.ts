@@ -84,26 +84,23 @@ export default class OpenQuestionsService {
 
   //update
   static updateOpenQuestionData = async ({
-    id_openQuestion,
-    theme_id,
+    openQuestionId,
     question,
     correctAnswer,
     openQuestionName,
   }: IUpdateOpenQuestionRequest) => {
     const openQuestion = await prismaClient.openQuestions.findUnique({
-      where: { id_openQuestion },
+      where: { id_openQuestion: openQuestionId },
       select: { id_openQuestion: true },
     });
     if (!openQuestion)
       throw UserRequestError.NotFound(
-        `OPEN QUESTION WITH ID ${id_openQuestion} NOT FOUND`
+        `OPEN QUESTION WITH ID ${openQuestionId} NOT FOUND`
       );
 
     return prismaClient.openQuestions.update({
-      where: { id_openQuestion },
+      where: { id_openQuestion: openQuestionId },
       data: {
-        id_openQuestion,
-        theme_id,
         question,
         correctAnswer,
         openQuestionName,

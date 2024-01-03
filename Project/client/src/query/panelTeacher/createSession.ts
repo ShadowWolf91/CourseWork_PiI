@@ -8,9 +8,11 @@ import axios, { AxiosResponse } from 'axios'
 import SessionEndpoints from '../../api/session/endpoints.ts'
 import queryClient from '../queryClient.ts'
 import { useMutation } from '@tanstack/react-query'
+import useVirtualStore from '../../store/index.ts'
 
-export function useCreateSubject() {
-	return useMutation<ICreateSessionResponse, IErrorResponse, ICreateSessionRequest>({
+export function useCreateSession() {
+	const { id_user } = useVirtualStore()
+	return useMutation<ICreateSessionResponse, IErrorResponse, { themeId: number }>({
 		mutationFn: async newSession => {
 			try {
 				const result = await $api.post<
@@ -18,7 +20,8 @@ export function useCreateSubject() {
 					AxiosResponse<ICreateSessionResponse>,
 					ICreateSessionRequest
 				>(`${SessionEndpoints.BASE}${SessionEndpoints.CREATE}`, {
-					id: newSession.id,
+					themeId: newSession.themeId,
+					userId: +id_user!,
 				})
 				return result.data
 			} catch (e) {
