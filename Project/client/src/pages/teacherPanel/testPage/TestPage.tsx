@@ -72,36 +72,6 @@ export const TestsPage = () => {
 						<div className={styles.modal}>
 							<p>Редактирование теста</p>
 							<div className={styles.div}>
-								<p>ID теста</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedTest.id_test}
-									max={32767}
-									onChange={e =>
-										setSelectedTest(prev => ({
-											...prev,
-											id_test: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedTest.theme_id}
-									max={32767}
-									onChange={e =>
-										setSelectedTest(prev => ({
-											...prev,
-											theme_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
 								<p>Вопрос</p>
 								<input
 									type='text'
@@ -371,6 +341,13 @@ export const TestsPage = () => {
 								<div className={styles.card} key={item.id_test}>
 									<p>{item.testName}</p>
 									<div>
+										<div>
+											<p>Вопрос: {item.question}</p>
+											<p>А: {item.optionA}</p>
+											<p>B: {item.optionB}</p>
+											<p>C: {item.optionC}</p>
+											<p>D: {item.optionD}</p>
+										</div>
 										<div className={styles.TestEditBar}>
 											<button
 												onClick={() =>

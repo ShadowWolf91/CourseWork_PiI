@@ -5,8 +5,6 @@ export interface ICreateThemeRequest {
 	subject_id: number
 	themeName: string
 	mode: keyof typeof Modes
-	questionAmount: number
-	time: number
 }
 
 export interface ICreateThemeResponse {
@@ -14,6 +12,4 @@ export interface ICreateThemeResponse {
 	id_theme: number
 	themeName: string
 	mode: keyof typeof Modes
-	questionAmount: number
-	time: number
 }

@@ -1,15 +1,15 @@
-import { Roles } from "../../enums";
+import { Roles } from '../../enums'
 
 export interface IUpdateUserTokenRequest {
-  user_id: number;
-  device_id: string;
-  username: string;
-  role: keyof typeof Roles;
+	user_id: number
+	device_id: string
+	username: string
+	role: keyof typeof Roles
 }
 
 export interface IUpdateUserTokenResponse {
-  user_id: number;
-  device_id: string;
-  accessToken: string;
-  refreshToken: string;
+	user_id: number
+	device_id: string
+	accessToken: string
+	refreshToken: string
 }

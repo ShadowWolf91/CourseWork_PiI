@@ -67,36 +67,6 @@ export const CardsPage = () => {
 						<div className={styles.modal}>
 							<p>Редактирование карточки</p>
 							<div className={styles.div}>
-								<p>ID карточки</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedCard.id_card}
-									max={32767}
-									onChange={e =>
-										setSelectedCard(prev => ({
-											...prev,
-											id_card: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedCard.theme_id}
-									max={32767}
-									onChange={e =>
-										setSelectedCard(prev => ({
-											...prev,
-											theme_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
 								<p>Слово</p>
 								<input
 									type='text'
@@ -248,6 +218,9 @@ export const CardsPage = () => {
 								<div className={styles.card} key={item.id_card}>
 									<p>{item.cardName}</p>
 									<div>
+										<div>
+											<p>Слово: {item.word}</p>
+										</div>
 										<div className={styles.cardEditBar}>
 											<button
 												onClick={() =>
