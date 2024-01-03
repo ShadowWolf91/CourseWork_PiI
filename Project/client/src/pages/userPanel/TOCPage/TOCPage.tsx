@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
+import Timer from '../../../components/timer/Timer.tsx'
 import useGetCards from '../../../query/panelTeacher/getCardsByThemeId.ts'
 import useGetOpenQuestion from '../../../query/userPanel/getOpenQuestionsByThemeId.ts'
 import useGetTests from '../../../query/userPanel/getTestsByThemeId.ts'
@@ -48,6 +49,7 @@ export const UserTOCPage = () => {
 		const card = Object.values(showCardAnswer).filter(item => item).length
 
 		setResult(prev => ({ ...prev, correct: OC + test + card }))
+		setStopped(true)
 		console.log(OC + test + card)
 	}
 
@@ -85,11 +87,21 @@ export const UserTOCPage = () => {
 		}))
 	}, [testData, cardData, openQuestionData])
 
+	const [stopped, setStopped] = useState(false)
+
 	if (isTestLoading || isCardLoading || isOpenQuestionLoading) return <h2>Loading...</h2>
 	if (testError || cardError || openQuestionError) return <p>Error</p>
 	if (!testData || !cardData || !openQuestionData) return <p>Данных нету</p>
 	return (
 		<>
+			<Timer
+				timeLimit={15}
+				isStopped={stopped}
+				onTimeout={() => {
+					setStopped(true)
+					getTOCResult()
+				}}
+			/>
 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
@@ -227,7 +239,8 @@ export const UserTOCPage = () => {
 													[item.id_openQuestion]: {
 														value: e.target?.value,
 														isCorrect:
-															e.target.value.trim() === item.correctAnswer,
+															e.target.value.trim() ===
+															item.correctAnswer.trim(),
 													},
 												}))
 											}
@@ -240,7 +253,9 @@ export const UserTOCPage = () => {
 						))}
 				</div>
 			</div>
-			<button onClick={getTOCResult}>Получить результат</button>
+			<button disabled={stopped} onClick={getTOCResult}>
+				Получить результат
+			</button>
 			<p>
 				Результат: {result.correct}/{result.total}
 			</p>
