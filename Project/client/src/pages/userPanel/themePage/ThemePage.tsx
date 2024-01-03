@@ -172,8 +172,6 @@ export const UserThemePage = () => {
 									<div>
 										{/* <p>Название: {item?.themeName}</p> */}
 										<p>Режим: {item?.mode}</p>
-										<p>Кол-во вопросов: {item?.questionAmount}</p>
-										<p>Время: {item?.time}</p>
 									</div>
 								</div>
 								<button

@@ -69,36 +69,6 @@ export const OpenQuestionsPage = () => {
 						<div className={styles.modal}>
 							<p>Редактирование открытого вопроса</p>
 							<div className={styles.div}>
-								<p>ID открытого вопроса</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedOpenQuestion.id_openQuestion}
-									max={32767}
-									onChange={e =>
-										setSelectedOpenQuestion(prev => ({
-											...prev,
-											id_openQuestion: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
-								<p>ID темы</p>
-								<input
-									type='number'
-									step={1}
-									value={selectedOpenQuestion.theme_id}
-									max={32767}
-									onChange={e =>
-										setSelectedOpenQuestion(prev => ({
-											...prev,
-											theme_id: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							<div className={styles.div}>
 								<p>Вопрос</p>
 								<input
 									type='text'
@@ -254,6 +224,9 @@ export const OpenQuestionsPage = () => {
 								<div className={styles.card} key={item.id_openQuestion}>
 									<p>{item.openQuestionName}</p>
 									<div>
+										<div>
+											<p>Вопрос: {item.question}</p>
+										</div>
 										<div className={styles.OpenQuestionEditBar}>
 											<button
 												onClick={() =>

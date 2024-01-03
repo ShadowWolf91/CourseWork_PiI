@@ -7,7 +7,7 @@ import { ThemesPage } from '../pages/teacherPanel/themePage/ThemePage.tsx'
 import { TestsPage } from '../pages/teacherPanel/testPage/TestPage.tsx'
 import { OpenQuestionsPage } from '../pages/teacherPanel/openQuestionPage/OpenQuestionPage.tsx'
 import { CardsPage } from '../pages/teacherPanel/cardPage/CardPage.tsx'
-import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
+//import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
 import { UserSubjectsPage } from '../pages/userPanel/subjectPage/SubjectPage.tsx'
 import { UserThemePage } from '../pages/userPanel/themePage/ThemePage.tsx'
 import { UserCardCreatePage } from '../pages/userPanel/CardCreatePage/CardCreatePage.tsx'
@@ -67,14 +67,14 @@ export const browserRouter = createBrowserRouter([
 					</RequireAuth>
 				),
 			},
-			{
-				path: 'teacher/stats/',
-				element: (
-					<RequireAuth isRootRequire>
-						<StatsPage />
-					</RequireAuth>
-				),
-			},
+			// {
+			// 	path: 'teacher/stats/',
+			// 	element: (
+			// 		<RequireAuth isRootRequire>
+			// 			<StatsPage />
+			// 		</RequireAuth>
+			// 	),
+			// },
 			{
 				path: 'user/subjects/',
 				element: (

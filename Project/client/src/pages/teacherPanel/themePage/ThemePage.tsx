@@ -24,8 +24,6 @@ export const ThemesPage = () => {
 		subject_id: 1,
 		themeName: '',
 		mode: 'TEST',
-		questionAmount: 0,
-		time: 15,
 	}
 
 	const [newTheme, setNewTheme] = useState<ICreateThemeRequest>(
@@ -33,8 +31,6 @@ export const ThemesPage = () => {
 			subject_id: subjects[0].id_subject,
 			themeName: '',
 			mode: 'TEST',
-			questionAmount: 0,
-			time: 15,
 		}) ||
 			newThemeInitState
 	)
@@ -109,36 +105,6 @@ export const ThemesPage = () => {
 									))}
 								</select>
 							</div>
-							<div className={styles.div}>
-								<p>Кол-во вопросов</p>
-								<input
-									type='number'
-									step={1}
-									max={20}
-									value={selectedTheme.questionAmount}
-									onChange={e =>
-										setSelectedTheme(prev => ({
-											...prev,
-											questionAmount: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							{/* <div className={styles.div}>
-								<p>Время</p>
-								<input
-									type='number'
-									step={1}
-									max={20}
-									value={selectedTheme.time}
-									onChange={e =>
-										setSelectedTheme(prev => ({
-											...prev,
-											time: +e.target.value,
-										}))
-									}
-								/>
-							</div> */}
 							<div>
 								<button
 									disabled={selectedTheme.themeName === ''}
@@ -209,36 +175,6 @@ export const ThemesPage = () => {
 										))}
 								</select>
 							</div>
-							<div className={styles.div}>
-								<p>Кол-во вопросов</p>
-								<input
-									type='number'
-									step={1}
-									max={20}
-									value={selectedTheme.questionAmount}
-									onChange={e =>
-										setNewTheme(prev => ({
-											...prev,
-											questionAmount: +e.target.value,
-										}))
-									}
-								/>
-							</div>
-							{/* <div className={styles.div}>
-								<p>Время</p>
-								<input
-									type='number'
-									step={1}
-									max={20}
-									value={selectedTheme.time}
-									onChange={e =>
-										setNewTheme(prev => ({
-											...prev,
-											time: +e.target.value,
-										}))
-									}
-								/>
-							</div> */}
 							<div className={styles.buttons}>
 								<button
 									// disabled={newTheme.themeName === ''}
@@ -268,17 +204,13 @@ export const ThemesPage = () => {
 									<p>{item.themeName}</p>
 									<div>
 										<div>
-											<p>Название темы: {item.themeName}</p>
 											<p>Режим: {item.mode}</p>
-											<p>Кол-во вопросов: {item.questionAmount}</p>
 										</div>
 										<div className={styles.cardEditBar}>
 											<button
 												onClick={() =>
 													setSelectedTheme({
 														themeName: item.themeName,
-														questionAmount: item.questionAmount,
-														time: item.time,
 														mode: item.mode,
 													})
 												}>
