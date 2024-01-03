@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import styles from './tocPage.module.scss'
 import { ToastContainer } from 'react-toastify'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
-import useGetTests from '../../../query/userPanel/getTestsByThemeId.ts'
 import useGetCards from '../../../query/panelTeacher/getCardsByThemeId.ts'
 import useGetOpenQuestion from '../../../query/userPanel/getOpenQuestionsByThemeId.ts'
+import useGetTests from '../../../query/userPanel/getTestsByThemeId.ts'
+import styles from './tocPage.module.scss'
 
 export const UserTOCPage = () => {
 	const { data: testData, error: testError, isLoading: isTestLoading } = useGetTests()
@@ -15,6 +15,8 @@ export const UserTOCPage = () => {
 		isLoading: isOpenQuestionLoading,
 	} = useGetOpenQuestion()
 
+	const [result, setResult] = useState({ correct: 0, total: 0 })
+
 	const [search, setSearch] = useState('')
 	const [showCardAnswer, setShowCardAnswer] = useState(
 		cardData?.card.reduce(
@@ -23,16 +25,65 @@ export const UserTOCPage = () => {
 		)
 	)
 
-	useEffect(
-		() =>
-			setShowCardAnswer(
-				cardData?.card.reduce(
-					(prev, curr) => ({ ...prev, [curr.id_card]: false }),
-					{} as { [x: number]: boolean }
-				)
-			),
-		[cardData]
+	const [testAnswers, setTestAnswers] = useState(
+		testData?.test.reduce(
+			() => null,
+			{} as { [x: number]: { isCorrect: boolean } } | null
+		)
 	)
+
+	const [OCAnswers, setOCAnswers] = useState(
+		openQuestionData?.openQuestion.reduce(
+			() => ({}),
+			{} as {
+				[x: number]: { isCorrect: boolean; value: string }
+			} | null
+		)
+	)
+
+	const getTOCResult = () => {
+		if (!OCAnswers || !testAnswers || !showCardAnswer) return
+		const OC = Object.values(OCAnswers).filter(item => item.isCorrect).length
+		const test = Object.values(testAnswers).filter(item => item.isCorrect).length
+		const card = Object.values(showCardAnswer).filter(item => item).length
+
+		setResult(prev => ({ ...prev, correct: OC + test + card }))
+		console.log(OC + test + card)
+	}
+
+	useEffect(() => {
+		setShowCardAnswer(
+			cardData?.card.reduce(
+				(prev, curr) => ({ ...prev, [curr.id_card]: false }),
+				{} as { [x: number]: boolean }
+			)
+		)
+		setTestAnswers(
+			testData?.test.reduce(
+				() => null,
+				{} as { [x: number]: { isCorrect: boolean } } | null
+			)
+		)
+
+		setOCAnswers(
+			openQuestionData?.openQuestion.reduce(
+				() => ({}),
+				{} as {
+					[x: number]: { isCorrect: boolean; value: string }
+				} | null
+			)
+		)
+	}, [cardData, testData, openQuestionData])
+	useEffect(() => {
+		setResult(prev => ({
+			...prev,
+			total: [
+				...(testData?.test || []),
+				...(openQuestionData?.openQuestion || []),
+				...(cardData?.card || []),
+			].length,
+		}))
+	}, [testData, cardData, openQuestionData])
 
 	if (isTestLoading || isCardLoading || isOpenQuestionLoading) return <h2>Loading...</h2>
 	if (testError || cardError || openQuestionError) return <p>Error</p>
@@ -55,36 +106,68 @@ export const UserTOCPage = () => {
 									<div>
 										<label htmlFor={`card1${i}`}>A: {item?.optionA}</label>
 										<input
+											onClick={() =>
+												setTestAnswers(prev => ({
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionA === item.correctAnswer,
+													},
+												}))
+											}
+											disabled={!!testAnswers && !!testAnswers[item.id_test]}
 											id={`card1${i}`}
 											type='radio'
 											value={item?.optionA}
 											name={`card${i}`}
-										/>{' '}
+										/>
 										<label htmlFor={`card2${i}`}>B: {item?.optionB}</label>
 										<input
+											onClick={() =>
+												setTestAnswers(prev => ({
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionB === item.correctAnswer,
+													},
+												}))
+											}
+											disabled={!!testAnswers && !!testAnswers[item.id_test]}
 											id={`card2${i}`}
 											type='radio'
 											value={item?.optionB}
 											name={`card${i}`}
-										/>{' '}
+										/>
 										<label htmlFor={`card3${i}`}>C: {item?.optionC}</label>
 										<input
+											onClick={() =>
+												setTestAnswers(prev => ({
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionC === item.correctAnswer,
+													},
+												}))
+											}
+											disabled={!!testAnswers && !!testAnswers[item.id_test]}
 											id={`card3${i}`}
 											type='radio'
 											value={item?.optionC}
 											name={`card${i}`}
-										/>{' '}
+										/>
 										<label htmlFor={`card4${i}`}>D: {item?.optionD}</label>
 										<input
+											onClick={() =>
+												setTestAnswers(prev => ({
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionD === item.correctAnswer,
+													},
+												}))
+											}
+											disabled={!!testAnswers && !!testAnswers[item.id_test]}
 											id={`card4${i}`}
 											type='radio'
 											value={item?.optionD}
 											name={`card${i}`}
 										/>
-										{/* <p>A: {item?.optionA}</p>
-										<p>B: {item?.optionB}</p>
-										<p>C: {item?.optionC}</p>
-										<p>D: {item?.optionD}</p> */}
 									</div>
 								</div>
 							</div>
@@ -133,7 +216,21 @@ export const UserTOCPage = () => {
 									<div>
 										<input
 											type='text'
-											// value={item.correctAnswer}
+											value={
+												(OCAnswers &&
+													OCAnswers[item.id_openQuestion].value) ||
+												''
+											}
+											onChange={e =>
+												setOCAnswers(prev => ({
+													...prev,
+													[item.id_openQuestion]: {
+														value: e.target.value,
+														isCorrect:
+															e.target.value.trim() === item.correctAnswer,
+													},
+												}))
+											}
 											maxLength={20}
 										/>
 										{/* <p>Ответ: {item?.correctAnswer}</p> */}
@@ -143,6 +240,10 @@ export const UserTOCPage = () => {
 						))}
 				</div>
 			</div>
+			<button onClick={getTOCResult}>Получить результат</button>
+			<p>
+				Результат: {result.correct}/{result.total}
+			</p>
 			<ToastContainer />
 		</>
 	)
