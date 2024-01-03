@@ -218,14 +218,14 @@ export const UserTOCPage = () => {
 											type='text'
 											value={
 												(OCAnswers &&
-													OCAnswers[item.id_openQuestion].value) ||
+													OCAnswers[item.id_openQuestion]?.value) ||
 												''
 											}
 											onChange={e =>
 												setOCAnswers(prev => ({
 													...prev,
 													[item.id_openQuestion]: {
-														value: e.target.value,
+														value: e.target?.value,
 														isCorrect:
 															e.target.value.trim() === item.correctAnswer,
 													},
