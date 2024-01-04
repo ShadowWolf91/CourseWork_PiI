@@ -10,12 +10,21 @@ export default class UserService {
     cursor,
     skip,
     take,
-  }: IGetAllStatisticsRequest) =>
-    prismaClient.statistics.findMany({
+  }: IGetAllStatisticsRequest) => {
+    const statistics = await prismaClient.statistics.findMany({
       skip: skip,
       take: take,
       cursor: cursor ? { id: cursor } : undefined,
+      include: { tocSession: true },
     });
+
+    return prismaClient.tOCSession.findMany({
+      where: {
+        statisticId: { in: statistics.map((stat) => stat.id) },
+      },
+      include: { statistics: true, user: true, themes: true },
+    });
+  };
 
   static getStatisticByUserId = async ({ ids }: IGetStatisticByUserIdRequest) =>
     prismaClient.statistics.findMany({

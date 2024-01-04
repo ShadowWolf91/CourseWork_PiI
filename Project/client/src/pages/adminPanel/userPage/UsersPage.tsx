@@ -69,7 +69,7 @@ export const UsersPage = () => {
 														onClick={async () =>
 															await dropUser(item.id_user)
 														}>
-														Удалить навсегда
+														Удалить
 													</button>
 												}
 											</div>

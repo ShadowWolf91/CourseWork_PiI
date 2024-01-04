@@ -7,7 +7,6 @@ import styles from './navigation.module.scss'
 export function NavBar() {
 	const { role, id_user, device_id } = useVirtualStore()
 	const navigate = useNavigate()
-
 	const { logout } = useLogout()
 	return (
 		<div className={styles.navBarContainer}>
@@ -27,6 +26,7 @@ export function NavBar() {
 			) : role === Roles.DEFAULT ? (
 				<div className={styles.linksContainer}>
 					<Link to='/user/card'>Карточки</Link>
+					<Link to='/user/test'>Тесты</Link>
 					<Link to='/user/subjects'>Предметы</Link>
 				</div>
 			) : (
@@ -40,7 +40,7 @@ export function NavBar() {
 					localStorage.clear()
 					navigate('/auth')
 				}}>
-				Logout
+				Выйти
 			</button>
 		</div>
 	)

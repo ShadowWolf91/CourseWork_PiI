@@ -13,7 +13,7 @@ export function useGetAllTests(TestName?: string) {
 		(string | undefined)[],
 		{ pageSize: number | undefined; cursor: number | null }
 	>({
-		queryKey: ['Tests'],
+		queryKey: ['tests'],
 		queryFn: async ({ pageParam }) => {
 			try {
 				const result = await $api.get<

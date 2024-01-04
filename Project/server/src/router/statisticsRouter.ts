@@ -26,7 +26,6 @@ statisticsRouter.patch(
   StatisticDataValidator.id(body),
   StatisticDataValidator.rightAnswered(body, true),
   StatisticDataValidator.mark(body, true),
-  StatisticDataValidator.user_id(body),
   StatisticsController.updateStatisticsData
 );
 

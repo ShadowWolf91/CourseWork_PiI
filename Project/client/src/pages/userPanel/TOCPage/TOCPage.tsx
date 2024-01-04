@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
-import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import Timer from '../../../components/timer/Timer.tsx'
 import useGetCards from '../../../query/panelTeacher/getCardsByThemeId.ts'
 import useGetOpenQuestion from '../../../query/userPanel/getOpenQuestionsByThemeId.ts'
@@ -20,7 +19,6 @@ export const UserTOCPage = () => {
 	const { statisticId } = useVirtualStore()
 	const [result, setResult] = useState({ correct: 0, total: 0 })
 	const { mutateAsync: updateStat } = useUpdateStat()
-	const [search, setSearch] = useState('')
 	const [showCardAnswer, setShowCardAnswer] = useState(
 		cardData?.card.reduce(
 			(prev, curr) => ({ ...prev, [curr.id_card]: false }),
@@ -53,8 +51,9 @@ export const UserTOCPage = () => {
 		setResult(prev => ({ ...prev, correct: OC + test + card }))
 		setStopped(true)
 		console.log(OC + test + card)
+		console.log(statisticId)
 		await updateStat({
-			id: statisticId,
+			id: Number(statisticId),
 			mark: [
 				...(testData?.test || []),
 				...(openQuestionData?.openQuestion || []),
@@ -105,163 +104,151 @@ export const UserTOCPage = () => {
 	if (!testData || !cardData || !openQuestionData) return <p>Данных нету</p>
 	return (
 		<>
-			<Timer
-				timeLimit={15}
-				isStopped={stopped}
-				onTimeout={() => {
-					setStopped(true)
-					getTOCResult()
-				}}
-			/>
 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
+				<Timer
+					timeLimit={15}
+					isStopped={stopped}
+					onTimeout={() => {
+						setStopped(true)
+						getTOCResult()
+					}}
+				/>
 			</div>
 			<div className={styles.container}>
 				<div className={styles.cardsContainer}>
-					{testData?.test
-						.filter(
-							item => item?.question.toLowerCase().includes(search.toLowerCase())
-						)
-						.map((item, i) => (
-							<div className={styles.card} key={item?.id_test}>
-								<p>{item?.question}</p>
+					{testData?.test.map((item, i) => (
+						<div className={styles.card} key={item?.id_test}>
+							<p>{item?.question}</p>
+							<div>
 								<div>
-									<div>
-										<label htmlFor={`card1${i}`}>A: {item?.optionA}</label>
-										<input
-											onClick={() =>
-												setTestAnswers(prev => ({
-													...prev,
-													[item.id_test]: {
-														isCorrect: item?.optionA === item.correctAnswer,
-													},
-												}))
-											}
-											disabled={!!testAnswers && !!testAnswers[item.id_test]}
-											id={`card1${i}`}
-											type='radio'
-											value={item?.optionA}
-											name={`card${i}`}
-										/>
-										<label htmlFor={`card2${i}`}>B: {item?.optionB}</label>
-										<input
-											onClick={() =>
-												setTestAnswers(prev => ({
-													...prev,
-													[item.id_test]: {
-														isCorrect: item?.optionB === item.correctAnswer,
-													},
-												}))
-											}
-											disabled={!!testAnswers && !!testAnswers[item.id_test]}
-											id={`card2${i}`}
-											type='radio'
-											value={item?.optionB}
-											name={`card${i}`}
-										/>
-										<label htmlFor={`card3${i}`}>C: {item?.optionC}</label>
-										<input
-											onClick={() =>
-												setTestAnswers(prev => ({
-													...prev,
-													[item.id_test]: {
-														isCorrect: item?.optionC === item.correctAnswer,
-													},
-												}))
-											}
-											disabled={!!testAnswers && !!testAnswers[item.id_test]}
-											id={`card3${i}`}
-											type='radio'
-											value={item?.optionC}
-											name={`card${i}`}
-										/>
-										<label htmlFor={`card4${i}`}>D: {item?.optionD}</label>
-										<input
-											onClick={() =>
-												setTestAnswers(prev => ({
-													...prev,
-													[item.id_test]: {
-														isCorrect: item?.optionD === item.correctAnswer,
-													},
-												}))
-											}
-											disabled={!!testAnswers && !!testAnswers[item.id_test]}
-											id={`card4${i}`}
-											type='radio'
-											value={item?.optionD}
-											name={`card${i}`}
-										/>
-									</div>
+									<label htmlFor={`card1${i}`}>A: {item?.optionA}</label>
+									<input
+										onClick={() =>
+											setTestAnswers(prev => ({
+												...prev,
+												[item.id_test]: {
+													isCorrect: item?.optionA === item.correctAnswer,
+												},
+											}))
+										}
+										disabled={!!testAnswers && !!testAnswers[item.id_test]}
+										id={`card1${i}`}
+										type='radio'
+										value={item?.optionA}
+										name={`card${i}`}
+									/>
+									<label htmlFor={`card2${i}`}>B: {item?.optionB}</label>
+									<input
+										onClick={() =>
+											setTestAnswers(prev => ({
+												...prev,
+												[item.id_test]: {
+													isCorrect: item?.optionB === item.correctAnswer,
+												},
+											}))
+										}
+										disabled={!!testAnswers && !!testAnswers[item.id_test]}
+										id={`card2${i}`}
+										type='radio'
+										value={item?.optionB}
+										name={`card${i}`}
+									/>
+									<label htmlFor={`card3${i}`}>C: {item?.optionC}</label>
+									<input
+										onClick={() =>
+											setTestAnswers(prev => ({
+												...prev,
+												[item.id_test]: {
+													isCorrect: item?.optionC === item.correctAnswer,
+												},
+											}))
+										}
+										disabled={!!testAnswers && !!testAnswers[item.id_test]}
+										id={`card3${i}`}
+										type='radio'
+										value={item?.optionC}
+										name={`card${i}`}
+									/>
+									<label htmlFor={`card4${i}`}>D: {item?.optionD}</label>
+									<input
+										onClick={() =>
+											setTestAnswers(prev => ({
+												...prev,
+												[item.id_test]: {
+													isCorrect: item?.optionD === item.correctAnswer,
+												},
+											}))
+										}
+										disabled={!!testAnswers && !!testAnswers[item.id_test]}
+										id={`card4${i}`}
+										type='radio'
+										value={item?.optionD}
+										name={`card${i}`}
+									/>
 								</div>
 							</div>
-						))}
+						</div>
+					))}
 				</div>
 			</div>
 			<div className={styles.container}>
 				<div className={styles.cardsContainer}>
-					{cardData?.card
-						.filter(item => item?.word.toLowerCase().includes(search.toLowerCase()))
-						.map(item => (
-							<div className={styles.card} key={item?.id_card}>
-								<p>{item?.word}</p>
+					{cardData?.card.map(item => (
+						<div className={styles.card} key={item?.id_card}>
+							<p>{item?.word}</p>
+							<div>
 								<div>
-									<div>
-										{showCardAnswer && !showCardAnswer[item.id_card] && (
-											<button
-												onClick={() =>
-													setShowCardAnswer(prev => ({
-														...prev,
-														[item.id_card]: true,
-													}))
-												}>
-												Проверка
-											</button>
-										)}
-										{showCardAnswer && showCardAnswer[item.id_card] && (
-											<p>Ответ: {item?.correctAnswer}</p>
-										)}
-									</div>
+									{showCardAnswer && !showCardAnswer[item.id_card] && (
+										<button
+											onClick={() =>
+												setShowCardAnswer(prev => ({
+													...prev,
+													[item.id_card]: true,
+												}))
+											}>
+											Проверка
+										</button>
+									)}
+									{showCardAnswer && showCardAnswer[item.id_card] && (
+										<p>Ответ: {item?.correctAnswer}</p>
+									)}
 								</div>
 							</div>
-						))}
+						</div>
+					))}
 				</div>
 			</div>
 			<div className={styles.container}>
 				<div className={styles.cardsContainer}>
-					{openQuestionData?.openQuestion
-						.filter(
-							item => item?.question.toLowerCase().includes(search.toLowerCase())
-						)
-						.map(item => (
-							<div className={styles.card} key={item?.id_openQuestion}>
-								<p>{item?.question}</p>
+					{openQuestionData?.openQuestion.map(item => (
+						<div className={styles.card} key={item?.id_openQuestion}>
+							<p>{item?.question}</p>
+							<div>
 								<div>
-									<div>
-										<input
-											type='text'
-											value={
-												(OCAnswers &&
-													OCAnswers[item.id_openQuestion]?.value) ||
-												''
-											}
-											onChange={e =>
-												setOCAnswers(prev => ({
-													...prev,
-													[item.id_openQuestion]: {
-														value: e.target?.value,
-														isCorrect:
-															e.target.value.trim() ===
-															item.correctAnswer.trim(),
-													},
-												}))
-											}
-											maxLength={20}
-										/>
-										{/* <p>Ответ: {item?.correctAnswer}</p> */}
-									</div>
+									<input
+										type='text'
+										value={
+											(OCAnswers && OCAnswers[item.id_openQuestion]?.value) ||
+											''
+										}
+										onChange={e =>
+											setOCAnswers(prev => ({
+												...prev,
+												[item.id_openQuestion]: {
+													value: e.target?.value,
+													isCorrect:
+														e.target.value.trim() ===
+														item.correctAnswer.trim(),
+												},
+											}))
+										}
+										maxLength={20}
+									/>
+									{/* <p>Ответ: {item?.correctAnswer}</p> */}
 								</div>
 							</div>
-						))}
+						</div>
+					))}
 				</div>
 			</div>
 			<button disabled={stopped} onClick={getTOCResult}>

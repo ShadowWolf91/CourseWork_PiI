@@ -30,7 +30,7 @@ export function useUpdateStat() {
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ['Statistics'],
+				queryKey: ['statistics'],
 			})
 		},
 	})

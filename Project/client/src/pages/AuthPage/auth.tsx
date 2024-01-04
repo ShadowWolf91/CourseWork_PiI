@@ -54,11 +54,13 @@ export const AuthPage = () => {
 			localStorage.setItem('id_user', receivedData.user_id.toString())
 			localStorage.setItem('role', receivedData.role)
 			localStorage.setItem('username', receivedData.username)
+			localStorage.setItem('statisticId', Number(1).toString())
 			setCredentials({
 				username: receivedData.username,
 				role: receivedData?.role,
 				device_id: receivedData.device_id,
 				id_user: receivedData.user_id.toString(),
+				statisticId: Number(1).toString(),
 			})
 
 			navigate(

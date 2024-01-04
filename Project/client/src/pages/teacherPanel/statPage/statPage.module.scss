@@ -1,19 +1,89 @@
 .container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	width: 100%;
+	justify-content: space-between;
+	padding: 15px;
 }
 
 .modal {
-	width: 40%;
-	display: flex;
-	flex-direction: column;
+	width: 100%;
+	height: 100%;
 	align-items: center;
+	background: white;
+	color: black;
+	font-size: 12pt;
+	border-radius: 9px;
+	position: relative;
 }
 
 .cardsContainer {
 	display: flex;
 	flex-flow: row wrap;
+	.container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		justify-content: space-between;
+		padding: 15px;
+	}
+
+	.cardsContainer {
+		display: flex;
+		flex-flow: column;
+		gap: 10px;
+		justify-content: center;
+		margin-top: 15px;
+		background: white;
+		border-radius: 15px;
+	}
+
+	.card {
+		color: black;
+		min-width: 2px;
+		padding-left: 25%;
+		padding-right: 25%;
+		padding-bottom: 3%;
+	}
+
+	.cardEditBar {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+
+	.redButton {
+		background: red;
+	}
+	.div {
+		display: flex;
+		justify-content: center;
+		gap: 5%;
+		height: 30px;
+		align-items: center;
+		flex-direction: row;
+
+		> input {
+			border-radius: 8px;
+		}
+	}
+	.modal {
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		background: white;
+		color: black;
+		font-size: 12pt;
+		border-radius: 9px;
+		position: relative;
+	}
+	.buttons {
+		display: flex;
+		gap: 5%;
+		justify-content: center;
+		flex-direction: row;
+	}
+
 	gap: 10px;
 	justify-content: center;
 }

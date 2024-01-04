@@ -176,7 +176,7 @@ export const TestsPage = () => {
 									}
 								/>
 							</div>
-							<div>
+							<div className={styles.buttons}>
 								<button
 									disabled={selectedTest.testName === ''}
 									onClick={async () => {
@@ -331,7 +331,7 @@ export const TestsPage = () => {
 						</div>
 					)}
 				</div>
-				<div className={styles.TestsContainer}>
+				<div className={styles.cardsContainer}>
 					{data?.pages.map(page =>
 						page.testsData
 							.filter(item =>
@@ -352,7 +352,7 @@ export const TestsPage = () => {
 											<button
 												onClick={() =>
 													setSelectedTest({
-														id_test: item.id_test,
+														testId: item.id_test,
 														testName: item.testName,
 														question: item.question,
 														optionA: item.optionA,

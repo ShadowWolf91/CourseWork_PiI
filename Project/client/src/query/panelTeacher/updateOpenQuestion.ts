@@ -37,7 +37,7 @@ export function useUpdateOpenQuestion() {
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ['OpenQuestions'],
+				queryKey: ['openQuestions'],
 			})
 		},
 	})

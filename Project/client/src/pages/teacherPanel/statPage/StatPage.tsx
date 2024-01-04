@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 
 export const StatsPage = () => {
 	const { data, fetchNextPage, hasNextPage } = useGetAllStats()
+	console.log
 
 	return (
 		<>
@@ -13,10 +14,14 @@ export const StatsPage = () => {
 						page.statisticsData.map(item => (
 							<div className={styles.card} key={item.id}>
 								<p>
-									{item.rightAnswered}/{item.mark}
+									Результат: {item.statistics.rightAnswered}/
+									{item.statistics.mark}
 								</p>
+								<p>Пользователь: {item.user?.username}</p>
+								<p>Тема: {item.themes.themeName}</p>
+								<p>Режим: {item.themes.mode}</p>
 								<div>
-									<div className={styles.OpenQuestionEditBar}></div>
+									<div className={styles.cardEditBar}></div>
 								</div>
 							</div>
 						))

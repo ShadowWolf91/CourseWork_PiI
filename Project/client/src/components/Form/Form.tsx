@@ -44,7 +44,7 @@ export function UserCreationForm({
 		<div className={styles.modal}>
 			{selectedUser ? (
 				<>
-					<h3>Редактирование пользователя</h3>
+					<h3 className={styles.name}>Редактирование пользователя</h3>
 					<div className={styles.div}>
 						<p>Логин</p>
 						<input
@@ -99,7 +99,7 @@ export function UserCreationForm({
 							}}
 						/>
 					</div>
-					<div>
+					<div className={styles.buttons}>
 						<button
 							disabled={
 								!selectedUser ||
@@ -118,7 +118,9 @@ export function UserCreationForm({
 				</>
 			) : (
 				<>
-					<h3>Создание пользователя</h3>
+					<div className={styles.name}>
+						<h3>Создание пользователя</h3>
+					</div>
 					<div className={styles.div}>
 						<p>Логин</p>
 						<input

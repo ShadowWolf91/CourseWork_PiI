@@ -11,7 +11,7 @@ export function SearchInput({ search, onChange, children }: SearchInputProps) {
 	return (
 		<div className={styles.container}>
 			<div>
-				<p className={styles.text}>Искать</p>
+				<p className={styles.text}>Поиск</p>
 				<input
 					className={styles.input}
 					type='text'

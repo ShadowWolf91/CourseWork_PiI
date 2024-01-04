@@ -32,7 +32,7 @@ export function useUpdateCard() {
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ['Cards'],
+				queryKey: ['cards'],
 			})
 		},
 	})

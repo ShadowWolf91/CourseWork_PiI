@@ -18,7 +18,7 @@ export function useUpdateTest() {
 					AxiosResponse<IUpdateTestResponse>,
 					IUpdateTestRequest
 				>(`${TestEndpoints.BASE}${TestEndpoints.UPDATE}`, {
-					id_test: selectedTest.id_test,
+					testId: selectedTest.testId,
 					theme_id: selectedTest?.theme_id,
 					question: selectedTest?.question,
 					optionA: selectedTest?.optionA,
@@ -37,7 +37,7 @@ export function useUpdateTest() {
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ['Tests'],
+				queryKey: ['tests'],
 			})
 		},
 	})

@@ -50,7 +50,7 @@ TestRouter.patch(
   TestDataValidator.optionC(body),
   TestDataValidator.optionD(body),
   TestDataValidator.correctAnswer(body),
-  TestDataValidator.theme_id(body),
+  // TestDataValidator.theme_id(body),
   TestController.updateTestData
 );
 

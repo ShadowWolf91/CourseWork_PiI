@@ -6,13 +6,13 @@ const useVirtualStore = create<{
 	device_id: string | null
 	role: keyof typeof Roles
 	username: string | null
-	statisticId: number
+	statisticId: string | null
 	setCredentials: (params: {
 		id_user: string | null
 		device_id: string | null
 		role: keyof typeof Roles
 		username: string | null
-		statisticId: number
+		statisticId: string | null
 	}) => void
 	checkStorageHealth: () => boolean
 }>((set, get) => ({
@@ -20,7 +20,7 @@ const useVirtualStore = create<{
 	username: localStorage.getItem('username'),
 	role: localStorage.getItem('role') as Roles,
 	id_user: localStorage.getItem('id_user'),
-	statisticId: 1,
+	statisticId: localStorage.getItem('statisticId'),
 	setCredentials: params => set(() => ({ ...params })),
 	checkStorageHealth: () => true,
 }))

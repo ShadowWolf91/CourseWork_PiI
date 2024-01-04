@@ -1,6 +1,6 @@
 .navBarContainer {
 	width: 100%;
-	min-width: 600px;
+	min-width: 800px;
 	height: 100px;
 	background: #c3bffb;
 	display: flex;
@@ -33,9 +33,11 @@
 .logout {
 	padding: 6px;
 	background: #ff5353;
+	border-radius: 10px;
 	height: 40%;
 
 	&:hover {
 		transform: scale(1.1);
+		background: #860505;
 	}
 }

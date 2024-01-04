@@ -28,10 +28,11 @@ model TOCSession{
   id Int  @id @default(autoincrement())
   userId Int 
   statisticId Int @unique
-  themeId Int
+  themeId Int 
 
   user User @relation(fields: [userId], references: [id_user])
   statistics Statistics @relation(fields: [statisticId], references: [id])
+  theme Themes @relation(fields: [themeId], references: [id_theme])
 }
 
 model Statistics {
@@ -54,10 +55,11 @@ model Themes {
   themeName          String            @db.VarChar(50) @unique
   mode               Modes
   time               Int               @default(10)
-  subjects           Subjects          @relation(fields: [subject_id],references: [id_subject],onDelete: Cascade)
+  subjects           Subjects          @relation(fields: [subject_id],references: [id_subject],onDelete: Cascade, onUpdate: Cascade)
   tests              Tests[]
   openQuestions      OpenQuestions[]
   cards              Cards[]
+  tocSession          TOCSession[]
 }
 
 model Tests {
@@ -71,7 +73,7 @@ model Tests {
   correctAnswer      String            @db.VarChar(50)
   testName           String            @unique
            
-  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade, onUpdate: Cascade)
 }
 
 model OpenQuestions {
@@ -80,7 +82,7 @@ model OpenQuestions {
   question           String            @db.VarChar(200)
   correctAnswer      String            @db.VarChar(50)
   openQuestionName   String            @unique
-  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Cards {
@@ -89,7 +91,7 @@ model Cards {
   word               String            @db.VarChar(50)
   correctAnswer      String            @db.VarChar(50)
   cardName           String            @unique
-  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade)
+  theme              Themes            @relation(fields: [theme_id],references: [id_theme],onDelete: Cascade, onUpdate: Cascade)
 }
 enum Roles {
   ADMIN

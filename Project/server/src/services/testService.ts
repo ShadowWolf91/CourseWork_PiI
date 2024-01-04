@@ -90,7 +90,7 @@ export default class TestsService {
 
   //update
   static updateTestData = async ({
-    id_test,
+    testId,
     theme_id,
     question,
     optionA,
@@ -101,16 +101,15 @@ export default class TestsService {
     testName,
   }: IUpdateTestRequest) => {
     const test = await prismaClient.tests.findUnique({
-      where: { id_test },
+      where: { id_test: testId },
       select: { id_test: true },
     });
     if (!test)
-      throw UserRequestError.NotFound(`TEST WITH ID ${id_test} NOT FOUND`);
+      throw UserRequestError.NotFound(`TEST WITH ID ${testId} NOT FOUND`);
 
     return prismaClient.tests.update({
-      where: { id_test },
+      where: { id_test: testId },
       data: {
-        id_test,
         theme_id,
         question,
         optionA,

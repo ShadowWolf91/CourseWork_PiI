@@ -77,7 +77,7 @@ export const SubjectsPage = () => {
 									}
 								/>
 							</div>
-							<div>
+							<div className={styles.buttons}>
 								<button
 									disabled={selectedSubject.subjectName === ''}
 									onClick={async () => {

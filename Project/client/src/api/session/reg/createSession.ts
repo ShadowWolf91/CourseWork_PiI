@@ -6,6 +6,6 @@ export interface ICreateSessionRequest {
 export interface ICreateSessionResponse {
 	id: number
 	userId: number
-	statistic_id: number
+	statisticId: number
 	themeId: number
 }

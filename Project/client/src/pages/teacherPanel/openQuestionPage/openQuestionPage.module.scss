@@ -1,22 +1,27 @@
 .container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	width: 100%;
+	justify-content: space-between;
+	padding: 15px;
 }
 
-.cardsContainer {
+.cardContainer {
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: column;
 	gap: 10px;
 	justify-content: center;
+	margin-top: 15px;
+	background: white;
+	border-radius: 15px;
 }
 
 .card {
-	background: white;
 	color: black;
-	padding: 1%;
-	border-radius: 25px;
-	min-width: 200px;
+	min-width: 2px;
+	padding-left: 25%;
+	padding-right: 25%;
+	padding-bottom: 3%;
 }
 
 .cardEditBar {
@@ -30,24 +35,29 @@
 }
 .div {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	gap: 5%;
 	height: 30px;
 	align-items: center;
-	margin-bottom: 5px;
+	flex-direction: row;
 
 	> input {
 		border-radius: 8px;
 	}
 }
 .modal {
-	width: 70%;
-	display: flex;
-	height: max-content;
-	flex-direction: column;
+	width: 100%;
+	height: 100%;
 	align-items: center;
 	background: white;
 	color: black;
-	font-size: 14pt;
-	border-radius: 16px;
+	font-size: 12pt;
+	border-radius: 9px;
+	position: relative;
+}
+.buttons {
+	display: flex;
+	gap: 5%;
+	justify-content: center;
+	flex-direction: row;
 }

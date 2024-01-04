@@ -88,24 +88,7 @@ export const ThemesPage = () => {
 									}
 								/>
 							</div>
-							<div className={styles.div}>
-								<p>Режим</p>
-								<select
-									name='modesselect'
-									id='modesselectnew'
-									value={selectedTheme.mode}
-									onChange={e =>
-										setSelectedTheme(prev => ({
-											...prev,
-											mode: e.target.value as Modes,
-										}))
-									}>
-									{Object.values(Modes).map(mode => (
-										<option value={mode}>{mode}</option>
-									))}
-								</select>
-							</div>
-							<div>
+							<div className={styles.buttons}>
 								<button
 									disabled={selectedTheme.themeName === ''}
 									onClick={async () => {

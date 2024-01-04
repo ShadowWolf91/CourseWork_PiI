@@ -67,7 +67,7 @@ export const CardsPage = () => {
 						<div className={styles.modal}>
 							<p>Редактирование карточки</p>
 							<div className={styles.div}>
-								<p>Слово</p>
+								<p>Слово </p>
 								<input
 									type='text'
 									className={styles.input}
@@ -111,7 +111,7 @@ export const CardsPage = () => {
 									}
 								/>
 							</div>
-							<div>
+							<div className={styles.buttons}>
 								<button
 									disabled={selectedCard.cardName === ''}
 									onClick={async () => {

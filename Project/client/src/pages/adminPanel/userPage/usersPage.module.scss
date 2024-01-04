@@ -1,23 +1,27 @@
 .container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	width: 100%;
 	justify-content: space-between;
+	padding: 15px;
 }
 
 .cardsContainer {
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: column;
 	gap: 10px;
 	justify-content: center;
+	margin-top: 15px;
+	background: white;
+	border-radius: 15px;
 }
 
 .card {
-	background: white;
 	color: black;
-	border-radius: 25px;
-	min-width: 200px;
-	padding: 4%;
+	min-width: 2px;
+	padding-left: 25%;
+	padding-right: 25%;
+	padding-bottom: 3%;
 }
 
 .cardEditBar {

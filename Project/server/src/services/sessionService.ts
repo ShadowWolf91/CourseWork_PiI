@@ -11,6 +11,7 @@ export default class SessionService {
         themeId: +themeId,
         statisticId: stat.id,
       },
+      include: { statistics: true, user: true },
     });
   };
 }

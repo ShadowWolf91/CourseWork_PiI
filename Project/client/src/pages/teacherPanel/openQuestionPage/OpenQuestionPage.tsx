@@ -113,7 +113,7 @@ export const OpenQuestionsPage = () => {
 									}
 								/>
 							</div>
-							<div>
+							<div className={styles.buttons}>
 								<button
 									disabled={selectedOpenQuestion.openQuestionName === ''}
 									onClick={async () => {
@@ -214,7 +214,7 @@ export const OpenQuestionsPage = () => {
 						</div>
 					)}
 				</div>
-				<div className={styles.OpenQuestionsContainer}>
+				<div className={styles.cardContainer}>
 					{data?.pages.map(page =>
 						page.openQuestionsData
 							.filter(item =>
@@ -227,7 +227,7 @@ export const OpenQuestionsPage = () => {
 										<div>
 											<p>Вопрос: {item.question}</p>
 										</div>
-										<div className={styles.OpenQuestionEditBar}>
+										<div className={styles.cardEditBar}>
 											<button
 												onClick={() =>
 													setSelectedOpenQuestion({

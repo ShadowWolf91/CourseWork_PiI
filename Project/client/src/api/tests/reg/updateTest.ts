@@ -1,5 +1,5 @@
 export interface IUpdateTestRequest {
-	id_test: number
+	testId: number
 	theme_id?: number
 	question?: string
 	optionA?: string
@@ -12,7 +12,6 @@ export interface IUpdateTestRequest {
 }
 
 export interface IUpdateTestResponse {
-	id_test: number
 	theme_id: number
 	question: string
 	optionA: string

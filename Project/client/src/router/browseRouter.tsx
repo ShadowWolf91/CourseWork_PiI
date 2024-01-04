@@ -11,6 +11,7 @@ import { StatsPage } from '../pages/teacherPanel/statPage/StatPage.tsx'
 import { UserSubjectsPage } from '../pages/userPanel/subjectPage/SubjectPage.tsx'
 import { UserThemePage } from '../pages/userPanel/themePage/ThemePage.tsx'
 import { UserCardCreatePage } from '../pages/userPanel/CardCreatePage/CardCreatePage.tsx'
+import { UserTestCreatePage } from '../pages/userPanel/TestCreatePage/TestCreatePage.tsx'
 import { AuthPage } from '../pages/AuthPage/auth.tsx'
 import { UserTOCPage } from '../pages/userPanel/TOCPage/TOCPage.tsx'
 
@@ -104,6 +105,14 @@ export const browserRouter = createBrowserRouter([
 				element: (
 					<RequireAuth>
 						<UserCardCreatePage />
+					</RequireAuth>
+				),
+			},
+			{
+				path: 'user/test/',
+				element: (
+					<RequireAuth>
+						<UserTestCreatePage />
 					</RequireAuth>
 				),
 			},
