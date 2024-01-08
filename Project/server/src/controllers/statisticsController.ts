@@ -31,6 +31,7 @@ export default class StatisticsController {
     try {
       const result = await StatisticService.getAllStatistics(req.query);
       res.json({
+        //@ts-ignore
         statisticsData: result,
         cursor: result[result.length - 1]?.id || null,
       });
