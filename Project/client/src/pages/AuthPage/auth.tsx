@@ -68,7 +68,9 @@ export const AuthPage = () => {
 					? '/admin/users/'
 					: receivedData.role === Roles.TEACHER
 						? '/teacher/themes/'
-						: '/user/subjects'
+						: receivedData.role === Roles.STUDENT
+							? '/user/subjects'
+							: '/auth'
 			)
 		}
 	}, [data, isLoginSuccess, isSuccessRegistration, loggedUserData])
@@ -159,20 +161,20 @@ export const AuthPage = () => {
 						{isRegistration ? (
 							<p>
 								Уже есть аккаунт? Попробуйте{' '}
-								<mark
+								<a
 									className={styles.authorizationMark}
 									onClick={() => setIsRegistration(false)}>
 									войти
-								</mark>
+								</a>
 							</p>
 						) : (
 							<p>
 								Нет аккаунта?{' '}
-								<mark
+								<a
 									className={styles.authorizationMark}
 									onClick={() => setIsRegistration(true)}>
 									Зарегистрируйтесь!
-								</mark>
+								</a>
 							</p>
 						)}
 					</div>

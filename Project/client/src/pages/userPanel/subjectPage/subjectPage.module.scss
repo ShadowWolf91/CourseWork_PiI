@@ -1,24 +1,5 @@
 .container {
 	display: flex;
-	flex-direction: row;
-	width: 100%;
-}
-
-.modal {
-	width: 40%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.cardsContainer {
-	display: flex;
-	flex-flow: row wrap;
-	gap: 10px;
-	justify-content: center;
-}
-.container {
-	display: flex;
 	flex-direction: column;
 	width: 100%;
 	justify-content: space-between;
@@ -28,29 +9,21 @@
 .cardsContainer {
 	display: flex;
 	flex-flow: column;
-	gap: 10px;
+	gap: 5px;
 	justify-content: center;
 	margin-top: 15px;
-	background: white;
-	border-radius: 15px;
-}
-
-.card {
-	color: black;
-	min-width: 2px;
-	padding-left: 25%;
-	padding-right: 25%;
-	padding-bottom: 3%;
+	background: rgba(0, 7, 45, 0.263);
+	border-radius: 5px;
 }
 
 .cardEditBar {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-around;
 }
-
-.redButton {
-	background: red;
+.line {
+	color: black;
+	border: 1.5px solid;
 }
 .div {
 	display: flex;
@@ -61,7 +34,8 @@
 	flex-direction: row;
 
 	> input {
-		border-radius: 8px;
+		border-radius: 5px;
+		padding: 5px;
 	}
 }
 .modal {
@@ -82,19 +56,25 @@
 }
 
 .card {
-	background: white;
-	color: black;
-	padding: 1%;
-	border-radius: 25px;
-	min-width: 200px;
+	color: rgb(237, 228, 255);
+	min-width: 3px;
+	// padding-left: 25%;
+	// padding-right: 25%;
+	padding-bottom: 1%;
 }
 
 .cardEditBar {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-around;
 }
 
 .redButton {
 	background: red;
+	width: 145px;
+}
+.name {
+	align-items: center;
+	display: flex;
+	justify-content: center;
 }

@@ -25,8 +25,8 @@ export function useCreateTheme() {
 					subject_id: newTheme.subject_id,
 					themeName: newTheme.themeName,
 					mode: newTheme.mode,
-					questionAmount: newTheme.questionAmount,
-					time: newTheme.time,
+					// questionAmount: newTheme.questionAmount,
+					// time: newTheme.time,
 				})
 				return result.data
 			} catch (e) {

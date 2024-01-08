@@ -37,11 +37,12 @@ export const UserSubjectsPage = () => {
 										[item.id_subject]: !prev[item.id_subject],
 									}))
 								}>
-								<p>{item.subjectName}</p>
+								<h3 className={styles.name}>{item.subjectName}</h3>
 								<button
 									onClick={() => navigate(`/user/subjects/${item.id_subject}`)}>
 									Выбрать
 								</button>
+								<hr className={styles.line}></hr>
 							</div>
 						))
 					)}

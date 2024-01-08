@@ -35,6 +35,7 @@ export const UserTestPage = () => {
 										<p>D: {item?.optionD}</p>
 									</div>
 								</div>
+								<hr className={styles.line}></hr>
 							</div>
 						))}
 				</div>

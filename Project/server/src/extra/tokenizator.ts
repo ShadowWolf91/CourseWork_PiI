@@ -5,7 +5,7 @@ import { CONFIG } from "../config";
 export default class Tokenizator {
   static generateTokens({
     username,
-    role = Roles.DEFAULT,
+    role = Roles.STUDENT,
     device_id,
   }: {
     username: string;

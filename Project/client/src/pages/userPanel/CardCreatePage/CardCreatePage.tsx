@@ -41,15 +41,16 @@ export const UserCardCreatePage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					<div className={styles.modal}>
-						<p>Создание карточки</p>
+						<h3 className={styles.name}>Создание карточки</h3>
 						<div className={styles.div}>
 							<p>Тема</p>
 							<select
 								name='themeselect'
 								id='themeselectnew'
 								value={newCard?.theme_id}
+								className={styles.input}
 								onChange={e => {
 									console.log(e)
 									setNewCard(prev => ({
@@ -69,7 +70,7 @@ export const UserCardCreatePage = () => {
 								type='text'
 								className={styles.input}
 								value={newCard.word}
-								maxLength={20}
+								maxLength={50}
 								onChange={e =>
 									setNewCard(prev => ({
 										...prev,
@@ -84,7 +85,7 @@ export const UserCardCreatePage = () => {
 								type='text'
 								className={styles.input}
 								value={newCard.correctAnswer}
-								maxLength={20}
+								maxLength={50}
 								onChange={e =>
 									setNewCard(prev => ({
 										...prev,
@@ -98,7 +99,8 @@ export const UserCardCreatePage = () => {
 							<input
 								type='text'
 								value={newCard.cardName}
-								maxLength={20}
+								className={styles.input}
+								maxLength={50}
 								onChange={e =>
 									setNewCard(prev => ({
 										...prev,
@@ -109,7 +111,7 @@ export const UserCardCreatePage = () => {
 						</div>
 						<div className={styles.buttons}>
 							<button
-								//disabled={newCard.cardName === ''}
+								disabled={newCard.cardName === ''}
 								onClick={async () => {
 									await createCard({
 										newCard,
@@ -138,10 +140,11 @@ export const UserCardCreatePage = () => {
 											<button
 												className={styles.redButton}
 												onClick={async () => await dropCard(item.id_card)}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

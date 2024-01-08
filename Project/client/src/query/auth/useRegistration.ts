@@ -31,7 +31,7 @@ export const useRegistration = () => {
 					ICreateUserRequest
 				>(
 					`${UserEndpoints.BASE}${UserEndpoints.CREATE_USER}`,
-					{ password, username, role: 'DEFAULT' },
+					{ password, username, role: 'STUDENT' },
 					{
 						headers: {
 							'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export const useRegistration = () => {
 				>(`${UserEndpoints.BASE}${UserEndpoints.CREATE_USER_TOKEN}`, {
 					user_id: userData.id_user,
 					device_id: v4(),
-					role: Roles.DEFAULT,
+					role: Roles.STUDENT,
 					username,
 					password,
 				})

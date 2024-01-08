@@ -11,7 +11,7 @@
     "start": "npx node ./dist/index.js",
     "apply_migrations": "npx prisma migrate dev"
   },
-  "author": "EugeneAlWin",
+  "author": "ShadowWolf91",
   "license": "ISC",
   "devDependencies": {
     "@types/cookie-parser": "^1.4.6",

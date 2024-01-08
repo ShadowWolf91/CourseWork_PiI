@@ -34,14 +34,6 @@ export default class TestsService {
     theme_id,
   }: IGetTestByThemeIdRequest): Promise<IGetTestByThemeIdResponse> => {
     const test = await prismaClient.tests.findMany({
-      select: {
-        question: true,
-        optionA: true,
-        optionB: true,
-        optionC: true,
-        optionD: true,
-        correctAnswer: true,
-      },
       where: { theme_id: +theme_id },
     });
     if (!test)

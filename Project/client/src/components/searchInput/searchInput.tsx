@@ -10,15 +10,19 @@ interface SearchInputProps {
 export function SearchInput({ search, onChange, children }: SearchInputProps) {
 	return (
 		<div className={styles.container}>
-			<div>
-				<p className={styles.text}>Поиск</p>
+			<form className={styles.form}>
+				{/* <p className={styles.text}>Поиск</p> */}
 				<input
+					placeholder='Поиск'
 					className={styles.input}
 					type='text'
 					value={search}
 					onChange={onChange}
 				/>
-			</div>
+				<button type='submit' className={styles.buttonSearch}>
+					Find
+				</button>
+			</form>
 			<div>{children}</div>
 		</div>
 	)

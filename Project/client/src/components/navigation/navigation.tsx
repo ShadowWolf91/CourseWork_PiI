@@ -18,12 +18,12 @@ export function NavBar() {
 			) : role === Roles.TEACHER ? (
 				<div className={styles.linksContainer}>
 					<Link to='/teacher/tests'>Тесты </Link>
-					<Link to='/teacher/openQuestions'>Открытые вопросы</Link>
+					<Link to='/teacher/openQuestions'>Вопросы</Link>
 					<Link to='/teacher/cards'>Карточки</Link>
 					<Link to='/teacher/themes'>Темы</Link>
 					<Link to='/teacher/stats'>Статистики</Link>
 				</div>
-			) : role === Roles.DEFAULT ? (
+			) : role === Roles.STUDENT ? (
 				<div className={styles.linksContainer}>
 					<Link to='/user/card'>Карточки</Link>
 					<Link to='/user/test'>Тесты</Link>

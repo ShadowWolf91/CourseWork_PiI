@@ -68,7 +68,7 @@ export const UserThemePage = () => {
 						)
 						.map(item => (
 							<div className={styles.card} key={item?.id_theme}>
-								<p>{item?.themeName}</p>
+								<h3 className={styles.name}>{item?.themeName}</h3>
 								<div>
 									<div>
 										{/* <p>Название: {item?.themeName}</p> */}
@@ -93,6 +93,7 @@ export const UserThemePage = () => {
 									}}>
 									Пройти
 								</button>
+								<hr className={styles.line}></hr>
 							</div>
 						))}
 				</div>

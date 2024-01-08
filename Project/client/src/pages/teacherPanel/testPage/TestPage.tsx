@@ -67,17 +67,17 @@ export const TestsPage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					{Object.keys(selectedTest).length ? (
 						<div className={styles.modal}>
-							<p>Редактирование теста</p>
+							<h3 className={styles.name}>Редактирование теста</h3>
 							<div className={styles.div}>
 								<p>Вопрос</p>
 								<input
 									type='text'
 									className={styles.input}
 									value={selectedTest.question}
-									maxLength={20}
+									maxLength={200}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -92,7 +92,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.optionA}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -107,7 +107,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.optionB}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -122,7 +122,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.optionC}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -137,7 +137,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.optionD}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -152,7 +152,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -167,7 +167,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedTest.testName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTest(prev => ({
 											...prev,
@@ -192,13 +192,14 @@ export const TestsPage = () => {
 						</div>
 					) : (
 						<div className={styles.modal}>
-							<p>Создание теста</p>
+							<h3 className={styles.name}>Создание теста</h3>
 							<div className={styles.div}>
 								<p>Тема</p>
 								<select
 									name='themeselect'
 									id='themeselectnew'
 									value={newTest?.theme_id}
+									className={styles.input}
 									onChange={e => {
 										setNewTest(prev => ({
 											...prev,
@@ -217,7 +218,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.question}
-									maxLength={20}
+									maxLength={200}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -232,7 +233,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.optionA}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -247,7 +248,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.optionB}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -262,7 +263,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.optionC}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -277,7 +278,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.optionD}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -292,7 +293,7 @@ export const TestsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newTest.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -306,7 +307,8 @@ export const TestsPage = () => {
 								<input
 									type='text'
 									value={newTest.testName}
-									maxLength={20}
+									className={styles.input}
+									maxLength={50}
 									onChange={e =>
 										setNewTest(prev => ({
 											...prev,
@@ -317,7 +319,7 @@ export const TestsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									//disabled={newTest.testName === ''}
+									disabled={newTest.testName === ''}
 									onClick={async () => {
 										await createTest({ newTest })
 										setNewTest(newTestInitState)
@@ -348,7 +350,7 @@ export const TestsPage = () => {
 											<p>C: {item.optionC}</p>
 											<p>D: {item.optionD}</p>
 										</div>
-										<div className={styles.TestEditBar}>
+										<div className={styles.cardEditBar}>
 											<button
 												onClick={() =>
 													setSelectedTest({
@@ -367,10 +369,11 @@ export const TestsPage = () => {
 											<button
 												className={styles.redButton}
 												onClick={async () => await dropTest(item.id_test)}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

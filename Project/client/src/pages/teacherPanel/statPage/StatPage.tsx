@@ -13,16 +13,17 @@ export const StatsPage = () => {
 					{data?.pages.map(page =>
 						page.statisticsData.map(item => (
 							<div className={styles.card} key={item.id}>
-								<p>
+								<h3 className={styles.name}>
 									Результат: {item.statistics.rightAnswered}/
 									{item.statistics.mark}
-								</p>
+								</h3>
 								<p>Пользователь: {item.user?.username}</p>
-								<p>Тема: {item.themes.themeName}</p>
-								<p>Режим: {item.themes.mode}</p>
+								<p>Тема: {item.theme.themeName}</p>
+								<p>Режим: {item.theme.mode}</p>
 								<div>
 									<div className={styles.cardEditBar}></div>
 								</div>
+								<hr className={styles.line}></hr>
 							</div>
 						))
 					)}

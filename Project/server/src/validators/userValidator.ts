@@ -57,7 +57,7 @@ export default class UserDataValidator extends MainValidator {
       .withMessage("SHOULD BE A STRING")
       .isIn(Object.values(Roles))
       .withMessage({
-        message: `SHOULD BE ${Roles.DEFAULT} or ${Roles.TEACHER} or ${Roles.ADMIN}`,
+        message: `SHOULD BE ${Roles.STUDENT} or ${Roles.TEACHER} or ${Roles.ADMIN}`,
       });
   }
 

@@ -64,17 +64,17 @@ export const OpenQuestionsPage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					{Object.keys(selectedOpenQuestion).length ? (
 						<div className={styles.modal}>
-							<p>Редактирование открытого вопроса</p>
+							<h3 className={styles.name}>Редактирование открытого вопроса</h3>
 							<div className={styles.div}>
 								<p>Вопрос</p>
 								<input
 									type='text'
 									className={styles.input}
 									value={selectedOpenQuestion.question}
-									maxLength={20}
+									maxLength={200}
 									onChange={e =>
 										setSelectedOpenQuestion(prev => ({
 											...prev,
@@ -89,7 +89,7 @@ export const OpenQuestionsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedOpenQuestion.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedOpenQuestion(prev => ({
 											...prev,
@@ -104,7 +104,7 @@ export const OpenQuestionsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedOpenQuestion.openQuestionName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedOpenQuestion(prev => ({
 											...prev,
@@ -132,12 +132,13 @@ export const OpenQuestionsPage = () => {
 						</div>
 					) : (
 						<div className={styles.modal}>
-							<p>Создание открытого вопроса</p>
+							<h3 className={styles.name}>Создание открытого вопроса</h3>
 							<div className={styles.div}>
 								<p>Тема</p>
 								<select
 									name='themeselect'
 									id='themeselectnew'
+									className={styles.input}
 									value={newOpenQuestion?.theme_id}
 									onChange={e => {
 										setNewOpenQuestion(prev => ({
@@ -157,7 +158,7 @@ export const OpenQuestionsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newOpenQuestion.question}
-									maxLength={20}
+									maxLength={200}
 									onChange={e =>
 										setNewOpenQuestion(prev => ({
 											...prev,
@@ -172,7 +173,7 @@ export const OpenQuestionsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newOpenQuestion.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewOpenQuestion(prev => ({
 											...prev,
@@ -186,7 +187,8 @@ export const OpenQuestionsPage = () => {
 								<input
 									type='text'
 									value={newOpenQuestion.openQuestionName}
-									maxLength={20}
+									className={styles.input}
+									maxLength={50}
 									onChange={e =>
 										setNewOpenQuestion(prev => ({
 											...prev,
@@ -197,7 +199,7 @@ export const OpenQuestionsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									//disabled={newOpenQuestion.openQuestionName === ''}
+									disabled={newOpenQuestion.openQuestionName === ''}
 									onClick={async () => {
 										await createOpenQuestion({
 											newOpenQuestion,
@@ -244,10 +246,11 @@ export const OpenQuestionsPage = () => {
 												onClick={async () =>
 													await dropOpenQuestion(item.id_openQuestion)
 												}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

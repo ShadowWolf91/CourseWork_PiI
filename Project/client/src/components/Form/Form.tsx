@@ -181,6 +181,7 @@ export function UserCreationForm({
 							name='unitsselect'
 							id='unitsselectnew'
 							value={newUser?.role}
+							className={styles.input}
 							onChange={e =>
 								setNewUser(prev => ({
 									...prev,

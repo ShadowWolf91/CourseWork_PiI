@@ -11,7 +11,7 @@ model User {
   id_user            Int               @id @default(autoincrement())
   username           String            @unique @db.VarChar(30)
   password           String            @db.VarChar(128)
-  role               Roles             @default(DEFAULT)
+  role               Roles             @default(STUDENT)
   userToken          UserToken[]
   tocSession         TOCSession[]
 }
@@ -96,7 +96,7 @@ model Cards {
 enum Roles {
   ADMIN
   TEACHER
-  DEFAULT
+  STUDENT
 }
 
 enum Modes {

@@ -51,7 +51,7 @@ export const UserTOCPage = () => {
 		setResult(prev => ({ ...prev, correct: OC + test + card }))
 		setStopped(true)
 		console.log(OC + test + card)
-		console.log(statisticId)
+		console.log(Object.values(testAnswers).filter(item => item))
 		await updateStat({
 			id: Number(statisticId),
 			mark: [
@@ -118,18 +118,20 @@ export const UserTOCPage = () => {
 				<div className={styles.cardsContainer}>
 					{testData?.test.map((item, i) => (
 						<div className={styles.card} key={item?.id_test}>
-							<p>{item?.question}</p>
+							<h3 className={styles.name}>{item?.question}</h3>
 							<div>
 								<div>
 									<label htmlFor={`card1${i}`}>A: {item?.optionA}</label>
 									<input
 										onClick={() =>
-											setTestAnswers(prev => ({
-												...prev,
-												[item.id_test]: {
-													isCorrect: item?.optionA === item.correctAnswer,
-												},
-											}))
+											setTestAnswers(prev => {
+												return {
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionA === item.correctAnswer,
+													},
+												}
+											})
 										}
 										disabled={!!testAnswers && !!testAnswers[item.id_test]}
 										id={`card1${i}`}
@@ -140,12 +142,14 @@ export const UserTOCPage = () => {
 									<label htmlFor={`card2${i}`}>B: {item?.optionB}</label>
 									<input
 										onClick={() =>
-											setTestAnswers(prev => ({
-												...prev,
-												[item.id_test]: {
-													isCorrect: item?.optionB === item.correctAnswer,
-												},
-											}))
+											setTestAnswers(prev => {
+												return {
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionB === item.correctAnswer,
+													},
+												}
+											})
 										}
 										disabled={!!testAnswers && !!testAnswers[item.id_test]}
 										id={`card2${i}`}
@@ -156,12 +160,14 @@ export const UserTOCPage = () => {
 									<label htmlFor={`card3${i}`}>C: {item?.optionC}</label>
 									<input
 										onClick={() =>
-											setTestAnswers(prev => ({
-												...prev,
-												[item.id_test]: {
-													isCorrect: item?.optionC === item.correctAnswer,
-												},
-											}))
+											setTestAnswers(prev => {
+												return {
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionC === item.correctAnswer,
+													},
+												}
+											})
 										}
 										disabled={!!testAnswers && !!testAnswers[item.id_test]}
 										id={`card3${i}`}
@@ -172,12 +178,14 @@ export const UserTOCPage = () => {
 									<label htmlFor={`card4${i}`}>D: {item?.optionD}</label>
 									<input
 										onClick={() =>
-											setTestAnswers(prev => ({
-												...prev,
-												[item.id_test]: {
-													isCorrect: item?.optionD === item.correctAnswer,
-												},
-											}))
+											setTestAnswers(prev => {
+												return {
+													...prev,
+													[item.id_test]: {
+														isCorrect: item?.optionD === item.correctAnswer,
+													},
+												}
+											})
 										}
 										disabled={!!testAnswers && !!testAnswers[item.id_test]}
 										id={`card4${i}`}
@@ -187,6 +195,7 @@ export const UserTOCPage = () => {
 									/>
 								</div>
 							</div>
+							<hr className={styles.line}></hr>
 						</div>
 					))}
 				</div>
@@ -195,7 +204,7 @@ export const UserTOCPage = () => {
 				<div className={styles.cardsContainer}>
 					{cardData?.card.map(item => (
 						<div className={styles.card} key={item?.id_card}>
-							<p>{item?.word}</p>
+							<h3>{item?.word}</h3>
 							<div>
 								<div>
 									{showCardAnswer && !showCardAnswer[item.id_card] && (
@@ -214,6 +223,7 @@ export const UserTOCPage = () => {
 									)}
 								</div>
 							</div>
+							<hr className={styles.line}></hr>
 						</div>
 					))}
 				</div>
@@ -222,7 +232,7 @@ export const UserTOCPage = () => {
 				<div className={styles.cardsContainer}>
 					{openQuestionData?.openQuestion.map(item => (
 						<div className={styles.card} key={item?.id_openQuestion}>
-							<p>{item?.question}</p>
+							<h3>{item?.question}</h3>
 							<div>
 								<div>
 									<input
@@ -232,26 +242,33 @@ export const UserTOCPage = () => {
 											''
 										}
 										onChange={e =>
-											setOCAnswers(prev => ({
-												...prev,
-												[item.id_openQuestion]: {
-													value: e.target?.value,
-													isCorrect:
-														e.target.value.trim() ===
-														item.correctAnswer.trim(),
-												},
-											}))
+											setOCAnswers(prev => {
+												console.log(
+													e.target.value.trim() === item.correctAnswer.trim()
+												)
+
+												return {
+													...prev,
+													[item.id_openQuestion]: {
+														value: e.target?.value,
+														isCorrect:
+															e.target.value.trim() ===
+															item.correctAnswer.trim(),
+													},
+												}
+											})
 										}
-										maxLength={20}
+										maxLength={50}
 									/>
 									{/* <p>Ответ: {item?.correctAnswer}</p> */}
 								</div>
 							</div>
+							<hr className={styles.line}></hr>
 						</div>
 					))}
 				</div>
 			</div>
-			<button disabled={stopped} onClick={getTOCResult}>
+			<button className={styles.resBut} disabled={stopped} onClick={getTOCResult}>
 				Получить результат
 			</button>
 			<p>

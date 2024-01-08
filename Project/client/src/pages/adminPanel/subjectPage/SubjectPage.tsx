@@ -58,17 +58,17 @@ export const SubjectsPage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					{Object.keys(selectedSubject).length ? (
 						<div className={styles.modal}>
-							<p>Редактирование предмета</p>
+							<h3 className={styles.name}>Редактирование предмета</h3>
 							<div className={styles.div}>
 								<p>Название предмета</p>
 								<input
 									type='text'
 									className={styles.input}
 									value={selectedSubject.subjectName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedSubject(prev => ({
 											...prev,
@@ -96,13 +96,14 @@ export const SubjectsPage = () => {
 						</div>
 					) : (
 						<div className={styles.modal}>
-							<p>Создание предмета</p>
+							<h3 className={styles.name}>Создание предмета</h3>
 							<div className={styles.div}>
 								<p>Название предмета</p>
 								<input
+									className={styles.input}
 									type='text'
 									value={newSubject.subjectName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewSubject(prev => ({
 											...prev,
@@ -152,10 +153,11 @@ export const SubjectsPage = () => {
 												onClick={async () =>
 													await dropSubject(item.id_subject)
 												}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

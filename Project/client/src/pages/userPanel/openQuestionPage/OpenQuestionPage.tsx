@@ -32,6 +32,7 @@ export const UserOpenQuestionPage = () => {
 										<p>Ответ: {item?.correctAnswer}</p>
 									</div>
 								</div>
+								<hr className={styles.line}></hr>
 							</div>
 						))}
 				</div>

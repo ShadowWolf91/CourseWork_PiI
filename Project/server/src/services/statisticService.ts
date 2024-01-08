@@ -22,7 +22,7 @@ export default class UserService {
       where: {
         statisticId: { in: statistics.map((stat) => stat.id) },
       },
-      include: { statistics: true, user: true, themes: true },
+      include: { statistics: true, user: true, theme: true },
     });
   };
 

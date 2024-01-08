@@ -62,17 +62,17 @@ export const CardsPage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					{Object.keys(selectedCard).length ? (
 						<div className={styles.modal}>
-							<p>Редактирование карточки</p>
+							<h3 className={styles.name}>Редактирование карточки</h3>
 							<div className={styles.div}>
 								<p>Слово </p>
 								<input
 									type='text'
 									className={styles.input}
 									value={selectedCard.word}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedCard(prev => ({
 											...prev,
@@ -87,7 +87,7 @@ export const CardsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedCard.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedCard(prev => ({
 											...prev,
@@ -102,7 +102,7 @@ export const CardsPage = () => {
 									type='text'
 									className={styles.input}
 									value={selectedCard.cardName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedCard(prev => ({
 											...prev,
@@ -127,13 +127,14 @@ export const CardsPage = () => {
 						</div>
 					) : (
 						<div className={styles.modal}>
-							<p>Создание карточки</p>
+							<h3 className={styles.name}>Создание карточки</h3>
 							<div className={styles.div}>
 								<p>Тема</p>
 								<select
 									name='themeselect'
 									id='themeselectnew'
 									value={newCard?.theme_id}
+									className={styles.input}
 									onChange={e => {
 										setNewCard(prev => ({
 											...prev,
@@ -152,7 +153,7 @@ export const CardsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newCard.word}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewCard(prev => ({
 											...prev,
@@ -167,7 +168,7 @@ export const CardsPage = () => {
 									type='text'
 									className={styles.input}
 									value={newCard.correctAnswer}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewCard(prev => ({
 											...prev,
@@ -181,7 +182,8 @@ export const CardsPage = () => {
 								<input
 									type='text'
 									value={newCard.cardName}
-									maxLength={20}
+									className={styles.input}
+									maxLength={50}
 									onChange={e =>
 										setNewCard(prev => ({
 											...prev,
@@ -192,7 +194,7 @@ export const CardsPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									//disabled={newCard.cardName === ''}
+									disabled={newCard.cardName === ''}
 									onClick={async () => {
 										await createCard({
 											newCard,
@@ -236,10 +238,11 @@ export const CardsPage = () => {
 											<button
 												className={styles.redButton}
 												onClick={async () => await dropCard(item.id_card)}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

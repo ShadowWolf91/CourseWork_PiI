@@ -9,27 +9,32 @@
 .cardsContainer {
 	display: flex;
 	flex-flow: column;
-	gap: 10px;
+	gap: 5px;
 	justify-content: center;
 	margin-top: 15px;
-	background: white;
-	border-radius: 15px;
+	background: rgba(0, 7, 45, 0.263);
+	border-radius: 5px;
 }
 
 .card {
-	color: black;
-	min-width: 2px;
-	padding-left: 25%;
-	padding-right: 25%;
-	padding-bottom: 3%;
+	color: rgb(237, 228, 255);
+	min-width: 3px;
+	// padding-left: 25%;
+	// padding-right: 25%;
+	padding-bottom: 1%;
 }
 
 .cardEditBar {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-around;
 }
 
 .redButton {
 	background: red;
+	width: 145px;
+}
+.line {
+	color: black;
+	border: 1.5px solid;
 }

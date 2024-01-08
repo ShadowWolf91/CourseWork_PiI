@@ -38,10 +38,6 @@ export default class OpenQuestionsService {
     theme_id,
   }: IGetOpenQuestionByThemeIdRequest): Promise<IGetOpenQuestionByThemeIdResponse> => {
     const openQuestion = await prismaClient.openQuestions.findMany({
-      select: {
-        question: true,
-        correctAnswer: true,
-      },
       where: { theme_id: +theme_id },
     });
     if (!openQuestion)

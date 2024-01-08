@@ -6,7 +6,7 @@ import StatisticDataValidator from "../validators/statisticsValidator";
 
 const statisticsRouter = Router();
 
-statisticsRouter.post(
+statisticsRouter.get(
   StatisticsEndpoints.GET_BY_USER_ID,
   StatisticDataValidator.id(query),
   StatisticsController.getStatisticByUserId

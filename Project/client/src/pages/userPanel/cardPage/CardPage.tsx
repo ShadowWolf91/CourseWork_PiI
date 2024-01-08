@@ -32,6 +32,7 @@ export const UserCardPage = () => {
 										<p>Ответ: {item?.correctAnswer}</p>
 									</div>
 								</div>
+								<hr className={styles.line}></hr>
 							</div>
 						))}
 				</div>

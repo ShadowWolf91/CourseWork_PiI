@@ -21,7 +21,7 @@ export const ThemesPage = () => {
 	const [search, setSearch] = useState('')
 
 	const newThemeInitState: ICreateThemeRequest = {
-		subject_id: 1,
+		subject_id: 0,
 		themeName: '',
 		mode: 'TEST',
 	}
@@ -69,17 +69,17 @@ export const ThemesPage = () => {
 				<SearchInput search={search} onChange={e => setSearch(e.target.value)} />
 			</div>
 			<div className={styles.container}>
-				<div className={styles.modal}>
+				<div>
 					{Object.keys(selectedTheme).length ? (
 						<div className={styles.modal}>
-							<p>Редактирование темы</p>
+							<h3 className={styles.name}>Редактирование темы</h3>
 							<div className={styles.div}>
 								<p>Название темы</p>
 								<input
 									type='text'
 									className={styles.input}
 									value={selectedTheme.themeName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setSelectedTheme(prev => ({
 											...prev,
@@ -105,14 +105,14 @@ export const ThemesPage = () => {
 						</div>
 					) : (
 						<div className={styles.modal}>
-							<p>Создание темы</p>
+							<h3 className={styles.name}>Создание темы</h3>
 							<div className={styles.div}>
 								<p>Название темы</p>
 								<input
 									type='text'
 									className={styles.input}
 									value={newTheme.themeName}
-									maxLength={20}
+									maxLength={50}
 									onChange={e =>
 										setNewTheme(prev => ({
 											...prev,
@@ -125,6 +125,7 @@ export const ThemesPage = () => {
 								<p>Режим</p>
 								<select
 									name='modesselect'
+									className={styles.input}
 									id='modesselectnew'
 									value={newTheme.mode}
 									onChange={e =>
@@ -143,6 +144,7 @@ export const ThemesPage = () => {
 								<select
 									name='subjectselect'
 									id='subjectselectnew'
+									className={styles.input}
 									value={newTheme?.subject_id}
 									onChange={e => {
 										setNewTheme(prev => ({
@@ -160,7 +162,7 @@ export const ThemesPage = () => {
 							</div>
 							<div className={styles.buttons}>
 								<button
-									// disabled={newTheme.themeName === ''}
+									disabled={newTheme.themeName === ''}
 									onClick={async () => {
 										await createTheme({
 											newTheme,
@@ -203,10 +205,11 @@ export const ThemesPage = () => {
 											<button
 												className={styles.redButton}
 												onClick={async () => await dropTheme(item.id_theme)}>
-												Удалить навсегда
+												Удалить
 											</button>
 										</div>
 									</div>
+									<hr className={styles.line}></hr>
 								</div>
 							))
 					)}

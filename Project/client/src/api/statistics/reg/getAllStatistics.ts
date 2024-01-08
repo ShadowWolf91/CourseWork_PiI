@@ -23,7 +23,7 @@ export interface IGetAllStatisticsResponse {
 			password: string
 			role: Roles
 		}
-		themes: {
+		theme: {
 			id_theme: number
 			subject_id: number
 			themeName: string

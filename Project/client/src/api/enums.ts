@@ -1,7 +1,7 @@
 export enum Roles {
 	ADMIN = 'ADMIN',
 	TEACHER = 'TEACHER',
-	DEFAULT = 'DEFAULT',
+	STUDENT = 'STUDENT',
 }
 
 export enum Modes {

@@ -11,7 +11,7 @@ import { UserCreationForm } from '../../../components/Form/Form.tsx'
 export const UsersPage = () => {
 	const newUserInitState = {
 		username: '',
-		role: Roles.DEFAULT,
+		role: Roles.ADMIN,
 		password: '',
 		device_id: '',
 	}
@@ -50,7 +50,8 @@ export const UsersPage = () => {
 								)
 								.map(item => (
 									<div className={styles.card} key={item.id_user}>
-										<p>{item.username}</p>
+										<p>Логин: {item.username}</p>
+										<p>Роль: {item.role}</p>
 										<div>
 											<div className={styles.cardEditBar}>
 												<button
@@ -74,6 +75,7 @@ export const UsersPage = () => {
 												}
 											</div>
 										</div>
+										<hr className={styles.line}></hr>
 									</div>
 								))
 					)}
