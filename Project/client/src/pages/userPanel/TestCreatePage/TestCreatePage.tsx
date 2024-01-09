@@ -2,7 +2,6 @@ import styles from './testCreatePage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateTestRequest } from '../../../api/tests/reg/createTest.ts'
 import { useGetAllTests } from '../../../query/panelTeacher/allTests.ts'
-import { useDropTest } from '../../../query/panelTeacher/deleteTest.ts'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { useCreateTest } from '../../../query/panelTeacher/createTest.ts'
@@ -26,8 +25,6 @@ export const UserTestCreatePage = () => {
 	const { data, fetchNextPage, hasNextPage } = useGetAllTests()
 	const { data: themes, isFetching: fetchingTheme } = useGetThemes()
 	const [search, setSearch] = useState('')
-
-	const { dropTest } = useDropTest()
 
 	const {
 		mutateAsync: createTest,
@@ -204,13 +201,6 @@ export const UserTestCreatePage = () => {
 											<p>B: {item.optionB}</p>
 											<p>C: {item.optionC}</p>
 											<p>D: {item.optionD}</p>
-										</div>
-										<div className={styles.TestEditBar}>
-											<button
-												className={styles.redButton}
-												onClick={async () => await dropTest(item.id_test)}>
-												Удалить
-											</button>
 										</div>
 									</div>
 									<hr className={styles.line}></hr>

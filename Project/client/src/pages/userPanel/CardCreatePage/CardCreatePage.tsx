@@ -2,7 +2,6 @@ import styles from './cardCreatePage.module.scss'
 import { useEffect, useState } from 'react'
 import { ICreateCardRequest } from '../../../api/cards/reg/createCard.ts'
 import { useGetAllCards } from '../../../query/panelTeacher/allCards.ts'
-import { useDropCard } from '../../../query/panelTeacher/deleteCard.ts'
 import { SearchInput } from '../../../components/searchInput/searchInput.tsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { useCreateCard } from '../../../query/panelTeacher/createCard.ts'
@@ -21,8 +20,6 @@ export const UserCardCreatePage = () => {
 	const { data, fetchNextPage, hasNextPage } = useGetAllCards()
 	const { data: themes, isFetching: fetchingTheme } = useGetThemes()
 	const [search, setSearch] = useState('')
-
-	const { dropCard } = useDropCard()
 
 	const {
 		mutateAsync: createCard,
@@ -135,15 +132,6 @@ export const UserCardCreatePage = () => {
 							.map(item => (
 								<div className={styles.card} key={item.id_card}>
 									<p>{item.cardName}</p>
-									<div>
-										<div className={styles.cardEditBar}>
-											<button
-												className={styles.redButton}
-												onClick={async () => await dropCard(item.id_card)}>
-												Удалить
-											</button>
-										</div>
-									</div>
 									<hr className={styles.line}></hr>
 								</div>
 							))
