@@ -34,7 +34,7 @@ export function UserCreationForm({
 		isError: isUpdateError,
 		error: updateError,
 	} = useUpdateUser()
-
+	const allowedValues = ['ADMIN', 'TEACHER'] // Define the allowed values
 	useEffect(() => {
 		if (isError) toast(error?.message, { type: 'error', theme: 'dark' })
 		if (isUpdateError) toast(updateError?.message, { type: 'error', theme: 'dark' })
@@ -188,9 +188,11 @@ export function UserCreationForm({
 									role: e.target.value as Roles, // ? Roles.ADMIN : Roles.DEFAULT,
 								}))
 							}>
-							{Object.values(Roles).map(unit => (
-								<option value={unit}>{unit}</option>
-							))}
+							{Object.values(Roles)
+								.filter(unit => allowedValues.includes(unit))
+								.map(unit => (
+									<option value={unit}>{unit}</option>
+								))}
 						</select>
 					</div>
 					<div className={styles.buttons}>

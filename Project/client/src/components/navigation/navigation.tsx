@@ -28,6 +28,7 @@ export function NavBar() {
 					<Link to='/user/card'>Карточки</Link>
 					<Link to='/user/test'>Тесты</Link>
 					<Link to='/user/subjects'>Предметы</Link>
+					{/* <Link to='/user/stats'>Статистики</Link> */}
 				</div>
 			) : (
 				<Navigate to={'/auth'} />

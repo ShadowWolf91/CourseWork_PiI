@@ -1,9 +1,7 @@
-// import { StatData } from '../common'
-
 import { Modes } from '../../enums'
 
 export interface IGetStatisticByUserIdRequest {
-	id_user: number
+	username: string
 }
 
 export interface IGetStatisticByUserIdResponse {

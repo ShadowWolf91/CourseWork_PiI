@@ -8,7 +8,7 @@ interface TimerProps {
 }
 
 export default function Timer({
-	timeLimit = 15,
+	timeLimit = 20,
 	onTimeout,
 	isStopped = false,
 }: TimerProps) {

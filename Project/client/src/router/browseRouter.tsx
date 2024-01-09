@@ -14,6 +14,7 @@ import { UserCardCreatePage } from '../pages/userPanel/CardCreatePage/CardCreate
 import { UserTestCreatePage } from '../pages/userPanel/TestCreatePage/TestCreatePage.tsx'
 import { AuthPage } from '../pages/AuthPage/auth.tsx'
 import { UserTOCPage } from '../pages/userPanel/TOCPage/TOCPage.tsx'
+//import { StatsUserPage } from '../pages/userPanel/statPage/StatPage.tsx'
 
 export const browserRouter = createBrowserRouter([
 	{
@@ -116,6 +117,14 @@ export const browserRouter = createBrowserRouter([
 					</RequireAuth>
 				),
 			},
+			// {
+			// 	path: 'user/stats/',
+			// 	element: (
+			// 		<RequireAuth>
+			// 			<StatsUserPage />
+			// 		</RequireAuth>
+			// 	),
+			// },
 		],
 	},
 	{ path: 'auth', element: <AuthPage /> },

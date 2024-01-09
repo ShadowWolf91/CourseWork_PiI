@@ -31,8 +31,8 @@ model TOCSession{
   themeId Int 
 
   user User @relation(fields: [userId], references: [id_user])
-  statistics Statistics @relation(fields: [statisticId], references: [id])
-  theme Themes @relation(fields: [themeId], references: [id_theme])
+  statistics Statistics @relation(fields: [statisticId], references: [id], onDelete: Cascade)
+  theme Themes @relation(fields: [themeId], references: [id_theme], onDelete: Cascade)
 }
 
 model Statistics {
